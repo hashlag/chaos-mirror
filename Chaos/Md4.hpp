@@ -186,7 +186,7 @@ public:
 
         const uint64_t messageSizeBits = MessageSizeBytes_ * 8;
 
-        uint8_t extracted[] =
+        uint8_t encodedMessageSizeBits[] =
         {
             static_cast<uint8_t>((messageSizeBits >>  0) & 0xFF),
             static_cast<uint8_t>((messageSizeBits >>  8) & 0xFF),
@@ -198,9 +198,10 @@ public:
             static_cast<uint8_t>((messageSizeBits >> 56) & 0xFF),
         };
 
-        static_assert(std::size(extracted) == 8);
+        static_assert(std::size(encodedMessageSizeBits) == 8);
 
-        UpdateImpl(extracted, extracted + std::size(extracted));
+        UpdateImpl(encodedMessageSizeBits,
+                   encodedMessageSizeBits + std::size(encodedMessageSizeBits));
 
         Hash result;
 
