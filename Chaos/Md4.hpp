@@ -184,9 +184,6 @@ public:
 
         UpdateImpl(PAD_, PAD_ + paddingNeededBytes);
 
-        // TODO: does not comply with the standard:
-        // "In the unlikely event that b is greater than pow(2, 64),
-        // then only the low-order 64 bits of b are used."
         const uint64_t messageSizeBits = MessageSizeBytes_ * 8;
 
         uint8_t extracted[] =
