@@ -270,6 +270,6 @@ private:
     }
 };
 
-} // namespace Chaos
+} // namespace Chaos::Md4
 
 #endif
