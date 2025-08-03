@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <array>
+#include <string>
 
 namespace Chaos::Md4
 {
