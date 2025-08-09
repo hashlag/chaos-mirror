@@ -10,6 +10,11 @@ template<typename T>
 class Hash
 {
 public:
+    auto GetRawDigest() const
+    {
+        return static_cast<const T &>(*this).GetRawDigest();
+    }
+
     std::string ToHexString() const
     {
         return static_cast<const T &>(*this).ToHexString();

@@ -131,6 +131,11 @@ private:
 
 struct Md4Hash : public Hash<Md4Hash>
 {
+    std::array<uint8_t, 16> GetRawDigest() const
+    {
+        return RawDigest;
+    }
+
     std::string ToHexString() const
     {
         char buf[33];

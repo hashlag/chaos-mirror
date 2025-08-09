@@ -155,6 +155,11 @@ private:
 
 struct Md5Hash : public Hash<Md5Hash>
 {
+    std::array<uint8_t, 16> GetRawDigest() const
+    {
+        return RawDigest;
+    }
+
     std::string ToHexString() const
     {
         char buf[33];
