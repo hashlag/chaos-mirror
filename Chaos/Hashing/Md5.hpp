@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Hash.hpp"
+#include "Hasher.hpp"
 
 namespace Chaos::Hashing::Md5
 {
@@ -172,7 +173,7 @@ struct Md5Hash : public Hash<Md5Hash>
     std::array<uint8_t, 16> RawDigest;
 };
 
-class Md5Hasher
+class Md5Hasher : public Hasher<Md5Hasher>
 {
 public:
     Md5Hasher()

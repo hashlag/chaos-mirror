@@ -6,6 +6,7 @@
 #include <string>
 
 #include "Hash.hpp"
+#include "Hasher.hpp"
 
 namespace Chaos::Hashing::Md4
 {
@@ -148,7 +149,7 @@ struct Md4Hash : public Hash<Md4Hash>
     std::array<uint8_t, 16> RawDigest;
 };
 
-class Md4Hasher
+class Md4Hasher : public Hasher<Md4Hasher>
 {
 public:
     Md4Hasher()
