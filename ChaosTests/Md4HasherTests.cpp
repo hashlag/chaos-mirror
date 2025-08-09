@@ -2,7 +2,7 @@
 
 #include "Md4.hpp"
 
-using namespace Chaos;
+using namespace Chaos::Md4;
 
 TEST(Md4Tests, RFCTest)
 {
@@ -10,7 +10,7 @@ TEST(Md4Tests, RFCTest)
     {
         std::string operator()(const char * in) const
         {
-            Md4::Hasher hasher;
+            Md4Hasher hasher;
             hasher.Update(in, in + strlen(in));
             return hasher.Finish().ToHexString();
         }
@@ -31,7 +31,7 @@ TEST(Md4Tests, PartialUpdateTest)
 {
     {
         // "a"
-        Md4::Hasher hasher;
+        Md4Hasher hasher;
 
         {
             const char * in = "a";
@@ -48,7 +48,7 @@ TEST(Md4Tests, PartialUpdateTest)
 
     {
         // "abc"
-        Md4::Hasher hasher;
+        Md4Hasher hasher;
 
         {
             const char * in = "ab";
@@ -65,7 +65,7 @@ TEST(Md4Tests, PartialUpdateTest)
 
     {
         // "message digest"
-        Md4::Hasher hasher;
+        Md4Hasher hasher;
 
         {
             const char * in = "me";
@@ -92,7 +92,7 @@ TEST(Md4Tests, PartialUpdateTest)
 
     {
         // "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
-        Md4::Hasher hasher;
+        Md4Hasher hasher;
 
         {
             const char * in = "12345678901234567890";
@@ -124,7 +124,7 @@ TEST(Md4Tests, LongInputTest)
     {
         std::string operator()(const char * in) const
         {
-            Md4::Hasher hasher;
+            Md4Hasher hasher;
             hasher.Update(in, in + strlen(in));
             return hasher.Finish().ToHexString();
         }
@@ -143,7 +143,7 @@ TEST(Md4Tests, LongInputPartialUpdateTest)
 {
     {
         // 2500 zeros ('0').
-        Md4::Hasher hasher;
+        Md4Hasher hasher;
 
         std::string in(750, '0');
 
@@ -159,7 +159,7 @@ TEST(Md4Tests, LongInputPartialUpdateTest)
 
     {
         // 1000 'a' followed by 1000 'b'.
-        Md4::Hasher hasher;
+        Md4Hasher hasher;
 
         std::string inA(1000, 'a');
         std::string inB(1000, 'b');

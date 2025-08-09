@@ -126,7 +126,7 @@ private:
     }
 };
 
-struct Hash
+struct Md4Hash
 {
     std::string ToHexString() const
     {
@@ -146,10 +146,10 @@ struct Hash
     std::array<uint8_t, 16> RawDigest;
 };
 
-class Hasher
+class Md4Hasher
 {
 public:
-    Hasher()
+    Md4Hasher()
         : BlockSize_(0)
         , Word_(0)
         , WordBytesPacked_(0)
@@ -164,7 +164,7 @@ public:
         MessageSizeBytes_ += UpdateImpl(begin, end);
     }
 
-    Hash Finish()
+    Md4Hash Finish()
     {
         uint64_t messageSizeBytesMod64 = MessageSizeBytes_ % 64;
 
@@ -204,7 +204,7 @@ public:
         UpdateImpl(encodedMessageSizeBits,
                    encodedMessageSizeBits + std::size(encodedMessageSizeBits));
 
-        Hash result;
+        Md4Hash result;
 
         int_fast8_t i = 0;
         for (int_fast8_t reg = 0; reg < 4; ++reg)
