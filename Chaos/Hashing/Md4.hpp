@@ -133,7 +133,7 @@ struct Md4Hash : public Hash<Md4Hash>
 {
     std::array<uint8_t, 16> GetRawDigest() const
     {
-        return RawDigest;
+        return RawDigest_;
     }
 
     std::string ToHexString() const
@@ -143,15 +143,15 @@ struct Md4Hash : public Hash<Md4Hash>
         std::sprintf(buf,
                      "%02x%02x%02x%02x%02x%02x%02x%02x"
                      "%02x%02x%02x%02x%02x%02x%02x%02x",
-                      RawDigest[ 0], RawDigest[ 1], RawDigest[ 2], RawDigest[ 3],
-                      RawDigest[ 4], RawDigest[ 5], RawDigest[ 6], RawDigest[ 7],
-                      RawDigest[ 8], RawDigest[ 9], RawDigest[10], RawDigest[11],
-                      RawDigest[12], RawDigest[13], RawDigest[14], RawDigest[15]);
+                      RawDigest_[ 0], RawDigest_[ 1], RawDigest_[ 2], RawDigest_[ 3],
+                      RawDigest_[ 4], RawDigest_[ 5], RawDigest_[ 6], RawDigest_[ 7],
+                      RawDigest_[ 8], RawDigest_[ 9], RawDigest_[10], RawDigest_[11],
+                      RawDigest_[12], RawDigest_[13], RawDigest_[14], RawDigest_[15]);
 
         return std::string(buf, buf + 32);
     }
 
-    std::array<uint8_t, 16> RawDigest;
+    std::array<uint8_t, 16> RawDigest_;
 };
 
 class Md4Hasher : public Hasher<Md4Hasher>
@@ -219,7 +219,7 @@ public:
         {
             for (int_fast8_t shift = 0; shift < 32; shift += 8)
             {
-                result.RawDigest[i++] = (Buffer_.Regs_[reg] >> shift) & 0xFF;
+                result.RawDigest_[i++] = (Buffer_.Regs_[reg] >> shift) & 0xFF;
             }
         }
 
