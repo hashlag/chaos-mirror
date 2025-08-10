@@ -11,12 +11,23 @@ public:
     template<typename InputIt>
     void Update(InputIt begin, InputIt end)
     {
-        static_cast<T &>(*this).Update(begin, end);
+        Impl().Update(begin, end);
     }
 
     auto Finish()
     {
-        return static_cast<T &>(*this).Finish();
+        return Impl().Finish();
+    }
+
+private:
+    const T & Impl() const
+    {
+        return static_cast<const T &>(*this);
+    }
+
+    T & Impl()
+    {
+        return static_cast<T &>(*this);
     }
 };
 
