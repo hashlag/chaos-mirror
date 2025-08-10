@@ -8,7 +8,7 @@
 #include "Hash.hpp"
 #include "Hasher.hpp"
 
-namespace Chaos::Hashing::Md5
+namespace Chaos::Hashing::Md5::Inner_
 {
 
 struct Buffer
@@ -153,6 +153,11 @@ private:
     }
 };
 
+} // namespace Chaos::Hashing::Md5::Inner_
+
+namespace Chaos::Hashing::Md5
+{
+
 struct Md5Hash : public Hash<Md5Hash>
 {
     std::array<uint8_t, 16> GetRawDigest() const
@@ -265,9 +270,9 @@ private:
 
     static_assert(std::size(PAD_) == 64);
 
-    Buffer Buffer_;
+    Inner_::Buffer Buffer_;
 
-    Block Block_;
+    Inner_::Block Block_;
     int_fast8_t BlockSize_;
 
     uint32_t Word_;
@@ -293,7 +298,7 @@ private:
 
                 if (BlockSize_ == 16)
                 {
-                    Algorithm::UpdateBuffer(Buffer_, Block_);
+                    Inner_::Algorithm::UpdateBuffer(Buffer_, Block_);
                     BlockSize_ = 0;
                 }
             }
