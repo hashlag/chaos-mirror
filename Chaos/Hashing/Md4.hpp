@@ -279,6 +279,6 @@ private:
     }
 };
 
-} // namespace Chaos::Md4
+} // namespace Chaos::Hashing::Md4
 
 #endif

@@ -303,6 +303,6 @@ private:
     }
 };
 
-} // namespace Chaos::Md5
+} // namespace Chaos::Hashing::Md5
 
 #endif
