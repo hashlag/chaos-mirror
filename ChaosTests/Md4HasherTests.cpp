@@ -175,3 +175,28 @@ TEST(Md4Tests, LongInputPartialUpdateTest)
         ASSERT_EQ("cbabb47a57b10e0028ec7f519c66f229", hasher.Finish().ToHexString());
     }
 }
+
+TEST(Md4Tests, ResetTest)
+{
+    Md4Hasher hasher;
+
+    {
+        const char * in = "abc";
+        hasher.Update(in, in + strlen(in));
+    }
+
+    ASSERT_EQ("a448017aaf21d8525fc10ae87aa6729d", hasher.Finish().ToHexString());
+
+    hasher.Reset();
+
+    {
+        const char * in = "message digest";
+        hasher.Update(in, in + strlen(in));
+    }
+
+    ASSERT_EQ("d9130a8164549fe818874806e1c7014b", hasher.Finish().ToHexString());
+
+    hasher.Reset();
+
+    ASSERT_EQ("31d6cfe0d16ae931b73c59d7e0c089c0", hasher.Finish().ToHexString());
+}
