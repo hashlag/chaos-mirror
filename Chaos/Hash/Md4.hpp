@@ -163,12 +163,13 @@ class Md4Hasher : public Hasher<Md4Hasher>
 {
 public:
     Md4Hasher()
-        : BlockSize_(0)
-        , Word_(0)
-        , WordBytesPacked_(0)
-        , MessageSizeBytes_(0)
     {
-        Block_.fill(0);
+        ResetImpl();
+    }
+
+    void Reset()
+    {
+        ResetImpl();
     }
 
     template<typename InputIt>
@@ -255,6 +256,17 @@ private:
     int_fast8_t WordBytesPacked_;
 
     uint64_t MessageSizeBytes_;
+
+    void ResetImpl()
+    {
+        Buffer_ = Inner_::Buffer();
+        Block_.fill(0);
+
+        BlockSize_ = 0;
+        Word_ = 0;
+        WordBytesPacked_ = 0;
+        MessageSizeBytes_ = 0;
+    }
 
     template<typename InputIt>
     uint64_t UpdateImpl(InputIt begin, InputIt end)
