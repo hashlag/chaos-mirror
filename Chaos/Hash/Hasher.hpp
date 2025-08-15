@@ -8,6 +8,11 @@ template<typename T>
 class Hasher
 {
 public:
+    void Reset()
+    {
+        Impl().Reset();
+    }
+
     template<typename InputIt>
     void Update(InputIt begin, InputIt end)
     {
