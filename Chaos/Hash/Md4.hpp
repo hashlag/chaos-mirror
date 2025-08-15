@@ -1,5 +1,5 @@
-#ifndef CHAOS_HASHING_MD4HASHER_HPP
-#define CHAOS_HASHING_MD4HASHER_HPP
+#ifndef CHAOS_HASH_MD4HASHER_HPP
+#define CHAOS_HASH_MD4HASHER_HPP
 
 #include <cstdint>
 #include <array>
@@ -8,7 +8,7 @@
 #include "Hash.hpp"
 #include "Hasher.hpp"
 
-namespace Chaos::Hashing::Md4::Inner_
+namespace Chaos::Hash::Md4::Inner_
 {
 
 struct Buffer
@@ -129,9 +129,9 @@ private:
     }
 };
 
-} // namespace Chaos::Hashing::Md4::Inner_
+} // namespace Chaos::Hash::Md4::Inner_
 
-namespace Chaos::Hashing::Md4
+namespace Chaos::Hash::Md4
 {
 
 struct Md4Hash : public Hash<Md4Hash>
@@ -284,6 +284,6 @@ private:
     }
 };
 
-} // namespace Chaos::Hashing::Md4
+} // namespace Chaos::Hash::Md4
 
 #endif

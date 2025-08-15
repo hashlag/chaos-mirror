@@ -1,9 +1,9 @@
-#ifndef CHAOS_HASHING_HASH_HPP
-#define CHAOS_HASHING_HASH_HPP
+#ifndef CHAOS_HASH_HASH_HPP
+#define CHAOS_HASH_HASH_HPP
 
 #include <string>
 
-namespace Chaos::Hashing
+namespace Chaos::Hash
 {
 
 template<typename T>
@@ -32,6 +32,6 @@ private:
     }
 };
 
-} // namespace Chaos::Hashing
+} // namespace Chaos::Hash
 
 #endif

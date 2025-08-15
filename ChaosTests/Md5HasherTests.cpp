@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "Hashing/Md5.hpp"
+#include "Hash/Md5.hpp"
 
-using namespace Chaos::Hashing::Md5;
+using namespace Chaos::Hash::Md5;
 
 TEST(Md5Tests, RFCTest)
 {

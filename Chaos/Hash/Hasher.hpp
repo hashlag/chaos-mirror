@@ -1,7 +1,7 @@
-#ifndef CHAOS_HASHING_HASHER_HPP
-#define CHAOS_HASHING_HASHER_HPP
+#ifndef CHAOS_HASH_HASHER_HPP
+#define CHAOS_HASH_HASHER_HPP
 
-namespace Chaos::Hashing
+namespace Chaos::Hash
 {
 
 template<typename T>
@@ -31,6 +31,6 @@ private:
     }
 };
 
-} // namespace Chaos::Hashing
+} // namespace Chaos::Hash
 
 #endif
