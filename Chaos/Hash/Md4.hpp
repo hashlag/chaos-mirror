@@ -162,6 +162,10 @@ struct Md4Hash : public Hash<Md4Hash>
 class Md4Hasher : public Hasher<Md4Hasher>
 {
 public:
+    using HashType = Md4Hash;
+
+    static constexpr size_t BLOCK_SIZE_BYTES = 64;
+
     Md4Hasher()
     {
         ResetImpl();
@@ -178,7 +182,7 @@ public:
         MessageSizeBytes_ += UpdateImpl(begin, end);
     }
 
-    Md4Hash Finish()
+    HashType Finish()
     {
         uint64_t messageSizeBytesMod64 = MessageSizeBytes_ % 64;
 
@@ -218,7 +222,7 @@ public:
         UpdateImpl(encodedMessageSizeBits,
                    encodedMessageSizeBits + std::size(encodedMessageSizeBits));
 
-        Md4Hash result;
+        HashType result;
 
         int_fast8_t i = 0;
         for (int_fast8_t reg = 0; reg < 4; ++reg)

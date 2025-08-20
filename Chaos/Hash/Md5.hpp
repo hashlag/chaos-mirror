@@ -186,6 +186,10 @@ struct Md5Hash : public Hash<Md5Hash>
 class Md5Hasher : public Hasher<Md5Hasher>
 {
 public:
+    using HashType = Md5Hash;
+
+    static constexpr size_t BLOCK_SIZE_BYTES = 64;
+
     Md5Hasher()
     {
         ResetImpl();
@@ -202,7 +206,7 @@ public:
         MessageSizeBytes_ += UpdateImpl(begin, end);
     }
 
-    Md5Hash Finish()
+    HashType Finish()
     {
         uint64_t messageSizeBytesMod64 = MessageSizeBytes_ % 64;
 
@@ -242,7 +246,7 @@ public:
         UpdateImpl(encodedMessageSizeBits,
                    encodedMessageSizeBits + std::size(encodedMessageSizeBits));
 
-        Md5Hash result;
+        HashType result;
 
         int_fast8_t i = 0;
         for (int_fast8_t reg = 0; reg < 4; ++reg)
