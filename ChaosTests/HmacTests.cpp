@@ -50,3 +50,25 @@ TEST(HmacTests, RFCTest)
         ASSERT_EQ("56be34521d144c88dbb8c733f0e8b3f6", hmacMd5.Finish().ToHexString());
     }
 }
+
+TEST(HmacTests, LongKeyTest)
+{
+    struct Helper
+    {
+        std::string operator()(const char * key, const char * data) const
+        {
+            Hmac<Md5Hasher> hmac(key, key + strlen(key));
+            hmac.Update(data, data + strlen(data));
+            return hmac.Finish().ToHexString();
+        }
+    };
+
+    Helper hmacMd5;
+
+    {
+        const char * key = "Passages from the Life of a Philosopher (1864), ch. 8 \"Of the Analytical Engine\"";
+        const char * data = "As soon as an Analytical Engine exists, it will necessarily guide the future course of the science.";
+
+        ASSERT_EQ("99459b85e800f3e5eab24e1c945794f8", hmacMd5(key, data));
+    }
+}
