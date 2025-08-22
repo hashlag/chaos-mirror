@@ -11,9 +11,9 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(ChaosTests_SOURCE Md4HasherTests.cpp
-                      Md5HasherTests.cpp
-                      HmacTests.cpp)
+set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
+                      Hash/Md5HasherTests.cpp
+                      Mac/HmacTests.cpp)
 
 add_executable(ChaosTests ${ChaosTests_SOURCE})
 target_link_libraries(ChaosTests gtest gtest_main)
