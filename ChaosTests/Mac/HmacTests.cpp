@@ -6,7 +6,7 @@
 using namespace Chaos::Mac::Hmac;
 using namespace Chaos::Hash::Md5;
 
-TEST(HmacTests, RFCTest)
+TEST(HmacTests, RfcTest)
 {
     struct Helper
     {
