@@ -4,7 +4,7 @@
 
 using namespace Chaos::Hash::Md5;
 
-TEST(Md5Tests, RFCTest)
+TEST(Md5Tests, RfcTest)
 {
     struct Helper
     {
