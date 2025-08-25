@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_ARC4_HPP
-#define CHAOS_CIPHER_ARC4_HPP
+#ifndef CHAOS_CIPHER_ARC4GEN_HPP
+#define CHAOS_CIPHER_ARC4GEN_HPP
 
 #include <array>
 #include <cstdint>
