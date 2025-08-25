@@ -72,3 +72,16 @@ TEST(HmacTests, LongKeyTest)
         ASSERT_EQ("99459b85e800f3e5eab24e1c945794f8", hmacMd5(key, data));
     }
 }
+
+TEST(HmacTests, UninitializedHmacTest)
+{
+    std::array<uint8_t, 10> in;
+    in.fill(0);
+
+    {
+        Hmac<Md5Hasher> hmac;
+
+        ASSERT_THROW(hmac.Update(in.begin(), in.end()), Chaos::Service::ChaosException);
+        ASSERT_THROW(hmac.Finish(), Chaos::Service::ChaosException);
+    }
+}

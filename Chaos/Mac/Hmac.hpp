@@ -6,6 +6,7 @@
 #include <type_traits>
 
 #include "Hash/Hasher.hpp"
+#include "Service/ChaosException.hpp"
 
 namespace Chaos::Mac::Hmac
 {
@@ -15,23 +16,33 @@ template<typename HasherImpl,
 class Hmac
 {
 public:
+    Hmac()
+        : IsInitialized_(false)
+    { }
+
     template<typename InputIt>
     Hmac(InputIt keyBegin, InputIt keyEnd)
     {
-        Key_ = GenerateKey(keyBegin, keyEnd);
+        RekeyImpl(keyBegin, keyEnd);
+    }
 
-        KeyType ipaddedKey = PadKey<IPAD_BYTE>(Key_);
-        Hasher_.Update(ipaddedKey.begin(), ipaddedKey.end());
+    template<typename InputIt>
+    void Rekey(InputIt keyBegin, InputIt keyEnd)
+    {
+        RekeyImpl(keyBegin, keyEnd);
     }
 
     template<typename InputIt>
     void Update(InputIt begin, InputIt end)
     {
+        EnsureInitialized();
         Hasher_.Update(begin, end);
     }
 
     typename HasherImpl::HashType Finish()
     {
+        EnsureInitialized();
+
         auto innerDigest = Hasher_.Finish().GetRawDigest();
 
         Hasher_.Reset();
@@ -49,8 +60,18 @@ private:
     static constexpr uint8_t OPAD_BYTE = 0x5c;
     static constexpr uint8_t IPAD_BYTE = 0x36;
 
+    bool IsInitialized_;
+
     KeyType Key_;
     HasherImpl Hasher_;
+
+    void EnsureInitialized() const
+    {
+        if (!IsInitialized_)
+        {
+            throw Service::ChaosException("Hmac: not initialized");
+        }
+    }
 
     template<typename InputIt>
     static KeyType GenerateKey(InputIt keyBegin, InputIt keyEnd)
@@ -107,6 +128,18 @@ private:
         }
 
         return paddedKey;
+    }
+
+    template<typename InputIt>
+    void RekeyImpl(InputIt keyBegin, InputIt keyEnd)
+    {
+        Key_ = GenerateKey(keyBegin, keyEnd);
+        Hasher_.Reset();
+
+        KeyType ipaddedKey = PadKey<IPAD_BYTE>(Key_);
+        Hasher_.Update(ipaddedKey.begin(), ipaddedKey.end());
+
+        IsInitialized_ = true;
     }
 };
 
