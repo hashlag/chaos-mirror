@@ -36,7 +36,7 @@ public:
 
         for (uint64_t cnt = 0; cnt < bytesCount; ++cnt)
         {
-            Step();
+            Step(1);
             *out++ = Lookup_[static_cast<uint8_t>(Lookup_[I_] + Lookup_[J_])];
         }
     }
@@ -44,11 +44,7 @@ public:
     void Drop(uint64_t bytesCount)
     {
         EnsureInitialized();
-
-        for (uint64_t cnt = 0; cnt < bytesCount; ++cnt)
-        {
-            Step();
-        }
+        Step(bytesCount);
     }
 
 private:
@@ -98,12 +94,15 @@ private:
         IsInitialized_ = true;
     }
 
-    void Step()
+    void Step(uint64_t stepsCount)
     {
-        I_ = I_ + 1;
-        J_ = J_ + Lookup_[I_];
+        for (uint64_t k = 0; k < stepsCount; ++k)
+        {
+            I_ = I_ + 1;
+            J_ = J_ + Lookup_[I_];
 
-        std::swap(Lookup_[I_], Lookup_[J_]);
+            std::swap(Lookup_[I_], Lookup_[J_]);
+        }
     }
 };
 
