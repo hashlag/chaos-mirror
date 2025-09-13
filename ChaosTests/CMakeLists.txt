@@ -14,7 +14,8 @@ FetchContent_MakeAvailable(googletest)
 set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
                       Hash/Md5HasherTests.cpp
                       Mac/HmacTests.cpp
-                      Cipher/Arc4GenTests.cpp)
+                      Cipher/Arc4GenTests.cpp
+                      Service/SeArrayTests.cpp)
 
 add_executable(ChaosTests ${ChaosTests_SOURCE})
 target_link_libraries(ChaosTests gtest gtest_main)
