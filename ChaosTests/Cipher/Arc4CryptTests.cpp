@@ -21,19 +21,6 @@ static std::vector<uint8_t> StrToU8Vec(const char * str)
     return result;
 }
 
-static std::string U8VecToStr(const std::vector<uint8_t> & vec)
-{
-    std::string result;
-    result.reserve(vec.size());
-
-    for (auto it = vec.begin(); it != vec.end(); ++it)
-    {
-        result.push_back(static_cast<char>(*it));
-    }
-
-    return result;
-}
-
 TEST(Arc4CryptTests, BasicTest)
 {
     const std::vector<uint8_t> key = StrToU8Vec("Secret");
