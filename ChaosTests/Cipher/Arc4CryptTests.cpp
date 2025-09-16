@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 #include <vector>
 #include <string>
+#include <array>
 
 #include "Cipher/Arc4/Arc4Crypt.hpp"
+#include "Service/ChaosException.hpp"
 
 using namespace Chaos::Cipher::Arc4;
 
@@ -62,4 +64,20 @@ TEST(Arc4CryptTests, BasicTest)
     }
 
     ASSERT_EQ(data, recoveredData);
+}
+
+TEST(Arc4CryptTests, UninitializedArc4CryptTest)
+{
+    Arc4Crypt arc4;
+
+    {
+        std::array<uint8_t, 10> in;
+        in.fill(0);
+
+        std::array<uint8_t, 10> out;
+        out.fill(0);
+
+        ASSERT_THROW(arc4.Encrypt(out.begin(), in.begin(), in.size()), Chaos::Service::ChaosException);
+        ASSERT_THROW(arc4.Decrypt(out.begin(), in.begin(), in.size()), Chaos::Service::ChaosException);
+    }
 }
