@@ -1,6 +1,5 @@
 ========== > TODO ==========
 
 1. Return number of bytes written from Arc4Gen::Generate().
-2. Implement Arc4 cipher.
 
 ========== < TODO ==========
