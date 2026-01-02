@@ -1,5 +1,5 @@
-#ifndef CHAOS_HASH_MD5HASHER_HPP
-#define CHAOS_HASH_MD5HASHER_HPP
+#ifndef CHAOS_HASH_MD5_HPP
+#define CHAOS_HASH_MD5_HPP
 
 #include <cstdint>
 #include <array>

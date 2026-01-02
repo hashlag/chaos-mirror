@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_ARC4CRYPT_HPP
-#define CHAOS_CIPHER_ARC4CRYPT_HPP
+#ifndef CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
+#define CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
 
 #include "Arc4Gen.hpp"
 #include "Service/SeArray.hpp"
