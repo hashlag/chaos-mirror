@@ -302,4 +302,4 @@ private:
 
 } // namespace Chaos::Hash::Md4
 
-#endif
+#endif // CHAOS_HASH_MD4_HPP

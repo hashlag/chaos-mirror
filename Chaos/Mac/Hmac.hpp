@@ -145,4 +145,4 @@ private:
 
 } // namespace Chaos::Mac::Hmac
 
-#endif
+#endif // CHAOS_MAC_HMAC_HPP

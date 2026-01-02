@@ -82,4 +82,4 @@ private:
 
 } // namespace Chaos::Cipher::Arc4
 
-#endif
+#endif // CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP

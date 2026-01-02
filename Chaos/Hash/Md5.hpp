@@ -326,4 +326,4 @@ private:
 
 } // namespace Chaos::Hash::Md5
 
-#endif
+#endif // CHAOS_HASH_MD5_HPP

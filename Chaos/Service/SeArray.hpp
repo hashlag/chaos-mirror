@@ -89,4 +89,4 @@ private:
 
 } // namespace Chaos::Service
 
-#endif
+#endif // CHAOS_SERVICE_SEARRAY_HPP

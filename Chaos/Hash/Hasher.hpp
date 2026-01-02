@@ -38,4 +38,4 @@ private:
 
 } // namespace Chaos::Hash
 
-#endif
+#endif // CHAOS_HASH_HASHER_HPP
