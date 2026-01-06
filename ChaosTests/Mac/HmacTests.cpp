@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
 
 #include "Hash/Md5.hpp"
+#include "Hash/Sha1.hpp"
 #include "Mac/Hmac.hpp"
 
 using namespace Chaos::Mac::Hmac;
 using namespace Chaos::Hash::Md5;
+using namespace Chaos::Hash::Sha1;
 
 TEST(HmacTests, RfcTest)
 {
@@ -48,6 +50,28 @@ TEST(HmacTests, RfcTest)
         hmacMd5.Update(data, data + std::size(data));
 
         ASSERT_EQ("56be34521d144c88dbb8c733f0e8b3f6", hmacMd5.Finish().ToHexString());
+    }
+}
+
+TEST(HmacTests, Sha1HmacTest)
+{
+    struct Helper
+    {
+        std::string operator()(const char * key, const char * data) const
+        {
+            Hmac<Sha1Hasher> hmac(key, key + strlen(key));
+            hmac.Update(data, data + strlen(data));
+            return hmac.Finish().ToHexString();
+        }
+    };
+
+    Helper hmacSha1;
+
+    {
+        const char * key = "Two Generals'";
+        const char * data = "Attack at dawn.";
+
+        ASSERT_EQ("20ccda1c4de0e206f3a47056f2abd40f731ff3db", hmacSha1(key, data));
     }
 }
 
