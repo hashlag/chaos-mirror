@@ -13,6 +13,7 @@ FetchContent_MakeAvailable(googletest)
 
 set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
                       Hash/Md5HasherTests.cpp
+                      Hash/Sha1HasherTests.cpp
                       Mac/HmacTests.cpp
                       Cipher/Arc4GenTests.cpp
                       Cipher/Arc4CryptTests.cpp
