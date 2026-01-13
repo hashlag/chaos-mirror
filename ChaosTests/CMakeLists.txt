@@ -17,6 +17,7 @@ set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
                       Mac/HmacTests.cpp
                       Cipher/Arc4GenTests.cpp
                       Cipher/Arc4CryptTests.cpp
+                      Cipher/DesCryptTests.cpp
                       Service/SeArrayTests.cpp)
 
 add_executable(ChaosTests ${ChaosTests_SOURCE})
