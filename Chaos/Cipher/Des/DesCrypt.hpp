@@ -62,6 +62,20 @@ struct Bitwise
     {
         return (lhs << BitsUsedIn) | rhs;
     }
+
+    template<typename InputIt>
+    static uint64_t PackUInt64(InputIt begin, InputIt end)
+    {
+        uint64_t result = 0;
+
+        int_fast8_t i = 0;
+        for (InputIt it = begin; i < 8 && it != end; ++i, ++it)
+        {
+            result |= static_cast<uint64_t>(*it) << (56 - (i * 8));
+        }
+
+        return result;
+    }
 };
 
 using RawKeyArray = Service::SeArray<uint8_t, 8>;
@@ -76,18 +90,7 @@ public:
 
     KeySchedule(const RawKeyArray & rawKeyArray)
     {
-        Key64 key64 = 0;
-
-        key64 |= static_cast<Key64>(rawKeyArray[7]) <<  0;
-        key64 |= static_cast<Key64>(rawKeyArray[6]) <<  8;
-        key64 |= static_cast<Key64>(rawKeyArray[5]) << 16;
-        key64 |= static_cast<Key64>(rawKeyArray[4]) << 24;
-        key64 |= static_cast<Key64>(rawKeyArray[3]) << 32;
-        key64 |= static_cast<Key64>(rawKeyArray[2]) << 40;
-        key64 |= static_cast<Key64>(rawKeyArray[1]) << 48;
-        key64 |= static_cast<Key64>(rawKeyArray[0]) << 56;
-
-        Key56 key56 = Pc1(key64);
+        Key56 key56 = Pc1(Bitwise::PackUInt64(rawKeyArray.Begin(), rawKeyArray.End()));
 
         auto [c28, d28] = Bitwise::Split<28>(key56);
 
