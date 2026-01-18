@@ -36,3 +36,191 @@ TEST(DesCryptTests, KeyScheduleTest)
     ASSERT_EQ(0b101111111001000110001101001111010011111100001010ULL, schedule[14]);
     ASSERT_EQ(0b110010110011110110001011000011100001011111110101ULL, schedule[15]);
 }
+
+TEST(DesCryptTests, EncryptTest)
+{
+    struct Helper
+    {
+        std::array<uint8_t, 8> operator()(const std::array<uint8_t, 8> & data,
+                                          const std::array<uint8_t, 8> & key) const
+        {
+            std::array<uint8_t, 8> result;
+            result.fill(0);
+
+            DesCrypt::Key desKey(key.begin(), key.end());
+            DesCrypt::EncryptBlock(result.begin(), data.begin(), data.end(), desKey);
+
+            return result;
+        }
+    };
+
+    Helper des;
+
+    {
+        std::array<uint8_t, 8> data = { 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef };
+        std::array<uint8_t, 8> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
+
+        std::array<uint8_t, 8> expected = { 0x85, 0xe8, 0x13, 0x54, 0x0f, 0x0a, 0xb4, 0x05 };
+
+        ASSERT_EQ(expected, des(data, key));
+    }
+
+    {
+        std::array<uint8_t, 8> data = { 0xaa, 0xf3, 0x83, 0x16, 0x2d, 0x2e, 0x6b, 0xcb };
+        std::array<uint8_t, 8> key = { 0x44, 0xbf, 0x32, 0x19, 0x99, 0x25, 0x81, 0x51 };
+
+        std::array<uint8_t, 8> expected = { 0x07, 0xe8, 0x7f, 0xaa, 0xb3, 0x17, 0x13, 0x18 };
+
+        ASSERT_EQ(expected, des(data, key));
+    }
+
+    {
+        std::array<uint8_t, 8> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 };
+        std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        std::array<uint8_t, 8> expected = { 0x42, 0x27, 0x88, 0xa6, 0x7b, 0x6c, 0x18, 0xed };
+
+        ASSERT_EQ(expected, des(data, key));
+    }
+}
+
+TEST(DesCryptTests, EncryptShortDataTest)
+{
+    struct Helper
+    {
+        std::vector<uint8_t> operator()(const std::vector<uint8_t> & data,
+                                        const std::vector<uint8_t> & key)
+        {
+            std::vector<uint8_t> result;
+            result.resize(8, 0);
+
+            DesCrypt::Key desKey(key.begin(), key.end());
+            DesCrypt::EncryptBlock(result.begin(), data.begin(), data.end(), desKey);
+
+            return result;
+        }
+    };
+
+    Helper des;
+
+    {
+        // treated as { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0x00, 0x00, 0x00 }
+        std::vector<uint8_t> dataShort = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19 };
+
+        std::vector<uint8_t> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0x00, 0x00, 0x00 };
+        std::vector<uint8_t> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        std::vector<uint8_t> expected = { 0xd8, 0xa8, 0xb8, 0xb4, 0xc0, 0x9b, 0x04, 0x09 };
+
+        ASSERT_EQ(expected, des(data, key));
+        ASSERT_EQ(expected, des(dataShort, key));
+    }
+}
+
+TEST(DesCryptTests, EncryptLongDataTest)
+{
+    struct Helper
+    {
+        std::vector<uint8_t> operator()(const std::vector<uint8_t> & data,
+                                        const std::vector<uint8_t> & key)
+        {
+            std::vector<uint8_t> result;
+            result.resize(8, 0);
+
+            DesCrypt::Key desKey(key.begin(), key.end());
+            DesCrypt::EncryptBlock(result.begin(), data.begin(), data.end(), desKey);
+
+            return result;
+        }
+    };
+
+    Helper des;
+
+    {
+        // treated as { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 }
+        std::vector<uint8_t> dataLong = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44, 0xaa, 0xbb };
+
+        std::vector<uint8_t> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 };
+        std::vector<uint8_t> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        std::vector<uint8_t> expected = { 0x42, 0x27, 0x88, 0xa6, 0x7b, 0x6c, 0x18, 0xed };
+
+        ASSERT_EQ(expected, des(data, key));
+        ASSERT_EQ(expected, des(dataLong, key));
+    }
+}
+
+TEST(DesCryptTests, ShortKeyTest)
+{
+    {
+        std::array<uint8_t, 7> key = {};
+        ASSERT_THROW(DesCrypt::Key(key.begin(), key.end()), Chaos::Service::ChaosException);
+    }
+}
+
+TEST(DesCryptTests, LongKeyTest)
+{
+    {
+        std::array<uint8_t, 9> key = {};
+        ASSERT_THROW(DesCrypt::Key(key.begin(), key.end()), Chaos::Service::ChaosException);
+    }
+}
+
+TEST(DesCryptTests, OutIteratorUsageTest)
+{
+    struct OutputItMock
+    {
+        OutputItMock(size_t & asteriskCalls, size_t & incrementCalls)
+            : AsteriskCalls_(asteriskCalls)
+            , IncrementCalls_(incrementCalls)
+        { }
+
+        uint8_t & operator*()
+        {
+            ++AsteriskCalls_;
+
+            static uint8_t dummy = 0;
+            return dummy;
+        }
+
+        OutputItMock operator++(int)
+        {
+            ++IncrementCalls_;
+
+            return *this;
+        }
+
+        size_t & AsteriskCalls_;
+        size_t & IncrementCalls_;
+    };
+
+    {
+        std::array<uint8_t, 8> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 };
+        std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        size_t asteriskCalls = 0;
+        size_t incrementCalls = 0;
+        OutputItMock it(asteriskCalls, incrementCalls);
+
+        DesCrypt::Key desKey(key.begin(), key.end());
+        DesCrypt::EncryptBlock(it, data.begin(), data.end(), desKey);
+
+        ASSERT_EQ(8, asteriskCalls);
+        ASSERT_EQ(8, incrementCalls);
+    }
+
+    {
+        std::array<uint8_t, 11> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0x9f, 0x9f, 0x9f, 0x9f, 0x9f, 0x9f };
+        std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        size_t asteriskCalls = 0;
+        size_t incrementCalls = 0;
+        OutputItMock it(asteriskCalls, incrementCalls);
+
+        DesCrypt::Key desKey(key.begin(), key.end());
+        DesCrypt::EncryptBlock(it, data.begin(), data.end(), desKey);
+
+        ASSERT_EQ(8, asteriskCalls);
+        ASSERT_EQ(8, incrementCalls);
+    }
+}
