@@ -6,7 +6,7 @@ using namespace Chaos::Cipher::Des;
 
 TEST(DesCryptTests, KeyScheduleTest)
 {
-    Inner_::RawKeyArray key;
+    Inner_::RawKey key;
 
     key[0] = 0b00010011;
     key[1] = 0b00110100;

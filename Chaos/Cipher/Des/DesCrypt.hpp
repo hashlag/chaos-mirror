@@ -88,7 +88,7 @@ struct Bitwise
     }
 };
 
-using RawKeyArray = Service::SeArray<uint8_t, 8>;
+using RawKey = Service::SeArray<uint8_t, 8>;
 
 class KeySchedule
 {
@@ -98,9 +98,9 @@ public:
 
     using RoundKey48 = uint64_t;
 
-    KeySchedule(const RawKeyArray & rawKeyArray)
+    KeySchedule(const RawKey & rawKey)
     {
-        Key56 key56 = Pc1(Bitwise::PackUInt64(rawKeyArray.Begin(), rawKeyArray.End()));
+        Key56 key56 = Pc1(Bitwise::PackUInt64(rawKey.Begin(), rawKey.End()));
 
         auto [c28, d28] = Bitwise::Split<28>(key56);
 
@@ -204,7 +204,7 @@ public:
         }
 
     private:
-        Inner_::RawKeyArray Key_;
+        Inner_::RawKey Key_;
     };
 
     template<typename OutputIt, typename InputIt>
