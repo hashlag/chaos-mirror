@@ -218,7 +218,8 @@ public:
             block[i] = *in;
         }
 
-        Block encrypted = EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(), block.End()), key);
+        Inner_::KeySchedule schedule(key.Key_);
+        Block encrypted = EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(), block.End()), schedule);
 
         Inner_::Bitwise::CrunchUInt64(out, encrypted);
     }
@@ -391,10 +392,8 @@ private:
                                                     FP_TABLE + std::size(FP_TABLE));
     }
 
-    static Block EncryptBlock(Block block, const Key & key)
+    static Block EncryptBlock(Block block, const Inner_::KeySchedule & schedule)
     {
-        Inner_::KeySchedule schedule(key.Key_);
-
         block = Ip(block);
 
         uint32_t l32;
