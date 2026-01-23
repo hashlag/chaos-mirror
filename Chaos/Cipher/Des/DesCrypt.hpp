@@ -225,7 +225,10 @@ public:
                 block[i] = *in;
             }
 
-            Block encrypted = DesCrypt::EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(), block.End()), Schedule_);
+            Block encrypted
+                = DesCrypt::EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(),
+                                                                     block.End()),
+                                         Schedule_);
 
             Inner_::Bitwise::CrunchUInt64(out, encrypted);
         }
