@@ -1,6 +1,7 @@
 #ifndef CHAOS_CIPHER_DES_DESCRYPT_HPP
 #define CHAOS_CIPHER_DES_DESCRYPT_HPP
 
+#include <algorithm>
 #include <utility>
 
 #include "Service/ChaosException.hpp"
@@ -98,7 +99,13 @@ public:
 
     using RoundKey48 = uint64_t;
 
-    KeySchedule(const RawKey & rawKey)
+    enum class Direction
+    {
+        Encrypt,
+        Decrypt
+    };
+
+    KeySchedule(Direction direction, const RawKey & rawKey)
     {
         Key56 key56 = Pc1(Bitwise::PackUInt64(rawKey.Begin(), rawKey.End()));
 
@@ -118,6 +125,11 @@ public:
             }
 
             Schedule_[i] = Pc2(Bitwise::Merge<28>(c28, d28));
+        }
+
+        if (direction == Direction::Decrypt)
+        {
+            std::reverse(Schedule_.Begin(), Schedule_.End());
         }
     }
 
@@ -211,7 +223,7 @@ public:
     {
     public:
         Encryptor(const Key & key)
-            : Schedule_(key.Key_)
+            : Schedule_(Inner_::KeySchedule::Direction::Encrypt, key.Key_)
         { }
 
         template<typename OutputIt, typename InputIt>
@@ -226,11 +238,41 @@ public:
             }
 
             Block encrypted
-                = DesCrypt::EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(),
+                = DesCrypt::ProcessBlock(Inner_::Bitwise::PackUInt64(block.Begin(),
                                                                      block.End()),
                                          Schedule_);
 
             Inner_::Bitwise::CrunchUInt64(out, encrypted);
+        }
+
+    private:
+        Inner_::KeySchedule Schedule_;
+    };
+
+    class Decryptor
+    {
+    public:
+        Decryptor(const Key & key)
+            : Schedule_(Inner_::KeySchedule::Direction::Decrypt, key.Key_)
+        { }
+
+        template<typename OutputIt, typename InputIt>
+        void DecryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd)
+        {
+            RawBlockArray block;
+
+            int_fast8_t i = 0;
+            for (InputIt in = inBegin; i < block.Size() && in != inEnd; ++i, ++in)
+            {
+                block[i] = *in;
+            }
+
+            Block decrypted
+                = DesCrypt::ProcessBlock(Inner_::Bitwise::PackUInt64(block.Begin(),
+                                                                     block.End()),
+                                         Schedule_);
+
+            Inner_::Bitwise::CrunchUInt64(out, decrypted);
         }
 
     private:
@@ -405,7 +447,7 @@ private:
                                                     FP_TABLE + std::size(FP_TABLE));
     }
 
-    static Block EncryptBlock(Block block, const Inner_::KeySchedule & schedule)
+    static Block ProcessBlock(Block block, const Inner_::KeySchedule & schedule)
     {
         block = Ip(block);
 
