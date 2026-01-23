@@ -48,7 +48,8 @@ TEST(DesCryptTests, EncryptTest)
             result.fill(0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::EncryptBlock(result.begin(), data.begin(), data.end(), desKey);
+            DesCrypt::Encryptor enc(desKey);
+            enc.EncryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
         }
@@ -95,7 +96,8 @@ TEST(DesCryptTests, EncryptShortDataTest)
             result.resize(8, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::EncryptBlock(result.begin(), data.begin(), data.end(), desKey);
+            DesCrypt::Encryptor enc(desKey);
+            enc.EncryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
         }
@@ -128,7 +130,8 @@ TEST(DesCryptTests, EncryptLongDataTest)
             result.resize(8, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::EncryptBlock(result.begin(), data.begin(), data.end(), desKey);
+            DesCrypt::Encryptor enc(desKey);
+            enc.EncryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
         }
@@ -203,7 +206,8 @@ TEST(DesCryptTests, OutIteratorUsageTest)
         OutputItMock it(asteriskCalls, incrementCalls);
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::EncryptBlock(it, data.begin(), data.end(), desKey);
+        DesCrypt::Encryptor enc(desKey);
+        enc.EncryptBlock(it, data.begin(), data.end());
 
         ASSERT_EQ(8, asteriskCalls);
         ASSERT_EQ(8, incrementCalls);
@@ -218,7 +222,8 @@ TEST(DesCryptTests, OutIteratorUsageTest)
         OutputItMock it(asteriskCalls, incrementCalls);
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::EncryptBlock(it, data.begin(), data.end(), desKey);
+        DesCrypt::Encryptor enc(desKey);
+        enc.EncryptBlock(it, data.begin(), data.end());
 
         ASSERT_EQ(8, asteriskCalls);
         ASSERT_EQ(8, incrementCalls);

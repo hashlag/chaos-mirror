@@ -207,22 +207,32 @@ public:
         Inner_::RawKey Key_;
     };
 
-    template<typename OutputIt, typename InputIt>
-    static void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd, const Key & key)
+    class Encryptor
     {
-        RawBlockArray block;
+    public:
+        Encryptor(const Key & key)
+            : Schedule_(key.Key_)
+        { }
 
-        int_fast8_t i = 0;
-        for (InputIt in = inBegin; i < block.Size() && in != inEnd; ++i, ++in)
+        template<typename OutputIt, typename InputIt>
+        void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd)
         {
-            block[i] = *in;
+            RawBlockArray block;
+
+            int_fast8_t i = 0;
+            for (InputIt in = inBegin; i < block.Size() && in != inEnd; ++i, ++in)
+            {
+                block[i] = *in;
+            }
+
+            Block encrypted = DesCrypt::EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(), block.End()), Schedule_);
+
+            Inner_::Bitwise::CrunchUInt64(out, encrypted);
         }
 
-        Inner_::KeySchedule schedule(key.Key_);
-        Block encrypted = EncryptBlock(Inner_::Bitwise::PackUInt64(block.Begin(), block.End()), schedule);
-
-        Inner_::Bitwise::CrunchUInt64(out, encrypted);
-    }
+    private:
+        Inner_::KeySchedule Schedule_;
+    };
 
 private:
     using Block = uint64_t;
