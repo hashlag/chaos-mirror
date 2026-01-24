@@ -192,6 +192,8 @@ namespace Chaos::Cipher::Des
 class DesCrypt
 {
 public:
+    using Block = uint64_t;
+
     DesCrypt() = delete;
 
     class Key
@@ -245,7 +247,7 @@ public:
             Inner_::Bitwise::CrunchUInt64(out, encrypted);
         }
 
-        uint64_t EncryptBlock(uint64_t block)
+        Block EncryptBlock(Block block)
         {
             return DesCrypt::ProcessBlock(block, Schedule_);
         }
@@ -280,7 +282,7 @@ public:
             Inner_::Bitwise::CrunchUInt64(out, decrypted);
         }
 
-        uint64_t DecryptBlock(uint64_t block)
+        Block DecryptBlock(Block block)
         {
             return DesCrypt::ProcessBlock(block, Schedule_);
         }
@@ -290,7 +292,6 @@ public:
     };
 
 private:
-    using Block = uint64_t;
     using BlockHalf = uint32_t;
     using RawBlockArray = Service::SeArray<uint8_t, 8>;
     using Data48 = uint64_t;
