@@ -245,6 +245,11 @@ public:
             Inner_::Bitwise::CrunchUInt64(out, encrypted);
         }
 
+        uint64_t EncryptBlock(uint64_t block)
+        {
+            return DesCrypt::ProcessBlock(block, Schedule_);
+        }
+
     private:
         Inner_::KeySchedule Schedule_;
     };

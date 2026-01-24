@@ -85,6 +85,50 @@ TEST(DesCryptTests, EncryptTest)
     }
 }
 
+TEST(DesCryptTests, EncryptUInt64BlockTest)
+{
+    struct Helper
+    {
+        uint64_t operator()(uint64_t data,
+                            const std::array<uint8_t, 8> & key) const
+        {
+            DesCrypt::Key desKey(key.begin(), key.end());
+            DesCrypt::Encryptor enc(desKey);
+
+            return enc.EncryptBlock(data);
+        }
+    };
+
+    Helper des;
+
+    {
+        uint64_t data = 0x0123456789abcdef;
+        std::array<uint8_t, 8> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
+
+        uint64_t expected = 0x85e813540f0ab405;
+
+        ASSERT_EQ(expected, des(data, key));
+    }
+
+    {
+        uint64_t data = 0xaaf383162d2e6bcb;
+        std::array<uint8_t, 8> key = { 0x44, 0xbf, 0x32, 0x19, 0x99, 0x25, 0x81, 0x51 };
+
+        uint64_t expected = 0x07e87faab3171318;
+
+        ASSERT_EQ(expected, des(data, key));
+    }
+
+    {
+        uint64_t data = 0xe51a9fd419a79344;
+        std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        uint64_t expected = 0x422788a67b6c18ed;
+
+        ASSERT_EQ(expected, des(data, key));
+    }
+}
+
 TEST(DesCryptTests, EncryptShortDataTest)
 {
     struct Helper
