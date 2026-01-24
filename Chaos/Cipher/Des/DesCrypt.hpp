@@ -280,6 +280,11 @@ public:
             Inner_::Bitwise::CrunchUInt64(out, decrypted);
         }
 
+        uint64_t DecryptBlock(uint64_t block)
+        {
+            return DesCrypt::ProcessBlock(block, Schedule_);
+        }
+
     private:
         Inner_::KeySchedule Schedule_;
     };
