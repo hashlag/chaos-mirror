@@ -1,9 +1,9 @@
-name: ChaosTest CI
+name: Chaos CI
 
 on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  test-and-benchmark:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,7 +24,19 @@ jobs:
         cmake ..
         cmake --build .
 
+    - name: Configure, build [Release]
+      run: |
+        mkdir build-release
+        cd build-release
+        cmake .. -D CMAKE_BUILD_TYPE=Release
+        cmake --build .
+
     - name: Run tests
       run: |
         cd build
         ./ChaosTests/ChaosTests
+
+    - name: Run benchmarks
+      run: |
+        cd build-release
+        ./ChaosBenches/ChaosBenches
