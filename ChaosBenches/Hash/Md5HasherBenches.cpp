@@ -1,9 +1,9 @@
 #include <benchmark/benchmark.h>
 #include <cstring>
 
-#include <Hash/Md4.hpp>
+#include <Hash/Md5.hpp>
 
-using namespace Chaos::Hash::Md4;
+using namespace Chaos::Hash::Md5;
 
 static const char * DATA_BEGIN
     = "All states, all powers, that have held and hold rule over men have been and are either republics or principalities.\n"
@@ -15,51 +15,51 @@ static const char * DATA_BEGIN
 static const size_t DATA_LEN = strlen(DATA_BEGIN);
 static const char * DATA_END = DATA_BEGIN + DATA_LEN;
 
-static void Md4HasherCreateComputeDeleteBench(benchmark::State & state)
+static void Md5HasherCreateComputeDeleteBench(benchmark::State & state)
 {
     for (auto _ : state)
     {
-        Md4Hasher hasher;
+        Md5Hasher hasher;
         hasher.Update(DATA_BEGIN, DATA_END);
-        Md4Hash result = hasher.Finish();
+        Md5Hash result = hasher.Finish();
 
         benchmark::DoNotOptimize(result);
     }
 }
 
-BENCHMARK(Md4HasherCreateComputeDeleteBench);
+BENCHMARK(Md5HasherCreateComputeDeleteBench);
 
-static void Md4HasherReuseBench(benchmark::State & state)
+static void Md5HasherReuseBench(benchmark::State & state)
 {
-    Md4Hasher hasher;
+    Md5Hasher hasher;
 
     for (auto _ : state)
     {
         hasher.Reset();
         hasher.Update(DATA_BEGIN, DATA_END);
-        Md4Hash result = hasher.Finish();
+        Md5Hash result = hasher.Finish();
 
         benchmark::DoNotOptimize(result);
     }
 }
 
-BENCHMARK(Md4HasherReuseBench);
+BENCHMARK(Md5HasherReuseBench);
 
-static void Md4HasherPartialUpdate100Bench(benchmark::State & state)
+static void Md5HasherPartialUpdate100Bench(benchmark::State & state)
 {
     for (auto _ : state)
     {
-        Md4Hasher hasher;
+        Md5Hasher hasher;
 
         for (int i = 0; i < 100; ++i)
         {
             hasher.Update(DATA_BEGIN, DATA_END);
         }
 
-        Md4Hash result = hasher.Finish();
+        Md5Hash result = hasher.Finish();
 
         benchmark::DoNotOptimize(result);
     }
 }
 
-BENCHMARK(Md4HasherPartialUpdate100Bench);
+BENCHMARK(Md5HasherPartialUpdate100Bench);
