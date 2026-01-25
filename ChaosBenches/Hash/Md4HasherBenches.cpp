@@ -45,4 +45,23 @@ static void Md4HasherReuseBench(benchmark::State & state)
 
 BENCHMARK(Md4HasherReuseBench);
 
+static void Md4HasherPartialUpdate100Bench(benchmark::State & state)
+{
+    for (auto _ : state)
+    {
+        Md4Hasher hasher;
+
+        for (int i = 0; i < 100; ++i)
+        {
+            hasher.Update(DATA_BEGIN, DATA_END);
+        }
+
+        Md4Hash result = hasher.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(Md4HasherPartialUpdate100Bench);
+
 BENCHMARK_MAIN();
