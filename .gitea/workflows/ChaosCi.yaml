@@ -1,4 +1,4 @@
-name: Chaos CI
+name: Chaos Ci
 
 on: [push, pull_request]
 
