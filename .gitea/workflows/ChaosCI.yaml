@@ -24,33 +24,19 @@ jobs:
         cmake ..
         cmake --build .
 
+    - name: Configure, build [Release]
+      run: |
+        mkdir build-release
+        cd build-release
+        cmake .. -D CMAKE_BUILD_TYPE=Release
+        cmake --build .
+
     - name: Run tests
       run: |
         cd build
         ./ChaosTests/ChaosTests
 
-  build-and-benchmark:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        submodules: true
-
-    - name: Install
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y build-essential cmake
-
-    - name: Configure, build
-      run: |
-        mkdir build
-        cd build
-        cmake .. -D CMAKE_BUILD_TYPE=Release
-        cmake --build .
-
     - name: Run benchmarks
       run: |
-        cd build
+        cd build-release
         ./ChaosBenches/ChaosBenches
