@@ -15,7 +15,7 @@ static const char * DATA_BEGIN
 static const size_t DATA_LEN = strlen(DATA_BEGIN);
 static const char * DATA_END = DATA_BEGIN + DATA_LEN;
 
-static void Md4HasherCreateComputeDeleteBench(benchmark::State & state)
+static void Md4Hasher_CreateComputeDeleteBench(benchmark::State & state)
 {
     for (auto _ : state)
     {
@@ -27,9 +27,9 @@ static void Md4HasherCreateComputeDeleteBench(benchmark::State & state)
     }
 }
 
-BENCHMARK(Md4HasherCreateComputeDeleteBench);
+BENCHMARK(Md4Hasher_CreateComputeDeleteBench);
 
-static void Md4HasherReuseBench(benchmark::State & state)
+static void Md4Hasher_ReuseBench(benchmark::State & state)
 {
     Md4Hasher hasher;
 
@@ -43,9 +43,9 @@ static void Md4HasherReuseBench(benchmark::State & state)
     }
 }
 
-BENCHMARK(Md4HasherReuseBench);
+BENCHMARK(Md4Hasher_ReuseBench);
 
-static void Md4HasherPartialUpdate100Bench(benchmark::State & state)
+static void Md4Hasher_PartialUpdate100Bench(benchmark::State & state)
 {
     for (auto _ : state)
     {
@@ -62,4 +62,4 @@ static void Md4HasherPartialUpdate100Bench(benchmark::State & state)
     }
 }
 
-BENCHMARK(Md4HasherPartialUpdate100Bench);
+BENCHMARK(Md4Hasher_PartialUpdate100Bench);
