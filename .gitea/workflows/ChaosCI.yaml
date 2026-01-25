@@ -47,7 +47,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake ..
+        cmake .. -D CMAKE_BUILD_TYPE=Release
         cmake --build .
 
     - name: Run benchmarks
