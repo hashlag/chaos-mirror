@@ -14,7 +14,8 @@ FetchContent_MakeAvailable(googlebenchmark)
 
 set(ChaosBenches_SOURCE BenchmarkMain.cpp
                         Hash/Md4HasherBenches.cpp
-                        Hash/Md5HasherBenches.cpp)
+                        Hash/Md5HasherBenches.cpp
+                        Hash/Sha1HasherBenches.cpp)
 
 add_executable(ChaosBenches ${ChaosBenches_SOURCE})
 target_link_libraries(ChaosBenches benchmark::benchmark)
