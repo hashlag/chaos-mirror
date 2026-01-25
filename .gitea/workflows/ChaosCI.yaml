@@ -20,23 +20,17 @@ jobs:
     - name: Configure and build [Debug]
       run: |
         mkdir build-debug
-        cd build-debug
-        cmake .. -D CMAKE_BUILD_TYPE=Debug
-        cmake --build .
+        cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug
+        cmake --build build-debug/
 
     - name: Configure and build [Release]
       run: |
         mkdir build-release
-        cd build-release
-        cmake .. -D CMAKE_BUILD_TYPE=Release
-        cmake --build .
+        cmake -S . -B build-release/ -D CMAKE_BUILD_TYPE=Release
+        cmake --build build-release/
 
     - name: Run tests
-      run: |
-        cd build-debug
-        ./ChaosTests/ChaosTests
+      run: ./build-debug/ChaosTests/ChaosTests
 
     - name: Run benchmarks
-      run: |
-        cd build-release
-        ./ChaosBenches/ChaosBenches
+      run: ./build-release/ChaosBenches/ChaosBenches
