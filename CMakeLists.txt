@@ -15,3 +15,4 @@ target_include_directories(Chaos INTERFACE
 )
 
 add_subdirectory(ChaosTests)
+add_subdirectory(ChaosBenches)
