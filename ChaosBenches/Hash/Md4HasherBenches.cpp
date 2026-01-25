@@ -1,4 +1,5 @@
 #include <benchmark/benchmark.h>
+#include <cstring>
 
 #include <Hash/Md4.hpp>
 
