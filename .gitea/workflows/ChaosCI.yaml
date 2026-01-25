@@ -17,11 +17,11 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake
 
-    - name: Configure and build
+    - name: Configure and build [Debug]
       run: |
-        mkdir build
-        cd build
-        cmake ..
+        mkdir build-debug
+        cd build-debug
+        cmake .. -D CMAKE_BUILD_TYPE=Debug
         cmake --build .
 
     - name: Configure and build [Release]
@@ -33,7 +33,7 @@ jobs:
 
     - name: Run tests
       run: |
-        cd build
+        cd build-debug
         ./ChaosTests/ChaosTests
 
     - name: Run benchmarks
