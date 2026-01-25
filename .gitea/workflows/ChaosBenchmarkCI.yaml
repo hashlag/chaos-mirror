@@ -3,7 +3,7 @@ name: ChaosBenchmark CI
 on: [push, pull_request]
 
 jobs:
-  build-and-test:
+  build-and-benchmark:
     runs-on: ubuntu-latest
 
     steps:
