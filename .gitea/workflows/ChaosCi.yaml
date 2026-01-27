@@ -40,7 +40,8 @@ jobs:
         lcov --ignore-errors inconsistent,mismatch -c -d build-debug/ -o lcovout
         genhtml lcovout -o coverage-report
 
-    - uses: actions/upload-artifact@v3
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
       with:
         name: CoverageReport
         path: coverage-report/
