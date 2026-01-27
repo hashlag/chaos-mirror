@@ -26,6 +26,11 @@ target_include_directories(ChaosTests PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Chaos>
 )
 
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    target_compile_options(ChaosTests PRIVATE --coverage)
+    target_link_options(ChaosTests PRIVATE --coverage)
+endif()
+
 include(GoogleTest)
 
 gtest_discover_tests(ChaosTests)
