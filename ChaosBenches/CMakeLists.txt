@@ -4,7 +4,7 @@ cmake_policy(SET CMP0135 NEW)
 
 FetchContent_Declare(
         googlebenchmark
-        URL https://github.com/google/benchmark/archive/refs/tags/v1.9.5.tar.gz
+        URL https://git.hashlag.net/hashlag/chaos-deps/raw/branch/main/google_benchmark/benchmark-1.9.5.tar.gz
         URL_HASH SHA256=9631341c82bac4a288bef951f8b26b41f69021794184ece969f8473977eaa340
 )
 

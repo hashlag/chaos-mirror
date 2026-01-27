@@ -4,7 +4,7 @@ cmake_policy(SET CMP0135 NEW)
 
 FetchContent_Declare(
         googletest
-        URL https://github.com/google/googletest/releases/download/v1.17.0/googletest-1.17.0.tar.gz
+        URL https://git.hashlag.net/hashlag/chaos-deps/raw/branch/main/google_googletest/googletest-1.17.0.tar.gz
         URL_HASH SHA256=65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c
 )
 
