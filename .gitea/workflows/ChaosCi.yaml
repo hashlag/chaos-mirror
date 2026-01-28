@@ -38,7 +38,7 @@ jobs:
     - name: Process coverage data
       run: |
         lcov --exclude '*/usr/*' --exclude '*/_deps/*' --exclude '*/ChaosTests/*' -c -d build-debug/ -o lcovout
-        genhtml lcovout -o coverage-report
+        genhtml lcovout -o coverage-report/
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v3
