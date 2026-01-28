@@ -15,7 +15,7 @@ jobs:
     - name: Install
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake valgrind
+        sudo apt-get install -y build-essential cmake valgrind lcov
 
     - name: Configure and build [Debug]
       run: |
@@ -34,3 +34,16 @@ jobs:
 
     - name: Run benchmarks
       run: ./build-release/ChaosBenches/ChaosBenches
+
+    - name: Process coverage data
+      run: |
+        lcov --exclude '*/usr/*' --exclude '*/_deps/*' --exclude '*/ChaosTests/*' -c -d build-debug/ -o lcovout
+        genhtml lcovout -o coverage-report
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: CoverageReport
+        path: coverage-report/
+        if-no-files-found: error
+        include-hidden-files: true
