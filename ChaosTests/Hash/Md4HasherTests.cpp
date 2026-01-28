@@ -116,6 +116,24 @@ TEST(Md4Tests, PartialUpdateTest)
 
         ASSERT_EQ("e33b4ddc9c38f2199c3e7b164fcc0536", hasher.Finish().ToHexString());
     }
+
+    {
+        // Exactly 56 bytes.
+        // "01234567012345670123456701234567012345670123456701234567"
+        Md4Hasher hasher;
+
+        {
+            const char * in = "0123456701234567012345670";
+            hasher.Update(in, in + strlen(in));
+        }
+
+        {
+            const char * in = "1234567012345670123456701234567";
+            hasher.Update(in, in + strlen(in));
+        }
+
+        ASSERT_EQ("e058bdf6202bfa33ad91a03acc13dccd", hasher.Finish().ToHexString());
+    }
 }
 
 TEST(Md4Tests, LongInputTest)
