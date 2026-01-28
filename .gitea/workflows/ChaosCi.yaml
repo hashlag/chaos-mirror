@@ -37,7 +37,7 @@ jobs:
 
     - name: Process coverage data
       run: |
-        lcov --ignore-errors inconsistent,mismatch -c -d build-debug/ -o lcovout
+        lcov --ignore-errors inconsistent,mismatch --exclude '*/usr/*' --exclude '*/_deps/*' --exclude '*/ChaosTests/*' -c -d build-debug/ -o lcovout
         genhtml lcovout -o coverage-report
 
     - name: Upload coverage report
