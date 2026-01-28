@@ -116,6 +116,24 @@ TEST(Sha1Tests, PartialUpdateTest)
 
         ASSERT_EQ("50abf5706a150990a08b2c5ea40fa0e585554732", hasher.Finish().ToHexString());
     }
+
+    {
+        // > 56 (mod 64) bytes.
+        // "01234567012345670123456701234567012345670123456701234567012"
+        Sha1Hasher hasher;
+
+        {
+            const char * in = "0123456701234567012345670";
+            hasher.Update(in, in + strlen(in));
+        }
+
+        {
+            const char * in = "1234567012345670123456701234567012";
+            hasher.Update(in, in + strlen(in));
+        }
+
+        ASSERT_EQ("48a2aded798429970468e8aa77bdc1840dbca3fe", hasher.Finish().ToHexString());
+    }
 }
 
 TEST(Sha1Tests, LongInputTest)
