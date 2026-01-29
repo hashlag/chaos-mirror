@@ -24,6 +24,9 @@ public:
         return Impl().Finish();
     }
 
+protected:
+    Hasher() = default;
+
 private:
     const T & Impl() const
     {

@@ -20,6 +20,9 @@ public:
         return Impl().ToHexString();
     }
 
+protected:
+    Hash() = default;
+
 private:
     const T & Impl() const
     {
