@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 
-#include "Cipher/Des/DesCrypt.hpp"
+#include "Cipher/Block/Des/DesCrypt.hpp"
 
-using namespace Chaos::Cipher::Des;
+using namespace Chaos::Cipher::Block::Des;
 
 TEST(DesCryptTests, KeyScheduleTest)
 {

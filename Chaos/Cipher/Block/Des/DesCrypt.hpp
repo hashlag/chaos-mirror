@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_DES_DESCRYPT_HPP
-#define CHAOS_CIPHER_DES_DESCRYPT_HPP
+#ifndef CHAOS_CIPHER_BLOCK_DES_DESCRYPT_HPP
+#define CHAOS_CIPHER_BLOCK_DES_DESCRYPT_HPP
 
 #include <algorithm>
 #include <utility>
@@ -7,7 +7,7 @@
 #include "Service/ChaosException.hpp"
 #include "Service/SeArray.hpp"
 
-namespace Chaos::Cipher::Des::Inner_
+namespace Chaos::Cipher::Block::Des::Inner_
 {
 
 struct Bitwise
@@ -184,9 +184,9 @@ private:
     }
 };
 
-} // namespace Chaos::Cipher::Des::Inner_
+} // namespace Chaos::Cipher::Block::Des::Inner_
 
-namespace Chaos::Cipher::Des
+namespace Chaos::Cipher::Block::Des
 {
 
 class DesCrypt
@@ -483,6 +483,6 @@ private:
     }
 };
 
-} // namespace Chaos::Cipher::Des
+} // namespace Chaos::Cipher::Block::Des
 
-#endif // CHAOS_CIPHER_DES_DESCRYPT_HPP
+#endif // CHAOS_CIPHER_BLOCK_DES_DESCRYPT_HPP
