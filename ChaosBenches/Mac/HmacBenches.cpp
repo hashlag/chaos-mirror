@@ -50,3 +50,22 @@ static void HmacMd4_ReuseBench(benchmark::State & state)
 }
 
 BENCHMARK(HmacMd4_ReuseBench);
+
+static void HmacMd4_PartialUpdate100Bench(benchmark::State & state)
+{
+    for (auto _ : state)
+    {
+        Hmac<Md4Hasher> hmac(KEY_BEGIN, KEY_END);
+
+        for (int i = 0; i < 100; ++i)
+        {
+            hmac.Update(DATA_BEGIN, DATA_END);
+        }
+
+        Md4Hash result = hmac.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(HmacMd4_PartialUpdate100Bench);
