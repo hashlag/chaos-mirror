@@ -152,3 +152,22 @@ static void HmacSha1_ReuseBench(benchmark::State & state)
 }
 
 BENCHMARK(HmacSha1_ReuseBench);
+
+static void HmacSha1_PartialUpdate100Bench(benchmark::State & state)
+{
+    for (auto _ : state)
+    {
+        Hmac<Sha1Hasher> hmac(KEY_BEGIN, KEY_END);
+
+        for (int i = 0; i < 100; ++i)
+        {
+            hmac.Update(DATA_BEGIN, DATA_END);
+        }
+
+        Sha1Hash result = hmac.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(HmacSha1_PartialUpdate100Bench);
