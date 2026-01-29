@@ -4,10 +4,12 @@
 #include "Mac/Hmac.hpp"
 #include "Hash/Md4.hpp"
 #include "Hash/Md5.hpp"
+#include "Hash/Sha1.hpp"
 
 using namespace Chaos::Mac::Hmac;
 using namespace Chaos::Hash::Md4;
 using namespace Chaos::Hash::Md5;
+using namespace Chaos::Hash::Sha1;
 
 static const char * KEY_BEGIN = "Niccolo01234567";
 static const size_t KEY_LEN = strlen(KEY_BEGIN);
@@ -120,3 +122,17 @@ static void HmacMd5_PartialUpdate100Bench(benchmark::State & state)
 }
 
 BENCHMARK(HmacMd5_PartialUpdate100Bench);
+
+static void HmacSha1_CreateComputeDeleteBench(benchmark::State & state)
+{
+    for (auto _ : state)
+    {
+        Hmac<Sha1Hasher> hmac(KEY_BEGIN, KEY_END);
+        hmac.Update(DATA_BEGIN, DATA_END);
+        Sha1Hash result = hmac.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(HmacSha1_CreateComputeDeleteBench);
