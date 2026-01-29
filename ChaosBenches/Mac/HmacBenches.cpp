@@ -85,3 +85,19 @@ static void HmacMd5_CreateComputeDeleteBench(benchmark::State & state)
 }
 
 BENCHMARK(HmacMd5_CreateComputeDeleteBench);
+
+static void HmacMd5_ReuseBench(benchmark::State & state)
+{
+    Hmac<Md5Hasher> hmac;
+
+    for (auto _ : state)
+    {
+        hmac.Rekey(KEY_BEGIN, KEY_END);
+        hmac.Update(DATA_BEGIN, DATA_END);
+        Md5Hash result = hmac.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(HmacMd5_ReuseBench);
