@@ -136,3 +136,19 @@ static void HmacSha1_CreateComputeDeleteBench(benchmark::State & state)
 }
 
 BENCHMARK(HmacSha1_CreateComputeDeleteBench);
+
+static void HmacSha1_ReuseBench(benchmark::State & state)
+{
+    Hmac<Sha1Hasher> hmac;
+
+    for (auto _ : state)
+    {
+        hmac.Rekey(KEY_BEGIN, KEY_END);
+        hmac.Update(DATA_BEGIN, DATA_END);
+        Sha1Hash result = hmac.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(HmacSha1_ReuseBench);
