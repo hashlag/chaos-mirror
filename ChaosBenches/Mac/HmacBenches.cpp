@@ -34,3 +34,19 @@ static void HmacMd4_CreateComputeDeleteBench(benchmark::State & state)
 }
 
 BENCHMARK(HmacMd4_CreateComputeDeleteBench);
+
+static void HmacMd4_ReuseBench(benchmark::State & state)
+{
+    Hmac<Md4Hasher> hmac;
+
+    for (auto _ : state)
+    {
+        hmac.Rekey(KEY_BEGIN, KEY_END);
+        hmac.Update(DATA_BEGIN, DATA_END);
+        Md4Hash result = hmac.Finish();
+
+        benchmark::DoNotOptimize(result);
+    }
+}
+
+BENCHMARK(HmacMd4_ReuseBench);
