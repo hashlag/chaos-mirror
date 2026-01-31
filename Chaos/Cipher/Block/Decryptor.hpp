@@ -9,18 +9,18 @@ class Decryptor
 {
 public:
     template<typename OutputIt, typename InputIt>
-    void DecryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd)
+    void DecryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
     {
         Impl().DecryptBlock(out, inBegin, inEnd);
     }
 
     template<typename Block>
-    auto DecryptBlock(Block block)
+    auto DecryptBlock(Block block) const
     {
         return Impl().DecryptBlock(block);
     }
 
-    auto GetBlockSize()
+    auto GetBlockSize() const
     {
         return Impl().GetBlockSize();
     }

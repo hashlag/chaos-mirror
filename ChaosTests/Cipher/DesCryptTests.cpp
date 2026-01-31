@@ -541,7 +541,7 @@ TEST(DesCryptTests, EncryptUInt64BlockThroughBaseTest)
 }
 
 template<typename Impl, typename InputIt>
-static std::vector<uint8_t> DecryptThroughBase(Decryptor<Impl> & dec,
+static std::vector<uint8_t> DecryptThroughBase(const Decryptor<Impl> & dec,
                                                InputIt begin, InputIt end)
 {
     std::vector<uint8_t> result;
@@ -565,7 +565,7 @@ TEST(DesCryptTests, DecryptThroughBaseTest)
 }
 
 template<typename Impl>
-static uint64_t DecryptUInt64BlockThroughBase(Decryptor<Impl> & dec, uint64_t block)
+static uint64_t DecryptUInt64BlockThroughBase(const Decryptor<Impl> & dec, uint64_t block)
 {
     return dec.DecryptBlock(block);
 }
