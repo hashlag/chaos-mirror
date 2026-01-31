@@ -48,7 +48,7 @@ TEST(DesCryptTests, EncryptTest)
             result.fill(0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Encryptor enc(desKey);
+            DesCrypt::DesEncryptor enc(desKey);
             enc.EncryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
@@ -93,7 +93,7 @@ TEST(DesCryptTests, EncryptUInt64BlockTest)
                             const std::array<uint8_t, 8> & key) const
         {
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Encryptor enc(desKey);
+            DesCrypt::DesEncryptor enc(desKey);
 
             return enc.EncryptBlock(data);
         }
@@ -140,7 +140,7 @@ TEST(DesCryptTests, EncryptShortDataTest)
             result.resize(8, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Encryptor enc(desKey);
+            DesCrypt::DesEncryptor enc(desKey);
             enc.EncryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
@@ -174,7 +174,7 @@ TEST(DesCryptTests, EncryptLongDataTest)
             result.resize(8, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Encryptor enc(desKey);
+            DesCrypt::DesEncryptor enc(desKey);
             enc.EncryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
@@ -208,7 +208,7 @@ TEST(DesCryptTests, DecryptTest)
             result.fill(0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Decryptor dec(desKey);
+            DesCrypt::DesDecryptor dec(desKey);
             dec.DecryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
@@ -253,7 +253,7 @@ TEST(DesCryptTests, DecryptUInt64BlockTest)
                             const std::array<uint8_t, 8> & key) const
         {
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Decryptor dec(desKey);
+            DesCrypt::DesDecryptor dec(desKey);
 
             return dec.DecryptBlock(data);
         }
@@ -300,7 +300,7 @@ TEST(DesCryptTests, DecryptShortDataTest)
             result.resize(8, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Decryptor dec(desKey);
+            DesCrypt::DesDecryptor dec(desKey);
             dec.DecryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
@@ -334,7 +334,7 @@ TEST(DesCryptTests, DecryptLongDataTest)
             result.resize(8, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::Decryptor dec(desKey);
+            DesCrypt::DesDecryptor dec(desKey);
             dec.DecryptBlock(result.begin(), data.begin(), data.end());
 
             return result;
@@ -410,7 +410,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         OutputItMock it(asteriskCalls, incrementCalls);
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::Encryptor enc(desKey);
+        DesCrypt::DesEncryptor enc(desKey);
         enc.EncryptBlock(it, data.begin(), data.end());
 
         ASSERT_EQ(8, asteriskCalls);
@@ -426,7 +426,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         OutputItMock it(asteriskCalls, incrementCalls);
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::Encryptor enc(desKey);
+        DesCrypt::DesEncryptor enc(desKey);
         enc.EncryptBlock(it, data.begin(), data.end());
 
         ASSERT_EQ(8, asteriskCalls);
@@ -471,7 +471,7 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         OutputItMock it(asteriskCalls, incrementCalls);
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::Decryptor dec(desKey);
+        DesCrypt::DesDecryptor dec(desKey);
         dec.DecryptBlock(it, data.begin(), data.end());
 
         ASSERT_EQ(8, asteriskCalls);
@@ -487,7 +487,7 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         OutputItMock it(asteriskCalls, incrementCalls);
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::Decryptor dec(desKey);
+        DesCrypt::DesDecryptor dec(desKey);
         dec.DecryptBlock(it, data.begin(), data.end());
 
         ASSERT_EQ(8, asteriskCalls);
