@@ -20,6 +20,11 @@ public:
         return Impl().DecryptBlock(block);
     }
 
+    auto GetBlockSize()
+    {
+        return Impl().GetBlockSize();
+    }
+
 protected:
     Decryptor() = default;
 

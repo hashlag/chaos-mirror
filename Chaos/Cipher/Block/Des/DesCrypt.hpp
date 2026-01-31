@@ -196,6 +196,9 @@ class DesCrypt
 {
 public:
     using Block = uint64_t;
+    static constexpr size_t BlockSize = 8;
+
+    static_assert(BlockSize == sizeof(Block));
 
     DesCrypt() = delete;
 
@@ -227,6 +230,8 @@ public:
     class DesEncryptor : public Encryptor<DesEncryptor>
     {
     public:
+        static constexpr size_t BlockSize = DesCrypt::BlockSize;
+
         DesEncryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Encrypt, key.Key_)
         { }
@@ -255,6 +260,11 @@ public:
             return DesCrypt::ProcessBlock(block, Schedule_);
         }
 
+        constexpr size_t GetBlockSize()
+        {
+            return BlockSize;
+        }
+
     private:
         Inner_::KeySchedule Schedule_;
     };
@@ -262,6 +272,8 @@ public:
     class DesDecryptor : public Decryptor<DesDecryptor>
     {
     public:
+        static constexpr size_t BlockSize = DesCrypt::BlockSize;
+
         DesDecryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Decrypt, key.Key_)
         { }
@@ -288,6 +300,11 @@ public:
         Block DecryptBlock(Block block)
         {
             return DesCrypt::ProcessBlock(block, Schedule_);
+        }
+
+        constexpr size_t GetBlockSize()
+        {
+            return BlockSize;
         }
 
     private:

@@ -20,6 +20,11 @@ public:
         return Impl().EncryptBlock(block);
     }
 
+    auto GetBlockSize()
+    {
+        return Impl().GetBlockSize();
+    }
+
 protected:
     Encryptor() = default;
 
