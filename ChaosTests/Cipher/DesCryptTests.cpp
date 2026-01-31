@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 
 #include "Cipher/Block/Des/DesCrypt.hpp"
+#include "Cipher/Block/Encryptor.hpp"
 
 using namespace Chaos::Cipher::Block::Des;
+using namespace Chaos::Cipher::Block;
 
 TEST(DesCryptTests, KeyScheduleTest)
 {
@@ -493,4 +495,45 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         ASSERT_EQ(8, asteriskCalls);
         ASSERT_EQ(8, incrementCalls);
     }
+}
+
+template<typename Impl, typename InputIt>
+static std::array<uint8_t, 8> EncryptThroughBase(Encryptor<Impl> & enc,
+                                                 InputIt begin, InputIt end)
+{
+    std::array<uint8_t, 8> result;
+    enc.EncryptBlock(result.begin(), begin, end);
+    return result;
+}
+
+TEST(DesCryptTests, EncryptThroughBaseTest)
+{
+    std::array<uint8_t, 8> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
+
+    std::array<uint8_t, 8> data = { 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef };
+    std::array<uint8_t, 8> expected = { 0x85, 0xe8, 0x13, 0x54, 0x0f, 0x0a, 0xb4, 0x05 };
+
+    DesCrypt::Key desKey(key.begin(), key.end());
+    DesCrypt::DesEncryptor enc(desKey);
+
+    ASSERT_EQ(expected, EncryptThroughBase(enc, data.begin(), data.end()));
+}
+
+template<typename Impl>
+static uint64_t EncryptUInt64BlockThroughBase(Encryptor<Impl> & enc, uint64_t block)
+{
+    return enc.EncryptBlock(block);
+}
+
+TEST(DesCryptTests, EncryptUInt64BlockThroughBaseTest)
+{
+    std::array<uint8_t, 8> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
+
+    uint64_t data = 0x0123456789abcdef;
+    uint64_t expected = 0x85e813540f0ab405;
+
+    DesCrypt::Key desKey(key.begin(), key.end());
+    DesCrypt::DesEncryptor enc(desKey);
+
+    ASSERT_EQ(expected, EncryptUInt64BlockThroughBase(enc, data));
 }

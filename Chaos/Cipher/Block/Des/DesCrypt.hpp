@@ -7,6 +7,8 @@
 #include "Service/ChaosException.hpp"
 #include "Service/SeArray.hpp"
 
+#include "Cipher/Block/Encryptor.hpp"
+
 namespace Chaos::Cipher::Block::Des::Inner_
 {
 
@@ -221,7 +223,7 @@ public:
         Inner_::RawKey Key_;
     };
 
-    class DesEncryptor
+    class DesEncryptor : public Encryptor<DesEncryptor>
     {
     public:
         DesEncryptor(const Key & key)
