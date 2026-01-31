@@ -537,3 +537,44 @@ TEST(DesCryptTests, EncryptUInt64BlockThroughBaseTest)
 
     ASSERT_EQ(expected, EncryptUInt64BlockThroughBase(enc, data));
 }
+
+template<typename Impl, typename InputIt>
+static std::array<uint8_t, 8> DecryptThroughBase(Decryptor<Impl> & dec,
+                                                 InputIt begin, InputIt end)
+{
+    std::array<uint8_t, 8> result;
+    dec.DecryptBlock(result.begin(), begin, end);
+    return result;
+}
+
+TEST(DesCryptTests, DecryptThroughBaseTest)
+{
+    std::array<uint8_t, 8> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
+
+    std::array<uint8_t, 8> data = { 0x85, 0xe8, 0x13, 0x54, 0x0f, 0x0a, 0xb4, 0x05 };
+    std::array<uint8_t, 8> expected = { 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef };
+
+    DesCrypt::Key desKey(key.begin(), key.end());
+    DesCrypt::DesDecryptor dec(desKey);
+
+    ASSERT_EQ(expected, DecryptThroughBase(dec, data.begin(), data.end()));
+}
+
+template<typename Impl>
+static uint64_t DecryptUInt64BlockThroughBase(Decryptor<Impl> & dec, uint64_t block)
+{
+    return dec.DecryptBlock(block);
+}
+
+TEST(DesCryptTests, DecryptUInt64BlockThroughBaseTest)
+{
+    std::array<uint8_t, 8> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
+
+    uint64_t data = 0x85e813540f0ab405;
+    uint64_t expected = 0x0123456789abcdef;
+
+    DesCrypt::Key desKey(key.begin(), key.end());
+    DesCrypt::DesDecryptor dec(desKey);
+
+    ASSERT_EQ(expected, DecryptUInt64BlockThroughBase(dec, data));
+}

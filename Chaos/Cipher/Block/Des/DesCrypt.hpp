@@ -8,6 +8,7 @@
 #include "Service/SeArray.hpp"
 
 #include "Cipher/Block/Encryptor.hpp"
+#include "Cipher/Block/Decryptor.hpp"
 
 namespace Chaos::Cipher::Block::Des::Inner_
 {
@@ -258,7 +259,7 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    class DesDecryptor
+    class DesDecryptor : public Decryptor<DesDecryptor>
     {
     public:
         DesDecryptor(const Key & key)
