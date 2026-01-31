@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_DES_DESCRYPT_HPP
-#define CHAOS_CIPHER_DES_DESCRYPT_HPP
+#ifndef CHAOS_CIPHER_BLOCK_DES_DESCRYPT_HPP
+#define CHAOS_CIPHER_BLOCK_DES_DESCRYPT_HPP
 
 #include <algorithm>
 #include <utility>
@@ -7,7 +7,10 @@
 #include "Service/ChaosException.hpp"
 #include "Service/SeArray.hpp"
 
-namespace Chaos::Cipher::Des::Inner_
+#include "Cipher/Block/Encryptor.hpp"
+#include "Cipher/Block/Decryptor.hpp"
+
+namespace Chaos::Cipher::Block::Des::Inner_
 {
 
 struct Bitwise
@@ -184,9 +187,9 @@ private:
     }
 };
 
-} // namespace Chaos::Cipher::Des::Inner_
+} // namespace Chaos::Cipher::Block::Des::Inner_
 
-namespace Chaos::Cipher::Des
+namespace Chaos::Cipher::Block::Des
 {
 
 class DesCrypt
@@ -221,7 +224,7 @@ public:
         Inner_::RawKey Key_;
     };
 
-    class DesEncryptor
+    class DesEncryptor : public Encryptor<DesEncryptor>
     {
     public:
         DesEncryptor(const Key & key)
@@ -256,7 +259,7 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    class DesDecryptor
+    class DesDecryptor : public Decryptor<DesDecryptor>
     {
     public:
         DesDecryptor(const Key & key)
@@ -483,6 +486,6 @@ private:
     }
 };
 
-} // namespace Chaos::Cipher::Des
+} // namespace Chaos::Cipher::Block::Des
 
-#endif // CHAOS_CIPHER_DES_DESCRYPT_HPP
+#endif // CHAOS_CIPHER_BLOCK_DES_DESCRYPT_HPP
