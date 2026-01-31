@@ -9,18 +9,18 @@ class Encryptor
 {
 public:
     template<typename OutputIt, typename InputIt>
-    void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd)
+    void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
     {
         Impl().EncryptBlock(out, inBegin, inEnd);
     }
 
     template<typename Block>
-    auto EncryptBlock(Block block)
+    auto EncryptBlock(Block block) const
     {
         return Impl().EncryptBlock(block);
     }
 
-    auto GetBlockSize()
+    auto GetBlockSize() const
     {
         return Impl().GetBlockSize();
     }

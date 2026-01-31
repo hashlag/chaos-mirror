@@ -237,7 +237,7 @@ public:
         { }
 
         template<typename OutputIt, typename InputIt>
-        void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd)
+        void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
         {
             RawBlockArray block;
 
@@ -255,12 +255,12 @@ public:
             Inner_::Bitwise::CrunchUInt64(out, encrypted);
         }
 
-        Block EncryptBlock(Block block)
+        Block EncryptBlock(Block block) const
         {
             return DesCrypt::ProcessBlock(block, Schedule_);
         }
 
-        constexpr size_t GetBlockSize()
+        constexpr size_t GetBlockSize() const
         {
             return BlockSize;
         }
