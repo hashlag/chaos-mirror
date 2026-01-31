@@ -221,10 +221,10 @@ public:
         Inner_::RawKey Key_;
     };
 
-    class Encryptor
+    class DesEncryptor
     {
     public:
-        Encryptor(const Key & key)
+        DesEncryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Encrypt, key.Key_)
         { }
 
@@ -256,10 +256,10 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    class Decryptor
+    class DesDecryptor
     {
     public:
-        Decryptor(const Key & key)
+        DesDecryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Decrypt, key.Key_)
         { }
 
