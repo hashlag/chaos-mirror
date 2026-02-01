@@ -51,7 +51,7 @@ TEST(DesCryptTests, EncryptTest)
 
             DesCrypt::Key desKey(key.begin(), key.end());
             DesCrypt::DesEncryptor enc(desKey);
-            enc.EncryptBlock(result.begin(), data.begin(), data.end());
+            enc.EncryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
         }
@@ -143,7 +143,7 @@ TEST(DesCryptTests, EncryptShortDataTest)
 
             DesCrypt::Key desKey(key.begin(), key.end());
             DesCrypt::DesEncryptor enc(desKey);
-            enc.EncryptBlock(result.begin(), data.begin(), data.end());
+            enc.EncryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
         }
@@ -177,7 +177,7 @@ TEST(DesCryptTests, EncryptLongDataTest)
 
             DesCrypt::Key desKey(key.begin(), key.end());
             DesCrypt::DesEncryptor enc(desKey);
-            enc.EncryptBlock(result.begin(), data.begin(), data.end());
+            enc.EncryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
         }
@@ -377,62 +377,34 @@ TEST(DesCryptTests, LongKeyTest)
 
 TEST(DesCryptTests, OutIteratorUsageEncryptTest)
 {
-    struct OutputItMock
-    {
-        OutputItMock(size_t & asteriskCalls, size_t & incrementCalls)
-            : AsteriskCalls_(asteriskCalls)
-            , IncrementCalls_(incrementCalls)
-        { }
-
-        uint8_t & operator*()
-        {
-            ++AsteriskCalls_;
-
-            static uint8_t dummy = 0;
-            return dummy;
-        }
-
-        OutputItMock operator++(int)
-        {
-            ++IncrementCalls_;
-
-            return *this;
-        }
-
-        size_t & AsteriskCalls_;
-        size_t & IncrementCalls_;
-    };
-
     {
         std::array<uint8_t, DesCrypt::BlockSize> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 };
         std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
 
-        size_t asteriskCalls = 0;
-        size_t incrementCalls = 0;
-        OutputItMock it(asteriskCalls, incrementCalls);
+        std::array<uint8_t, 8> fact = {};
+        // Last 3 bytes should be untouched.
+        std::array<uint8_t, 8> expected = { 0x42, 0x27, 0x88, 0xa6, 0x7b, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesEncryptor enc(desKey);
-        enc.EncryptBlock(it, data.begin(), data.end());
+        enc.EncryptBlock(fact.begin(), fact.end() - 3, data.begin(), data.end());
 
-        ASSERT_EQ(8, asteriskCalls);
-        ASSERT_EQ(8, incrementCalls);
+        ASSERT_EQ(fact, expected);
     }
 
     {
-        std::array<uint8_t, 11> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0x9f, 0x9f, 0x9f, 0x9f, 0x9f, 0x9f };
+        std::array<uint8_t, DesCrypt::BlockSize + 2> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44, 0x44, 0x44  };
         std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
 
-        size_t asteriskCalls = 0;
-        size_t incrementCalls = 0;
-        OutputItMock it(asteriskCalls, incrementCalls);
+        std::array<uint8_t, 8> fact = {};
+        // Last 4 bytes should be untouched.
+        std::array<uint8_t, 8> expected = { 0x42, 0x27, 0x88, 0xa6, 0x00, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesEncryptor enc(desKey);
-        enc.EncryptBlock(it, data.begin(), data.end());
+        enc.EncryptBlock(fact.begin(), fact.end() - 4, data.begin(), data.end());
 
-        ASSERT_EQ(8, asteriskCalls);
-        ASSERT_EQ(8, incrementCalls);
+        ASSERT_EQ(fact, expected);
     }
 }
 
@@ -504,7 +476,7 @@ static std::vector<uint8_t> EncryptThroughBase(const Encryptor<Impl> & enc,
     std::vector<uint8_t> result;
     result.resize(enc.GetBlockSize(), 0);
 
-    enc.EncryptBlock(result.begin(), begin, end);
+    enc.EncryptBlock(result.begin(), result.end(), begin, end);
     return result;
 }
 

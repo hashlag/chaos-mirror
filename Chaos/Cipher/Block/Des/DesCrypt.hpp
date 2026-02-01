@@ -90,6 +90,16 @@ struct Bitwise
             *out++ = (value >> (56 - (i * 8))) & Mask<8>();
         }
     }
+
+    template<typename OutputIt>
+    static void CrunchUInt64(OutputIt outBegin, OutputIt outEnd, uint64_t value)
+    {
+        int_fast8_t i = 0;
+        for (OutputIt out = outBegin; i < 8 && out != outEnd; ++i, ++out)
+        {
+            *out = (value >> (56 - (i * 8))) & Mask<8>();
+        }
+    }
 };
 
 using RawKey = Service::SeArray<uint8_t, 8>;
@@ -237,7 +247,8 @@ public:
         { }
 
         template<typename OutputIt, typename InputIt>
-        void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
+        void EncryptBlock(OutputIt outBegin, OutputIt outEnd,
+                          InputIt inBegin, InputIt inEnd) const
         {
             RawBlockArray block;
 
@@ -252,7 +263,7 @@ public:
                                                                      block.End()),
                                          Schedule_);
 
-            Inner_::Bitwise::CrunchUInt64(out, encrypted);
+            Inner_::Bitwise::CrunchUInt64(outBegin, outEnd, encrypted);
         }
 
         Block EncryptBlock(Block block) const
