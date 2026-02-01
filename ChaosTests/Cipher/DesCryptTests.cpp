@@ -389,7 +389,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         DesCrypt::DesEncryptor enc(desKey);
         enc.EncryptBlock(fact.begin(), fact.end() - 3, data.begin(), data.end());
 
-        ASSERT_EQ(fact, expected);
+        ASSERT_EQ(expected, fact);
     }
 
     {
@@ -404,7 +404,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         DesCrypt::DesEncryptor enc(desKey);
         enc.EncryptBlock(fact.begin(), fact.end() - 4, data.begin(), data.end());
 
-        ASSERT_EQ(fact, expected);
+        ASSERT_EQ(expected, fact);
     }
 }
 
