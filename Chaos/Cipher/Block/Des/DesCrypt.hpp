@@ -290,7 +290,8 @@ public:
         { }
 
         template<typename OutputIt, typename InputIt>
-        void DecryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
+        void DecryptBlock(OutputIt outBegin, OutputIt outEnd,
+                          InputIt inBegin, InputIt inEnd) const
         {
             RawBlockArray block;
 
@@ -305,7 +306,7 @@ public:
                                                                      block.End()),
                                          Schedule_);
 
-            Inner_::Bitwise::CrunchUInt64(out, decrypted);
+            Inner_::Bitwise::CrunchUInt64(outBegin, outEnd, decrypted);
         }
 
         Block DecryptBlock(Block block) const
