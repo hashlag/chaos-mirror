@@ -9,9 +9,10 @@ class Encryptor
 {
 public:
     template<typename OutputIt, typename InputIt>
-    void EncryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
+    void EncryptBlock(OutputIt outBegin, OutputIt outEnd,
+                      InputIt inBegin, InputIt inEnd) const
     {
-        Impl().EncryptBlock(out, inBegin, inEnd);
+        Impl().EncryptBlock(outBegin, outEnd, inBegin, inEnd);
     }
 
     template<typename Block>
