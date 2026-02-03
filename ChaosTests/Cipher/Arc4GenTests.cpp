@@ -353,3 +353,59 @@ TEST(Arc4GenTests, UninitializedGenTest)
         ASSERT_THROW(gen.Drop(256), Chaos::Service::ChaosException);
     }
 }
+
+TEST(Arc4GenTests, GenerateOutIteratorUsageTest)
+{
+    {
+        uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
+        Arc4Gen gen(key, key + std::size(key));
+
+        std::array<uint8_t, 20> out;
+        out.fill(0);
+
+        std::array<uint8_t, 20> expected =
+        {
+            0xb2, 0x39, 0x63, 0x05, 0xf0, 0x3d, 0xc0, 0x27,
+            0xcc, 0xc3, 0x52, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00
+        };
+
+        gen.Generate(out.begin(), 11);
+
+        ASSERT_EQ(expected, out);
+    }
+
+    {
+        uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
+        Arc4Gen gen(key, key + std::size(key));
+
+        std::array<uint8_t, 20> out;
+        out.fill(0);
+
+        std::array<uint8_t, 20> expected =
+        {
+            0xb2, 0x39, 0x63, 0x05, 0xf0, 0x3d, 0xc0, 0x27,
+            0xcc, 0xc3, 0x52, 0x4a, 0x0a, 0x11, 0x18, 0xa8,
+            0x69, 0x82, 0x00, 0x00
+        };
+
+        gen.Generate(out.begin(), 18);
+
+        ASSERT_EQ(expected, out);
+    }
+
+    {
+        uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
+        Arc4Gen gen(key, key + std::size(key));
+
+        std::array<uint8_t, 20> out;
+        out.fill(0);
+
+        std::array<uint8_t, 20> expected;
+        expected.fill(0);
+
+        gen.Generate(out.begin(), 0);
+
+        ASSERT_EQ(expected, out);
+    }
+}
