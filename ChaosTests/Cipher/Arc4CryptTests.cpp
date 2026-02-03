@@ -170,3 +170,58 @@ TEST(Arc4CryptTests, EncryptOutIteratorUsageTest)
         ASSERT_EQ(expected, out);
     }
 }
+
+TEST(Arc4CryptTests, DecryptOutIteratorUsageTest)
+{
+    const std::array<uint8_t, 14> data = { 0x45, 0xA0, 0x1F, 0x64, 0x5F, 0xC3, 0x5B,
+                                           0x38, 0x35, 0x52, 0x54, 0x4B, 0x9B, 0xF5 };
+    const std::vector<uint8_t> key = StrToU8Vec("Secret");
+
+    {
+        Arc4Crypt crypt(key.begin(), key.end());
+
+        std::array<uint8_t, 14> out;
+        out.fill(0);
+
+        std::array<uint8_t, 14> expected =
+        {
+            'A', 't', 't', 'a', 'c', 'k', ' ', 'a', 't', ' ', 'd', 'a',
+            0x00, 0x00
+        };
+
+        crypt.Decrypt(out.begin(), data.begin(), 12);
+
+        ASSERT_EQ(expected, out);
+    }
+
+    {
+        Arc4Crypt crypt(key.begin(), key.end());
+
+        std::array<uint8_t, 14> out;
+        out.fill(0);
+
+        std::array<uint8_t, 14> expected =
+        {
+            'A', 't', 't', 'a', 'c', 'k', ' ',
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
+        };
+
+        crypt.Decrypt(out.begin(), data.begin(), 7);
+
+        ASSERT_EQ(expected, out);
+    }
+
+    {
+        Arc4Crypt crypt(key.begin(), key.end());
+
+        std::array<uint8_t, 14> out;
+        out.fill(0);
+
+        std::array<uint8_t, 14> expected;
+        expected.fill(0);
+
+        crypt.Decrypt(out.begin(), data.begin(), 0);
+
+        ASSERT_EQ(expected, out);
+    }
+}
