@@ -99,8 +99,7 @@ TEST(HmacTests, LongKeyTest)
 
 TEST(HmacTests, UninitializedHmacTest)
 {
-    std::array<uint8_t, 10> in;
-    in.fill(0);
+    std::array<uint8_t, 10> in = {};
 
     {
         Hmac<Md5Hasher> hmac;

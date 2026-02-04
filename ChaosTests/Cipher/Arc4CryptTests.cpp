@@ -58,11 +58,8 @@ TEST(Arc4CryptTests, UninitializedArc4CryptTest)
     Arc4Crypt arc4;
 
     {
-        std::array<uint8_t, 10> in;
-        in.fill(0);
-
-        std::array<uint8_t, 10> out;
-        out.fill(0);
+        std::array<uint8_t, 10> in = {};
+        std::array<uint8_t, 10> out = {};
 
         ASSERT_THROW(arc4.Encrypt(out.begin(), in.begin(), in.size()), Chaos::Service::ChaosException);
         ASSERT_THROW(arc4.Decrypt(out.begin(), in.begin(), in.size()), Chaos::Service::ChaosException);
@@ -117,8 +114,7 @@ TEST(Arc4CryptTests, EncryptOutIteratorUsageTest)
 
         Arc4Crypt crypt(key.begin(), key.end());
 
-        std::array<uint8_t, 47> out;
-        out.fill(0);
+        std::array<uint8_t, 47> out = {};
 
         std::array<uint8_t, 47> expected =
         {
@@ -139,8 +135,7 @@ TEST(Arc4CryptTests, EncryptOutIteratorUsageTest)
 
         Arc4Crypt crypt(key.begin(), key.end());
 
-        std::array<uint8_t, 47> out;
-        out.fill(0);
+        std::array<uint8_t, 47> out = {};
 
         std::array<uint8_t, 47> expected =
         {
@@ -161,11 +156,8 @@ TEST(Arc4CryptTests, EncryptOutIteratorUsageTest)
 
         Arc4Crypt crypt(key.begin(), key.end());
 
-        std::array<uint8_t, 44> out;
-        out.fill(0);
-
-        std::array<uint8_t, 44> expected;
-        expected.fill(0);
+        std::array<uint8_t, 44> out = {};
+        std::array<uint8_t, 44> expected = {};
 
         crypt.Encrypt(out.begin() + 3, data.begin(), 0);
 
@@ -182,8 +174,7 @@ TEST(Arc4CryptTests, DecryptOutIteratorUsageTest)
     {
         Arc4Crypt crypt(key.begin(), key.end());
 
-        std::array<uint8_t, 17> out;
-        out.fill(0);
+        std::array<uint8_t, 17> out = {};
 
         std::array<uint8_t, 17> expected =
         {
@@ -200,8 +191,7 @@ TEST(Arc4CryptTests, DecryptOutIteratorUsageTest)
     {
         Arc4Crypt crypt(key.begin(), key.end());
 
-        std::array<uint8_t, 17> out;
-        out.fill(0);
+        std::array<uint8_t, 17> out = {};
 
         std::array<uint8_t, 17> expected =
         {
@@ -218,11 +208,8 @@ TEST(Arc4CryptTests, DecryptOutIteratorUsageTest)
     {
         Arc4Crypt crypt(key.begin(), key.end());
 
-        std::array<uint8_t, 14> out;
-        out.fill(0);
-
-        std::array<uint8_t, 14> expected;
-        expected.fill(0);
+        std::array<uint8_t, 14> out = {};
+        std::array<uint8_t, 14> expected = {};
 
         crypt.Decrypt(out.begin() + 3, data.begin(), 0);
 

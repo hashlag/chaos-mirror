@@ -360,8 +360,7 @@ TEST(Arc4GenTests, GenerateOutIteratorUsageTest)
         uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
         Arc4Gen gen(key, key + std::size(key));
 
-        std::array<uint8_t, 23> out;
-        out.fill(0);
+        std::array<uint8_t, 23> out = {};
 
         std::array<uint8_t, 23> expected =
         {
@@ -380,8 +379,7 @@ TEST(Arc4GenTests, GenerateOutIteratorUsageTest)
         uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
         Arc4Gen gen(key, key + std::size(key));
 
-        std::array<uint8_t, 23> out;
-        out.fill(0);
+        std::array<uint8_t, 23> out = {};
 
         std::array<uint8_t, 23> expected =
         {
@@ -400,11 +398,8 @@ TEST(Arc4GenTests, GenerateOutIteratorUsageTest)
         uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
         Arc4Gen gen(key, key + std::size(key));
 
-        std::array<uint8_t, 20> out;
-        out.fill(0);
-
-        std::array<uint8_t, 20> expected;
-        expected.fill(0);
+        std::array<uint8_t, 20> out = {};
+        std::array<uint8_t, 20> expected = {};
 
         gen.Generate(out.begin() + 3, 0);
 

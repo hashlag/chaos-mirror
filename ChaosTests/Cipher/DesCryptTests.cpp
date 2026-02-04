@@ -46,8 +46,7 @@ TEST(DesCryptTests, EncryptTest)
         std::array<uint8_t, DesCrypt::BlockSize> operator()(const std::array<uint8_t, DesCrypt::BlockSize> & data,
                                                             const std::array<uint8_t, 8> & key) const
         {
-            std::array<uint8_t, DesCrypt::BlockSize> result;
-            result.fill(0);
+            std::array<uint8_t, DesCrypt::BlockSize> result = {};
 
             DesCrypt::Key desKey(key.begin(), key.end());
             DesCrypt::DesEncryptor enc(desKey);
@@ -206,8 +205,7 @@ TEST(DesCryptTests, DecryptTest)
         std::array<uint8_t, DesCrypt::BlockSize> operator()(const std::array<uint8_t, DesCrypt::BlockSize> & data,
                                                             const std::array<uint8_t, 8> & key) const
         {
-            std::array<uint8_t, DesCrypt::BlockSize> result;
-            result.fill(0);
+            std::array<uint8_t, DesCrypt::BlockSize> result = {};
 
             DesCrypt::Key desKey(key.begin(), key.end());
             DesCrypt::DesDecryptor dec(desKey);
