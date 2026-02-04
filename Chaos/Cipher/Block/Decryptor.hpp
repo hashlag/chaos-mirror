@@ -9,9 +9,10 @@ class Decryptor
 {
 public:
     template<typename OutputIt, typename InputIt>
-    void DecryptBlock(OutputIt out, InputIt inBegin, InputIt inEnd) const
+    void DecryptBlock(OutputIt outBegin, OutputIt outEnd,
+                      InputIt inBegin, InputIt inEnd) const
     {
-        Impl().DecryptBlock(out, inBegin, inEnd);
+        Impl().DecryptBlock(outBegin, outEnd, inBegin, inEnd);
     }
 
     template<typename Block>
