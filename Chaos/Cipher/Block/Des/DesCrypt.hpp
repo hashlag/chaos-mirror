@@ -83,15 +83,6 @@ struct Bitwise
     }
 
     template<typename OutputIt>
-    static void CrunchUInt64(OutputIt out, uint64_t value)
-    {
-        for (int_fast8_t i = 0; i < 8; ++i)
-        {
-            *out++ = (value >> (56 - (i * 8))) & Mask<8>();
-        }
-    }
-
-    template<typename OutputIt>
     static void CrunchUInt64(OutputIt outBegin, OutputIt outEnd, uint64_t value)
     {
         int_fast8_t i = 0;
