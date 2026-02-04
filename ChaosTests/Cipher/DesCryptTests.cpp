@@ -406,6 +406,20 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
 
         ASSERT_EQ(expected, fact);
     }
+
+    {
+        std::array<uint8_t, DesCrypt::BlockSize + 2> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44, 0x44, 0x44  };
+        std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        std::array<uint8_t, 12> fact = {};
+        std::array<uint8_t, 12> expected = {};
+
+        DesCrypt::Key desKey(key.begin(), key.end());
+        DesCrypt::DesEncryptor enc(desKey);
+        enc.EncryptBlock(fact.begin() + 3, fact.begin() + 3, data.begin(), data.end());
+
+        ASSERT_EQ(expected, fact);
+    }
 }
 
 TEST(DesCryptTests, OutIteratorUsageDecryptTest)
@@ -436,6 +450,20 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesDecryptor dec(desKey);
         dec.DecryptBlock(fact.begin() + 4, fact.end() - 4, data.begin(), data.end());
+
+        ASSERT_EQ(expected, fact);
+    }
+
+    {
+        std::array<uint8_t, DesCrypt::BlockSize + 2> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44, 0x44, 0x44  };
+        std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
+
+        std::array<uint8_t, 12> fact = {};
+        std::array<uint8_t, 12> expected = {};
+
+        DesCrypt::Key desKey(key.begin(), key.end());
+        DesCrypt::DesDecryptor dec(desKey);
+        dec.DecryptBlock(fact.begin() + 3, fact.begin() + 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
     }
