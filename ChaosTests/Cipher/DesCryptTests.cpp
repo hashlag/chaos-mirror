@@ -381,13 +381,13 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         std::array<uint8_t, DesCrypt::BlockSize> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 };
         std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
 
-        std::array<uint8_t, 8> fact = {};
-        // Last 3 bytes should be untouched.
-        std::array<uint8_t, 8> expected = { 0x42, 0x27, 0x88, 0xa6, 0x7b, 0x00, 0x00, 0x00 };
+        std::array<uint8_t, 11> fact = {};
+        // First and last 3 bytes should be untouched.
+        std::array<uint8_t, 11> expected = { 0x00, 0x00, 0x00, 0x42, 0x27, 0x88, 0xa6, 0x7b, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesEncryptor enc(desKey);
-        enc.EncryptBlock(fact.begin(), fact.end() - 3, data.begin(), data.end());
+        enc.EncryptBlock(fact.begin() + 3, fact.end() - 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
     }
@@ -396,13 +396,13 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         std::array<uint8_t, DesCrypt::BlockSize + 2> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44, 0x44, 0x44  };
         std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
 
-        std::array<uint8_t, 8> fact = {};
-        // Last 4 bytes should be untouched.
-        std::array<uint8_t, 8> expected = { 0x42, 0x27, 0x88, 0xa6, 0x00, 0x00, 0x00, 0x00 };
+        std::array<uint8_t, 12> fact = {};
+        // First and last 4 bytes should be untouched.
+        std::array<uint8_t, 12> expected = { 0x00, 0x00, 0x00, 0x00, 0x42, 0x27, 0x88, 0xa6, 0x00, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesEncryptor enc(desKey);
-        enc.EncryptBlock(fact.begin(), fact.end() - 4, data.begin(), data.end());
+        enc.EncryptBlock(fact.begin() + 4, fact.end() - 4, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
     }
@@ -414,13 +414,13 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         std::array<uint8_t, DesCrypt::BlockSize> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44 };
         std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
 
-        std::array<uint8_t, 8> fact = {};
-        // Last 3 bytes should be untouched.
-        std::array<uint8_t, 8> expected = { 0x45, 0x69, 0x71, 0x17, 0x13, 0x00, 0x00, 0x00 };
+        std::array<uint8_t, 11> fact = {};
+        // First and last 3 bytes should be untouched.
+        std::array<uint8_t, 11> expected = { 0x00, 0x00, 0x00, 0x45, 0x69, 0x71, 0x17, 0x13, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesDecryptor dec(desKey);
-        dec.DecryptBlock(fact.begin(), fact.end() - 3, data.begin(), data.end());
+        dec.DecryptBlock(fact.begin() + 3, fact.end() - 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
     }
@@ -429,13 +429,13 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         std::array<uint8_t, DesCrypt::BlockSize + 2> data = { 0xe5, 0x1a, 0x9f, 0xd4, 0x19, 0xa7, 0x93, 0x44, 0x44, 0x44  };
         std::array<uint8_t, 8> key = { 0xda, 0xec, 0x68, 0xae, 0x83, 0xe0, 0x1e, 0xab };
 
-        std::array<uint8_t, 8> fact = {};
-        // Last 4 bytes should be untouched.
-        std::array<uint8_t, 8> expected = { 0x45, 0x69, 0x71, 0x17, 0x00, 0x00, 0x00, 0x00 };
+        std::array<uint8_t, 12> fact = {};
+        // First and last 4 bytes should be untouched.
+        std::array<uint8_t, 12> expected = { 0x00, 0x00, 0x00, 0x00, 0x45, 0x69, 0x71, 0x17, 0x00, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
         DesCrypt::DesDecryptor dec(desKey);
-        dec.DecryptBlock(fact.begin(), fact.end() - 4, data.begin(), data.end());
+        dec.DecryptBlock(fact.begin() + 4, fact.end() - 4, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
     }
