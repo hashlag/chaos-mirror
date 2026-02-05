@@ -26,6 +26,8 @@ target_include_directories(ChaosTests PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Chaos>
 )
 
+target_compile_options(ChaosTests PRIVATE -Wunused -Werror=unused)
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
     target_compile_options(ChaosTests PRIVATE --coverage)
     target_link_options(ChaosTests PRIVATE --coverage)
