@@ -18,7 +18,8 @@ set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
                       Cipher/Arc4GenTests.cpp
                       Cipher/Arc4CryptTests.cpp
                       Cipher/DesCryptTests.cpp
-                      Service/SeArrayTests.cpp)
+                      Service/SeArrayTests.cpp
+                      Service/ChaosExceptionTests.cpp)
 
 add_executable(ChaosTests ${ChaosTests_SOURCE})
 target_link_libraries(ChaosTests gtest gtest_main)
