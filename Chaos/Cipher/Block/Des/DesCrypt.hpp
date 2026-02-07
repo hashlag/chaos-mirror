@@ -233,6 +233,7 @@ public:
     class DesEncryptor : public Encryptor<DesEncryptor>
     {
     public:
+        using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
 
@@ -277,6 +278,7 @@ public:
     class DesDecryptor : public Decryptor<DesDecryptor>
     {
     public:
+        using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
 
