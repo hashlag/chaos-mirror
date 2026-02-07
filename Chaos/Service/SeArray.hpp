@@ -58,11 +58,6 @@ public:
         return Storage_.data() + Storage_.size();
     }
 
-    constexpr size_t Size() const noexcept
-    {
-        return Storage_.size();
-    }
-
     void Fill(const T & value)
     {
         Storage_.fill(value);
@@ -71,6 +66,11 @@ public:
     void Erase()
     {
         EraseImpl();
+    }
+
+    static constexpr size_t Size() noexcept
+    {
+        return S;
     }
 
 private:

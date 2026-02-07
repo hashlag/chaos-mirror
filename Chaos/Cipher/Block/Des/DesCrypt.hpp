@@ -198,8 +198,10 @@ class DesCrypt
 public:
     using Block = uint64_t;
     static constexpr size_t BlockSize = 8;
+    static constexpr size_t KeySize = 8;
 
     static_assert(BlockSize == sizeof(Block));
+    static_assert(KeySize == Inner_::RawKey::Size());
 
     DesCrypt() = delete;
 
@@ -232,6 +234,7 @@ public:
     {
     public:
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
+        static constexpr size_t KeySize = DesCrypt::KeySize;
 
         DesEncryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Encrypt, key.Key_)
@@ -275,6 +278,7 @@ public:
     {
     public:
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
+        static constexpr size_t KeySize = DesCrypt::KeySize;
 
         DesDecryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Decrypt, key.Key_)
