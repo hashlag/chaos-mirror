@@ -119,3 +119,25 @@ TEST(PadPkcs7Tests, PadOutIteratorUsageTest)
         ASSERT_EQ(expected, fact);
     }
 }
+
+template<typename Impl, typename OutputIt>
+void PadThroughBase(const Padder<Impl> & padder, OutputIt begin, OutputIt end)
+{
+    padder.Pad(begin, end);
+}
+
+TEST(PadPkcs7Tests, PadThroughBaseTest)
+{
+    {
+        std::array<uint8_t, 5> fact = {};
+        std::array<uint8_t, 5> expected =
+        {
+            0x05, 0x05, 0x05, 0x05, 0x05
+        };
+
+        const PadderPkcs7 padder;
+        PadThroughBase(padder, fact.begin(), fact.end());
+
+        ASSERT_EQ(expected, fact);
+    }
+}

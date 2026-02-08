@@ -5,12 +5,13 @@
 #include <iterator>
 #include <limits>
 
+#include "Padding/Padder.hpp"
 #include "Service/ChaosException.hpp"
 
 namespace Chaos::Padding
 {
 
-class PadderPkcs7
+class PadderPkcs7 : public Padder<PadderPkcs7>
 {
 public:
     template<typename OutputIt>
