@@ -1,5 +1,5 @@
-#ifndef CHAOS_PADDING_PADPKCS7_HPP
-#define CHAOS_PADDING_PADPKCS7_HPP
+#ifndef CHAOS_PADDING_PADDERPKCS7_HPP
+#define CHAOS_PADDING_PADDERPKCS7_HPP
 
 #include <cstdint>
 #include <iterator>
@@ -10,7 +10,7 @@
 namespace Chaos::Padding
 {
 
-class PadPkcs7
+class PadderPkcs7
 {
 public:
     template<typename OutputIt>
@@ -34,4 +34,4 @@ public:
 
 } // namespace Chaos::Padding
 
-#endif // CHAOS_PADDING_PADPKCS7_HPP
+#endif // CHAOS_PADDING_PADDERPKCS7_HPP
