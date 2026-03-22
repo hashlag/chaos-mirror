@@ -28,7 +28,7 @@ public:
         }
         else
         {
-            throw Service::ChaosException("PadPkcs7::Pad(): invalid range");
+            throw Service::ChaosException("PadderPkcs7::Pad(): invalid range");
         }
     }
 };
