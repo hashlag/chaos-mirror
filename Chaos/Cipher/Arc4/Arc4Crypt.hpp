@@ -67,7 +67,7 @@ private:
 
         while (count > 0)
         {
-            uint64_t keyMaterialBytes = std::min(keyBuf.Size(), count);
+            uint64_t keyMaterialBytes = std::min<uint64_t>(keyBuf.Size(), count);
             Gen_.Generate(keyBuf.Begin(), keyMaterialBytes);
 
             for (auto keyBufIt = keyBuf.Begin();
