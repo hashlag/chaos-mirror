@@ -49,7 +49,7 @@ TEST(DesCryptTests, EncryptTest)
             std::array<uint8_t, DesCrypt::BlockSize> result = {};
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesEncryptor enc(desKey);
+            DesCrypt::Encryptor enc(desKey);
             enc.EncryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
@@ -94,7 +94,7 @@ TEST(DesCryptTests, EncryptUInt64BlockTest)
                             const std::array<uint8_t, DesCrypt::KeySize> & key) const
         {
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesEncryptor enc(desKey);
+            DesCrypt::Encryptor enc(desKey);
 
             return enc.EncryptBlock(data);
         }
@@ -141,7 +141,7 @@ TEST(DesCryptTests, EncryptShortDataTest)
             result.resize(DesCrypt::BlockSize, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesEncryptor enc(desKey);
+            DesCrypt::Encryptor enc(desKey);
             enc.EncryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
@@ -175,7 +175,7 @@ TEST(DesCryptTests, EncryptLongDataTest)
             result.resize(DesCrypt::BlockSize, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesEncryptor enc(desKey);
+            DesCrypt::Encryptor enc(desKey);
             enc.EncryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
@@ -208,7 +208,7 @@ TEST(DesCryptTests, DecryptTest)
             std::array<uint8_t, DesCrypt::BlockSize> result = {};
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesDecryptor dec(desKey);
+            DesCrypt::Decryptor dec(desKey);
             dec.DecryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
@@ -253,7 +253,7 @@ TEST(DesCryptTests, DecryptUInt64BlockTest)
                             const std::array<uint8_t, DesCrypt::KeySize> & key) const
         {
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesDecryptor dec(desKey);
+            DesCrypt::Decryptor dec(desKey);
 
             return dec.DecryptBlock(data);
         }
@@ -300,7 +300,7 @@ TEST(DesCryptTests, DecryptShortDataTest)
             result.resize(DesCrypt::BlockSize, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesDecryptor dec(desKey);
+            DesCrypt::Decryptor dec(desKey);
             dec.DecryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
@@ -334,7 +334,7 @@ TEST(DesCryptTests, DecryptLongDataTest)
             result.resize(DesCrypt::BlockSize, 0);
 
             DesCrypt::Key desKey(key.begin(), key.end());
-            DesCrypt::DesDecryptor dec(desKey);
+            DesCrypt::Decryptor dec(desKey);
             dec.DecryptBlock(result.begin(), result.end(), data.begin(), data.end());
 
             return result;
@@ -384,7 +384,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         std::array<uint8_t, 11> expected = { 0x00, 0x00, 0x00, 0x42, 0x27, 0x88, 0xa6, 0x7b, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::DesEncryptor enc(desKey);
+        DesCrypt::Encryptor enc(desKey);
         enc.EncryptBlock(fact.begin() + 3, fact.end() - 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
@@ -399,7 +399,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         std::array<uint8_t, 12> expected = { 0x00, 0x00, 0x00, 0x00, 0x42, 0x27, 0x88, 0xa6, 0x00, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::DesEncryptor enc(desKey);
+        DesCrypt::Encryptor enc(desKey);
         enc.EncryptBlock(fact.begin() + 4, fact.end() - 4, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
@@ -413,7 +413,7 @@ TEST(DesCryptTests, OutIteratorUsageEncryptTest)
         std::array<uint8_t, 12> expected = {};
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::DesEncryptor enc(desKey);
+        DesCrypt::Encryptor enc(desKey);
         enc.EncryptBlock(fact.begin() + 3, fact.begin() + 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
@@ -431,7 +431,7 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         std::array<uint8_t, 11> expected = { 0x00, 0x00, 0x00, 0x45, 0x69, 0x71, 0x17, 0x13, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::DesDecryptor dec(desKey);
+        DesCrypt::Decryptor dec(desKey);
         dec.DecryptBlock(fact.begin() + 3, fact.end() - 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
@@ -446,7 +446,7 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         std::array<uint8_t, 12> expected = { 0x00, 0x00, 0x00, 0x00, 0x45, 0x69, 0x71, 0x17, 0x00, 0x00, 0x00, 0x00 };
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::DesDecryptor dec(desKey);
+        DesCrypt::Decryptor dec(desKey);
         dec.DecryptBlock(fact.begin() + 4, fact.end() - 4, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
@@ -460,7 +460,7 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
         std::array<uint8_t, 12> expected = {};
 
         DesCrypt::Key desKey(key.begin(), key.end());
-        DesCrypt::DesDecryptor dec(desKey);
+        DesCrypt::Decryptor dec(desKey);
         dec.DecryptBlock(fact.begin() + 3, fact.begin() + 3, data.begin(), data.end());
 
         ASSERT_EQ(expected, fact);
@@ -486,7 +486,7 @@ TEST(DesCryptTests, EncryptThroughBaseTest)
     std::vector<uint8_t> expected = { 0x85, 0xe8, 0x13, 0x54, 0x0f, 0x0a, 0xb4, 0x05 };
 
     DesCrypt::Key desKey(key.begin(), key.end());
-    DesCrypt::DesEncryptor enc(desKey);
+    DesCrypt::Encryptor enc(desKey);
 
     ASSERT_EQ(expected, EncryptThroughBase(enc, data.begin(), data.end()));
 }
@@ -505,7 +505,7 @@ TEST(DesCryptTests, EncryptUInt64BlockThroughBaseTest)
     uint64_t expected = 0x85e813540f0ab405;
 
     DesCrypt::Key desKey(key.begin(), key.end());
-    DesCrypt::DesEncryptor enc(desKey);
+    DesCrypt::Encryptor enc(desKey);
 
     ASSERT_EQ(expected, EncryptUInt64BlockThroughBase(enc, data));
 }
@@ -529,7 +529,7 @@ TEST(DesCryptTests, DecryptThroughBaseTest)
     std::vector<uint8_t> expected = { 0x01, 0x23, 0x45, 0x67, 0x89, 0xab, 0xcd, 0xef };
 
     DesCrypt::Key desKey(key.begin(), key.end());
-    DesCrypt::DesDecryptor dec(desKey);
+    DesCrypt::Decryptor dec(desKey);
 
     ASSERT_EQ(expected, DecryptThroughBase(dec, data.begin(), data.end()));
 }
@@ -548,7 +548,7 @@ TEST(DesCryptTests, DecryptUInt64BlockThroughBaseTest)
     uint64_t expected = 0x0123456789abcdef;
 
     DesCrypt::Key desKey(key.begin(), key.end());
-    DesCrypt::DesDecryptor dec(desKey);
+    DesCrypt::Decryptor dec(desKey);
 
     ASSERT_EQ(expected, DecryptUInt64BlockThroughBase(dec, data));
 }

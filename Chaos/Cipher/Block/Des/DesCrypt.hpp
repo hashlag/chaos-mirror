@@ -230,14 +230,14 @@ public:
         Inner_::RawKey Key_;
     };
 
-    class DesEncryptor : public Encryptor<DesEncryptor>
+    class Encryptor : public Chaos::Cipher::Block::Encryptor<Encryptor>
     {
     public:
         using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
 
-        DesEncryptor(const Key & key)
+        Encryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Encrypt, key.Key_)
         { }
 
@@ -275,14 +275,14 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    class DesDecryptor : public Decryptor<DesDecryptor>
+    class Decryptor : public Chaos::Cipher::Block::Decryptor<Decryptor>
     {
     public:
         using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
 
-        DesDecryptor(const Key & key)
+        Decryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Decrypt, key.Key_)
         { }
 
