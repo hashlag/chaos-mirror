@@ -18,6 +18,7 @@ set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
                       Cipher/Arc4GenTests.cpp
                       Cipher/Arc4CryptTests.cpp
                       Cipher/DesCryptTests.cpp
+                      Cipher/EcbModeTests.cpp
                       Padding/PadderPkcs7Tests.cpp
                       Padding/PadderIso7816Tests.cpp
                       Service/SeArrayTests.cpp
