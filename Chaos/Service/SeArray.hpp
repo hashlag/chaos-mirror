@@ -43,7 +43,7 @@ public:
         return Storage_.data();
     }
 
-    const T * Begin() const noexcept 
+    const T * Begin() const noexcept
     {
         return Storage_.data();
     }
