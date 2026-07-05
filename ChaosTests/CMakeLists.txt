@@ -31,7 +31,9 @@ target_include_directories(ChaosTests PRIVATE
 
 target_compile_options(ChaosTests PRIVATE -Wunused -Werror=unused)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+option(CHAOS_COVERAGE "Enable coverage" OFF)
+
+if(CHAOS_COVERAGE)
     target_compile_options(ChaosTests PRIVATE --coverage)
     target_link_options(ChaosTests PRIVATE --coverage)
 endif()

@@ -20,7 +20,7 @@ jobs:
     - name: Configure and build tests [Debug]
       run: |
         mkdir build-debug
-        cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug
+        cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_COVERAGE=ON
         cmake --build build-debug/ -t ChaosTests
 
     - name: Configure and build benchmarks [Release]
