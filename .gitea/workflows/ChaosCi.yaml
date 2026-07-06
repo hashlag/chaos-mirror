@@ -17,11 +17,17 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake valgrind lcov
 
-    - name: Configure and build tests [Debug and Coverage]
+    - name: Configure and build tests [Debug]
       run: |
         mkdir build-debug
-        cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_COVERAGE=ON
+        cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug
         cmake --build build-debug/ -t ChaosTests
+
+    - name: Configure and build tests [Debug and Coverage]
+      run: |
+        mkdir build-debug-coverage
+        cmake -S . -B build-debug-coverage/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_COVERAGE=ON
+        cmake --build build-debug-coverage/ -t ChaosTests
 
     - name: Configure and build tests [Debug, ASan and UBSan]
       run: |
@@ -35,9 +41,12 @@ jobs:
     - name: Run tests under ASan and UBSan
       run: ./build-debug-asanubsan/ChaosTests/ChaosTests
 
+    - name: Run tests for coverage
+      run: ./build-debug-coverage/ChaosTests/ChaosTests
+
     - name: Process coverage data
       run: |
-        lcov --exclude '*/usr/*' --exclude '*/_deps/*' --exclude '*/ChaosTests/*' -c -d build-debug/ -o lcovout
+        lcov --exclude '*/usr/*' --exclude '*/_deps/*' --exclude '*/ChaosTests/*' -c -d build-debug-coverage/ -o lcovout
         genhtml lcovout -o coverage-report/
 
     - name: Upload coverage report
