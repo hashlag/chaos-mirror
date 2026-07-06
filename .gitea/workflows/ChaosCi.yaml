@@ -17,19 +17,19 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake valgrind lcov
 
-    - name: Configure and build tests [Debug]
+    - name: Build tests
       run: |
         mkdir build-debug
         cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug
         cmake --build build-debug/ -t ChaosTests
 
-    - name: Configure and build tests [Debug and Coverage]
+    - name: Build tests with coverage
       run: |
         mkdir build-debug-coverage
         cmake -S . -B build-debug-coverage/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_COVERAGE=ON
         cmake --build build-debug-coverage/ -t ChaosTests
 
-    - name: Configure and build tests [Debug, ASan and UBSan]
+    - name: Build tests with ASan and UBSan
       run: |
         mkdir build-debug-asanubsan
         cmake -S . -B build-debug-asanubsan/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_ASANUBSAN=ON
@@ -72,7 +72,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake
 
-    - name: Configure and build benchmarks [Release]
+    - name: Build benchmarks
       run: |
         mkdir build-release
         cmake -S . -B build-release/ -D CMAKE_BUILD_TYPE=Release
