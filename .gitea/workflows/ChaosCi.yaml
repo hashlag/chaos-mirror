@@ -17,11 +17,17 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y build-essential cmake valgrind lcov
 
-    - name: Configure and build tests [Debug]
+    - name: Configure and build tests [Debug and Coverage]
       run: |
         mkdir build-debug
         cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_COVERAGE=ON
         cmake --build build-debug/ -t ChaosTests
+
+    - name: Configure and build tests [Debug, ASan and UBSan]
+      run: |
+        mkdir build-debug-asanubsan
+        cmake -S . -B build-debug-asanubsan/ -D CMAKE_BUILD_TYPE=Debug -D CHAOS_ASANUBSAN=ON
+        cmake --build build-debug-asanubsan/ -t ChaosTests
 
     - name: Configure and build benchmarks [Release]
       run: |
@@ -29,8 +35,11 @@ jobs:
         cmake -S . -B build-release/ -D CMAKE_BUILD_TYPE=Release
         cmake --build build-release/ -t ChaosBenches
 
-    - name: Run tests
+    - name: Run tests under valgrind
       run: valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./build-debug/ChaosTests/ChaosTests
+
+    - name: Run tests under ASan and UBSan
+      run: ./build-debug-asanubsan/ChaosTests/ChaosTests
 
     - name: Run benchmarks
       run: ./build-release/ChaosBenches/ChaosBenches

@@ -32,10 +32,16 @@ target_include_directories(ChaosTests PRIVATE
 target_compile_options(ChaosTests PRIVATE -Wunused -Werror=unused)
 
 option(CHAOS_COVERAGE "Enable coverage" OFF)
+option(CHAOS_ASANUBSAN "Enable ASan and UBSan" OFF)
 
 if(CHAOS_COVERAGE)
     target_compile_options(ChaosTests PRIVATE --coverage)
     target_link_options(ChaosTests PRIVATE --coverage)
+endif()
+
+if(CHAOS_ASANUBSAN)
+    target_compile_options(ChaosTests PRIVATE -fsanitize=address,undefined)
+    target_link_options(ChaosTests PRIVATE -fsanitize=address,undefined)
 endif()
 
 include(GoogleTest)
