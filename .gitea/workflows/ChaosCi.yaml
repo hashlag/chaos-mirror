@@ -39,7 +39,7 @@ jobs:
       run: valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./build-debug/ChaosTests/ChaosTests
 
     - name: Run tests under ASan and UBSan
-      run: ./build-debug-asanubsan/ChaosTests/ChaosTests
+      run: ASAN_OPTIONS=verbosity=1 UBSAN_OPTIONS=verbosity=1 ./build-debug-asanubsan/ChaosTests/ChaosTests
 
     - name: Run tests for coverage
       run: ./build-debug-coverage/ChaosTests/ChaosTests
