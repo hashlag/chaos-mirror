@@ -41,8 +41,8 @@ if(CHAOS_COVERAGE)
 endif()
 
 if(CHAOS_ASANUBSAN)
-    target_compile_options(ChaosTests PRIVATE -fsanitize=address,undefined)
-    target_link_options(ChaosTests PRIVATE -fsanitize=address,undefined)
+    target_compile_options(ChaosTests PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all)
+    target_link_options(ChaosTests PRIVATE -fsanitize=address,undefined -fno-sanitize-recover=all)
 endif()
 
 include(GoogleTest)
