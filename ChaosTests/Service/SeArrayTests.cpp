@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <cstdint>
 #include <iterator>
+#include <cstddef>
 
 #include "Service/SeArray.hpp"
 

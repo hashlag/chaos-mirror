@@ -4,6 +4,10 @@
 #include <cstdint>
 #include <array>
 #include <string>
+#include <cstddef>
+#include <cstdio>
+#include <tuple>
+#include <algorithm>
 
 #include "Hash.hpp"
 #include "Hasher.hpp"

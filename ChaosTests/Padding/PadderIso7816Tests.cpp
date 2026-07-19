@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Padding/PadderIso7816.hpp"
+#include "Padding/Padder.hpp"
 
 using namespace Chaos::Padding;
 
