@@ -3,6 +3,9 @@
 
 #include <algorithm>
 #include <utility>
+#include <cstdint>
+#include <iterator>
+#include <cstddef>
 
 #include "Service/ChaosException.hpp"
 #include "Service/SeArray.hpp"

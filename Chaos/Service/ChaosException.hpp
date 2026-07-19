@@ -2,6 +2,7 @@
 #define CHAOS_SERVICE_CHAOSEXCEPTION_HPP
 
 #include <string>
+#include <utility>
 
 namespace Chaos::Service
 {

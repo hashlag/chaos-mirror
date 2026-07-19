@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "Padding/PadderPkcs7.hpp"
+#include "Padding/Padder.hpp"
 #include "Service/ChaosException.hpp"
 
 using namespace Chaos::Padding;
