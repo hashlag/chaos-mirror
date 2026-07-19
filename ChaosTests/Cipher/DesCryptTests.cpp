@@ -1,7 +1,12 @@
 #include <gtest/gtest.h>
+#include <cstdint>
+#include <array>
+#include <vector>
 
 #include "Cipher/Block/Des/DesCrypt.hpp"
 #include "Cipher/Block/Encryptor.hpp"
+#include "Cipher/Block/Decryptor.hpp"
+#include "Service/ChaosException.hpp"
 
 using namespace Chaos::Cipher::Block::Des;
 using namespace Chaos::Cipher::Block;

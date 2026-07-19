@@ -1,6 +1,9 @@
 #ifndef CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
 #define CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
 
+#include <cstdint>
+#include <algorithm>
+
 #include "Arc4Gen.hpp"
 #include "Service/SeArray.hpp"
 #include "Service/ChaosException.hpp"

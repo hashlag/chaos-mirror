@@ -1,8 +1,12 @@
 #include <gtest/gtest.h>
+#include <cstring>
+#include <string>
+#include <cstdint>
 
 #include "Hash/Md5.hpp"
 #include "Hash/Sha1.hpp"
 #include "Mac/Hmac.hpp"
+#include "Service/ChaosException.hpp"
 
 using namespace Chaos::Mac::Hmac;
 using namespace Chaos::Hash::Md5;

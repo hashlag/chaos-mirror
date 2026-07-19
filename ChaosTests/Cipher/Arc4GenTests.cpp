@@ -1,6 +1,11 @@
 #include <gtest/gtest.h>
+#include <cstdint>
+#include <array>
+#include <iterator>
+#include <cstring>
 
 #include "Cipher/Arc4/Arc4Gen.hpp"
+#include "Service/ChaosException.hpp"
 
 using namespace Chaos::Cipher::Arc4;
 

@@ -2,6 +2,8 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <cstdint>
+#include <cstring>
 
 #include "Cipher/Arc4/Arc4Crypt.hpp"
 #include "Service/ChaosException.hpp"

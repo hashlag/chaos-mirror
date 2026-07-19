@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <cstring>
+#include <string>
 
 #include "Hash/Sha1.hpp"
 

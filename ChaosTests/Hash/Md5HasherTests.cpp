@@ -1,4 +1,6 @@
 #include <gtest/gtest.h>
+#include <cstring>
+#include <string>
 
 #include "Hash/Md5.hpp"
 

@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <array>
 #include <string>
+#include <cstdio>
+#include <cstddef>
 
 #include "Hash.hpp"
 #include "Hasher.hpp"
