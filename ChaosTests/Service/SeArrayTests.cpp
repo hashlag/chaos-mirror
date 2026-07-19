@@ -17,7 +17,7 @@ TEST(SeArrayTests, InitializationTest)
             ASSERT_EQ(0, arr[i]);
         }
     }
-    
+
     {
         SeArray<uint32_t, 333> arr;
 
@@ -59,7 +59,7 @@ TEST(SeArrayTests, EraseTest)
             ASSERT_EQ(0, arr[i]);
         }
     }
-    
+
     {
         SeArray<uint32_t, 333> arr;
 
