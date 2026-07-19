@@ -1,6 +1,5 @@
 #include <gtest/gtest.h>
 #include <vector>
-#include <string>
 #include <array>
 #include <cstdint>
 #include <cstring>
