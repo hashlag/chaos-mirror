@@ -14,6 +14,12 @@ public:
         Impl().Pad(begin, end);
     }
 
+    template<typename InputIt>
+    auto ComputeUnpad(InputIt begin, InputIt end) const noexcept
+    {
+        return Impl().ComputeUnpad(begin, end);
+    }
+
 protected:
     Padder() = default;
 

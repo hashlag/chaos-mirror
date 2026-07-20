@@ -142,3 +142,210 @@ TEST(PadPkcs7Tests, PadThroughBaseTest)
         ASSERT_EQ(expected, fact);
     }
 }
+
+TEST(PadPkcs7Tests, UnpadTest)
+{
+    {
+        std::array<uint8_t, 1> data = { 0x01 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(1, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 4> data = { 0xaa, 0xbb, 0x02, 0x02 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(2, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0xaa, 0xbb, 0xcc, 0x07, 0x07,
+                                         0x07, 0x07, 0x07, 0x07, 0x07 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(7, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5,
+                                         0xa6, 0xa7, 0xa8, 0x01 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(1, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0xa0, 0xa1, 0xa2, 0x07, 0x07, 0x07,
+                                         0x07, 0x07, 0x07, 0x07 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(7, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0x0a, 0x0a, 0x0a, 0x0a, 0x0a, 0x0a,
+                                         0x0a, 0x0a, 0x0a, 0x0a };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(10, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 4> data = { 0x03, 0x03, 0x03, 0x03 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(3, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 200> data;
+        data.fill(0x41);
+        *std::prev(data.end()) = 1;
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(1, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 200> data;
+        data.fill(0x41);
+        std::fill(data.end() - 100, data.end(), 100);
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(100, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 255> data;
+        data.fill(255);
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(255, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 381> data;
+        data.fill(0x9a);
+        std::fill(data.end() - 255, data.end(), 255);
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(255, result.PadSize_);
+    }
+}
+
+TEST(PadPkcs7Tests, UnpadErrorTest)
+{
+    {
+        std::array<uint8_t, 0> data = { };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 1> data = { 0x00 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0xa1, 0xa2, 0xa3, 0xff };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0xa1, 0xa2, 0xa3, 0x06 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0xa1, 0xa2, 0xa3, 0x05 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0xa1, 0x03, 0x02, 0x03 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 1> data = { 0xff };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 2> data = { 0x03, 0x03 };
+
+        auto result = PadderPkcs7::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+}
+
+template<typename Impl, typename OutputIt>
+auto ComputeUnpadThroughBase(const Padder<Impl> & padder, OutputIt begin, OutputIt end)
+{
+    return padder.ComputeUnpad(begin, end);
+}
+
+TEST(PadPkcs7Tests, ComputeUnpadThroughBaseTest)
+{
+    {
+        std::array<uint8_t, 5> data = { 0x05, 0x05, 0x05, 0x05, 0x05 };
+
+        const PadderPkcs7 padder;
+        auto result = ComputeUnpadThroughBase(padder, data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(5, result.PadSize_);
+    }
+}
