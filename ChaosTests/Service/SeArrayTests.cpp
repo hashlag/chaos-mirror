@@ -254,3 +254,38 @@ TEST(SeArrayTests, FillTest)
         ASSERT_EQ(-3, arr[i]);
     }
 }
+
+TEST(SeArrayTests, CopyAssignTest)
+{
+    {
+        SeArray<uint8_t, 2> arr1;
+
+        SeArray<uint8_t, 2> arr2;
+        arr2[0] = 0xaa;
+        arr2[1] = 0xbb;
+
+        arr1 = arr2;
+
+        ASSERT_EQ(0xaa, arr1[0]);
+        ASSERT_EQ(0xbb, arr1[1]);
+    }
+
+    {
+        SeArray<int32_t, 5> arr1;
+        arr1[0] = 0x33;
+        arr1[1] = 0x44;
+        arr1[2] = 0x55;
+        arr1[3] = 0x66;
+        arr1[4] = 0x77;
+
+        SeArray<int32_t, 5> arr2;
+
+        arr1 = arr2;
+
+        ASSERT_EQ(0, arr1[0]);
+        ASSERT_EQ(0, arr1[1]);
+        ASSERT_EQ(0, arr1[2]);
+        ASSERT_EQ(0, arr1[3]);
+        ASSERT_EQ(0, arr1[4]);
+    }
+}
