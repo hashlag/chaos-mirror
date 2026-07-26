@@ -21,7 +21,7 @@ public:
     SeArray(const SeArray & other) = delete;
     SeArray(SeArray && other) = delete;
 
-    SeArray & operator=(const SeArray & other) = delete;
+    SeArray & operator=(const SeArray & other) = default;
     SeArray & operator=(SeArray && other) = delete;
 
     ~SeArray()
