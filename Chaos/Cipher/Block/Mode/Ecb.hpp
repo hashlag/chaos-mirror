@@ -172,8 +172,6 @@ public:
         uint64_t BlockBytesPacked_;
         BlockArray Block_;
 
-        BlockArray DecryptedBlock_;
-
         bool PreviousBlockSaved_;
         BlockArray PreviousBlock_;
 
@@ -213,22 +211,17 @@ public:
                 {
                     BlockBytesPacked_ = 0;
 
-                    Decryptor_.DecryptBlock(DecryptedBlock_.Begin(), DecryptedBlock_.End(),
-                                            Block_.Begin(), Block_.End());
-
                     if (PreviousBlockSaved_)
                     {
                         out = EnsureCopy(out, outEnd,
                                          PreviousBlock_.Begin(), PreviousBlock_.End());
-                        PreviousBlock_ = DecryptedBlock_;
 
                         written += CipherT::BlockSize;
                     }
-                    else
-                    {
-                        PreviousBlock_ = DecryptedBlock_;
-                        PreviousBlockSaved_ = true;
-                    }
+
+                    Decryptor_.DecryptBlock(PreviousBlock_.Begin(), PreviousBlock_.End(),
+                                            Block_.Begin(), Block_.End());
+                    PreviousBlockSaved_ = true;
                 }
             }
 
