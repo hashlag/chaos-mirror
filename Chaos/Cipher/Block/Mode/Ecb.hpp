@@ -198,33 +198,6 @@ public:
             return out;
         }
 
-        template<typename OutputIt>
-        struct DelayedFlushResult
-        {
-            OutputIt Next_;
-            uint64_t Written_;
-        };
-
-        template<typename OutputIt>
-        DelayedFlushResult<OutputIt> DelayedFlush(OutputIt outBegin, OutputIt outEnd)
-        {
-            if (PreviousBlockSaved_)
-            {
-                OutputIt result = EnsureCopy(outBegin, outEnd,
-                                             PreviousBlock_.Begin(), PreviousBlock_.End());
-                PreviousBlock_ = DecryptedBlock_;
-
-                return { .Next_ = result, .Written_ = CipherT::BlockSize };
-            }
-            else
-            {
-                PreviousBlock_ = DecryptedBlock_;
-                PreviousBlockSaved_ = true;
-
-                return { .Next_ = outBegin, .Written_ = 0 };
-            }
-        }
-
         template<typename OutputIt, typename InputIt>
         uint64_t UpdateImpl(OutputIt outBegin, OutputIt outEnd,
                             InputIt inBegin, InputIt inEnd)
@@ -242,10 +215,20 @@ public:
 
                     Decryptor_.DecryptBlock(DecryptedBlock_.Begin(), DecryptedBlock_.End(),
                                             Block_.Begin(), Block_.End());
-                    auto result = DelayedFlush(out, outEnd);
 
-                    out = result.Next_;
-                    written += result.Written_;
+                    if (PreviousBlockSaved_)
+                    {
+                        out = EnsureCopy(out, outEnd,
+                                         PreviousBlock_.Begin(), PreviousBlock_.End());
+                        PreviousBlock_ = DecryptedBlock_;
+
+                        written += CipherT::BlockSize;
+                    }
+                    else
+                    {
+                        PreviousBlock_ = DecryptedBlock_;
+                        PreviousBlockSaved_ = true;
+                    }
                 }
             }
 
