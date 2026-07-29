@@ -113,7 +113,7 @@ public:
         Decryptor(const typename CipherT::Key & key)
             : Decryptor_(key)
             , BlockBytesPacked_(0)
-            , PreviousBlockSaved_(false)
+            , LastBlockSaved_(false)
         { }
 
         static constexpr uint64_t PredictMaxUpdateOutput(uint64_t in)
@@ -143,13 +143,13 @@ public:
                                               "block size");
             }
 
-            if (!PreviousBlockSaved_)
+            if (!LastBlockSaved_)
             {
                 return 0;
             }
 
-            auto unpadResult = PadderT::ComputeUnpad(PreviousBlock_.Begin(),
-                                                     PreviousBlock_.End());
+            auto unpadResult = PadderT::ComputeUnpad(LastBlock_.Begin(),
+                                                     LastBlock_.End());
             if (!unpadResult.IsOkay_)
             {
                 throw Service::ChaosException("EcbMode<>::Decryptor: invalid ciphertext");
@@ -158,8 +158,8 @@ public:
             const uint64_t lastChunkSize = CipherT::BlockSize - unpadResult.PadSize_;
 
             EnsureCopy(outBegin, outEnd,
-                       PreviousBlock_.Begin(),
-                       PreviousBlock_.Begin() + lastChunkSize);
+                       LastBlock_.Begin(),
+                       LastBlock_.Begin() + lastChunkSize);
 
             return lastChunkSize;
         }
@@ -172,8 +172,8 @@ public:
         uint64_t BlockBytesPacked_;
         BlockArray Block_;
 
-        bool PreviousBlockSaved_;
-        BlockArray PreviousBlock_;
+        bool LastBlockSaved_;
+        BlockArray LastBlock_;
 
         template<typename OutputIt, typename InputIt>
         static OutputIt EnsureCopy(OutputIt outBegin, OutputIt outEnd,
@@ -211,17 +211,17 @@ public:
                 {
                     BlockBytesPacked_ = 0;
 
-                    if (PreviousBlockSaved_)
+                    if (LastBlockSaved_)
                     {
                         out = EnsureCopy(out, outEnd,
-                                         PreviousBlock_.Begin(), PreviousBlock_.End());
+                                         LastBlock_.Begin(), LastBlock_.End());
 
                         written += CipherT::BlockSize;
                     }
 
-                    Decryptor_.DecryptBlock(PreviousBlock_.Begin(), PreviousBlock_.End(),
+                    Decryptor_.DecryptBlock(LastBlock_.Begin(), LastBlock_.End(),
                                             Block_.Begin(), Block_.End());
-                    PreviousBlockSaved_ = true;
+                    LastBlockSaved_ = true;
                 }
             }
 
