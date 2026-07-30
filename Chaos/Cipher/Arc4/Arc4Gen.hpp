@@ -49,11 +49,11 @@ public:
     }
 
 private:
-    bool IsInitialized_;
-
+    std::array<uint8_t, 256> Lookup_;
     uint8_t I_;
     uint8_t J_;
-    std::array<uint8_t, 256> Lookup_;
+
+    bool IsInitialized_;
 
     void EnsureInitialized() const
     {

@@ -54,10 +54,10 @@ public:
     private:
         typename CipherT::Encryptor Encryptor_;
 
-        uint64_t BlockBytesPacked_;
-        Service::SeArray<uint8_t, CipherT::BlockSize> Block_;
-
         Service::SeArray<uint8_t, CipherT::BlockSize> EncryptedBlock_;
+
+        Service::SeArray<uint8_t, CipherT::BlockSize> Block_;
+        uint64_t BlockBytesPacked_;
 
         template<typename OutputIt, typename InputIt>
         static OutputIt EnsureCopy(OutputIt outBegin, OutputIt outEnd,
@@ -169,11 +169,11 @@ public:
 
         typename CipherT::Decryptor Decryptor_;
 
-        uint64_t BlockBytesPacked_;
         BlockArray Block_;
-
-        bool LastBlockSaved_;
         BlockArray LastBlock_;
+
+        uint64_t BlockBytesPacked_;
+        bool LastBlockSaved_;
 
         template<typename OutputIt, typename InputIt>
         static OutputIt EnsureCopy(OutputIt outBegin, OutputIt outEnd,

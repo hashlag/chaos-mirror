@@ -45,8 +45,8 @@ public:
     }
 
 private:
-    bool IsInitialized_;
     Arc4Gen Gen_;
+    bool IsInitialized_;
 
     void EnsureInitialized() const
     {

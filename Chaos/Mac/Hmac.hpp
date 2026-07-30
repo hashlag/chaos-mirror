@@ -60,10 +60,10 @@ private:
     static constexpr uint8_t OPAD_BYTE = 0x5c;
     static constexpr uint8_t IPAD_BYTE = 0x36;
 
-    bool IsInitialized_;
-
-    KeyType Key_;
     HasherImpl Hasher_;
+    KeyType Key_;
+
+    bool IsInitialized_;
 
     void EnsureInitialized() const
     {
