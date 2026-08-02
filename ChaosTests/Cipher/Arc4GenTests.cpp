@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include "TestHelpers/AssertThrowEx.hpp"
+
 #include <cstdint>
 #include <array>
 #include <iterator>
