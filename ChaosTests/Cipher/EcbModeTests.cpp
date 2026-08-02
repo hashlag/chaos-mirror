@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "TestHelpers/AssertThrowEx.hpp"
 
 #include <cstring>
 #include <cstdint>
@@ -384,8 +385,12 @@ TEST(EcbModeTests, EncryptInsufficientBufferTest)
 
         EcbMode<Des::DesCrypt, PadderPkcs7>::Encryptor enc(desKey);
 
-        ASSERT_THROW(enc.Update(out.begin(), out.end(), data.begin(), data.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(enc.Update(out.begin(), out.end(), data.begin(), data.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Encryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -394,8 +399,12 @@ TEST(EcbModeTests, EncryptInsufficientBufferTest)
 
         EcbMode<Des::DesCrypt, PadderPkcs7>::Encryptor enc(desKey);
 
-        ASSERT_THROW(enc.Update(out.begin(), out.end(), data.begin(), data.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(enc.Update(out.begin(), out.end(), data.begin(), data.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Encryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -409,8 +418,12 @@ TEST(EcbModeTests, EncryptInsufficientBufferTest)
 
         enc.Update(out1.begin(), out1.end(), data1.begin(), data1.end());
 
-        ASSERT_THROW(enc.Update(out2.begin(), out2.end(), data2.begin(), data2.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(enc.Update(out2.begin(), out2.end(), data2.begin(), data2.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Encryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -421,8 +434,12 @@ TEST(EcbModeTests, EncryptInsufficientBufferTest)
 
         uint64_t written = enc.Update(out.begin(), out.end(), data.begin(), data.end());
 
-        ASSERT_THROW(written += enc.Finish(out.begin() + written, out.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(written += enc.Finish(out.begin() + written, out.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Encryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -433,8 +450,12 @@ TEST(EcbModeTests, EncryptInsufficientBufferTest)
 
         uint64_t written = enc.Update(out.begin(), out.end(), data.begin(), data.end());
 
-        ASSERT_THROW(written += enc.Finish(out.begin() + written, out.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(written += enc.Finish(out.begin() + written, out.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Encryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 }
 
@@ -826,8 +847,12 @@ TEST(EcbModeTests, DecryptInsufficientBufferTest)
 
         EcbMode<Des::DesCrypt, PadderPkcs7>::Decryptor dec(desKey);
 
-        ASSERT_THROW(dec.Update(out.begin(), out.end(), data.begin(), data.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(dec.Update(out.begin(), out.end(), data.begin(), data.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -838,8 +863,12 @@ TEST(EcbModeTests, DecryptInsufficientBufferTest)
 
         EcbMode<Des::DesCrypt, PadderPkcs7>::Decryptor dec(desKey);
 
-        ASSERT_THROW(dec.Update(out.begin(), out.end(), data.begin(), data.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(dec.Update(out.begin(), out.end(), data.begin(), data.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -855,8 +884,12 @@ TEST(EcbModeTests, DecryptInsufficientBufferTest)
 
         dec.Update(out1.begin(), out1.end(), data1.begin(), data1.end());
 
-        ASSERT_THROW(dec.Update(out2.begin(), out2.end(), data2.begin(), data2.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(dec.Update(out2.begin(), out2.end(), data2.begin(), data2.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -868,8 +901,12 @@ TEST(EcbModeTests, DecryptInsufficientBufferTest)
 
         uint64_t written = dec.Update(out.begin(), out.end(), data.begin(), data.end());
 
-        ASSERT_THROW(written += dec.Finish(out.begin() + written, out.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(written += dec.Finish(out.begin() + written, out.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -882,8 +919,12 @@ TEST(EcbModeTests, DecryptInsufficientBufferTest)
 
         uint64_t written = dec.Update(out.begin(), out.end(), data.begin(), data.end());
 
-        ASSERT_THROW(written += dec.Finish(out.begin() + written, out.end()),
-                     Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(written += dec.Finish(out.begin() + written, out.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: insufficient output buffer size",
+                                      ex.GetMessage());
+                        });
     }
 }
 
@@ -915,7 +956,13 @@ TEST(EcbModeTests, DecryptNotRoundSizeTest)
         std::vector<uint8_t> data = { 0x64, 0x32, 0x13, 0xe7, 0x31, 0x06, 0xc6 };
         std::vector<uint8_t> key = { 0x28, 0x1c, 0xf3, 0x11, 0xce, 0xc6, 0xc2, 0x38 };
 
-        ASSERT_THROW(ecbDec(data, key), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(ecbDec(data, key), Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: ciphertext size "
+                                      "is not a multiple of the algorithm's "
+                                      "block size",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -923,7 +970,13 @@ TEST(EcbModeTests, DecryptNotRoundSizeTest)
                                       0xdc, 0x0d, 0x9f, 0x87 };
         std::vector<uint8_t> key = { 0x28, 0x1c, 0xf3, 0x11, 0xce, 0xc6, 0xc2, 0x38 };
 
-        ASSERT_THROW(ecbDec(data, key), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(ecbDec(data, key), Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: ciphertext size "
+                                      "is not a multiple of the algorithm's "
+                                      "block size",
+                                      ex.GetMessage());
+                        });
     }
 }
 
@@ -955,7 +1008,11 @@ TEST(EcbModeTests, DecryptInvalidPaddingTest)
         std::vector<uint8_t> data = { 0x60, 0xa7, 0x4b, 0x8c, 0x68, 0x03, 0x70, 0x0c };
         std::vector<uint8_t> key = { 0xaa, 0xab, 0xbc, 0xcd, 0xde, 0xef, 0xf1, 0x12 };
 
-        ASSERT_THROW(ecbDec(data, key), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(ecbDec(data, key), Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: invalid ciphertext",
+                                      ex.GetMessage());
+                        });
     }
 
     {
@@ -963,6 +1020,10 @@ TEST(EcbModeTests, DecryptInvalidPaddingTest)
                                       0xbe, 0xd2, 0x51, 0x7e, 0x4f, 0x39, 0xfe, 0xa2 };
         std::vector<uint8_t> key = { 0xaa, 0xab, 0xbc, 0xcd, 0xde, 0xef, 0xf1, 0x12 };
 
-        ASSERT_THROW(ecbDec(data, key), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(ecbDec(data, key), Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("EcbMode<>::Decryptor: invalid ciphertext",
+                                      ex.GetMessage());
+                        });
     }
 }

@@ -28,6 +28,7 @@ add_executable(ChaosTests ${ChaosTests_SOURCE})
 target_link_libraries(ChaosTests gtest gtest_main)
 target_include_directories(ChaosTests PRIVATE
     $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/Chaos>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/ChaosTests>
 )
 
 target_compile_options(ChaosTests PRIVATE -Wunused -Werror=unused)

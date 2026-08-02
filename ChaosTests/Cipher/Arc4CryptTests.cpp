@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "TestHelpers/AssertThrowEx.hpp"
 #include <vector>
 #include <array>
 #include <cstdint>
@@ -62,8 +63,17 @@ TEST(Arc4CryptTests, UninitializedArc4CryptTest)
         std::array<uint8_t, 10> in = {};
         std::array<uint8_t, 10> out = {};
 
-        ASSERT_THROW(arc4.Encrypt(out.begin(), in.begin(), in.size()), Chaos::Service::ChaosException);
-        ASSERT_THROW(arc4.Decrypt(out.begin(), in.begin(), in.size()), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(arc4.Encrypt(out.begin(), in.begin(), in.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Crypt: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(arc4.Decrypt(out.begin(), in.begin(), in.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Crypt: not initialized", ex.GetMessage());
+                        });
     }
 }
 

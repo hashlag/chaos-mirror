@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "TestHelpers/AssertThrowEx.hpp"
 #include <cstdint>
 #include <array>
 #include <vector>
@@ -366,7 +367,13 @@ TEST(DesCryptTests, ShortKeyTest)
 {
     {
         std::array<uint8_t, DesCrypt::KeySize - 1> key = {};
-        ASSERT_THROW(DesCrypt::Key(key.begin(), key.end()), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(DesCrypt::Key(key.begin(), key.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("DesCrypt::Key: invalid key length "
+                                      "(8 bytes required)",
+                                      ex.GetMessage());
+                        });
     }
 }
 
@@ -374,7 +381,13 @@ TEST(DesCryptTests, LongKeyTest)
 {
     {
         std::array<uint8_t, DesCrypt::KeySize + 1> key = {};
-        ASSERT_THROW(DesCrypt::Key(key.begin(), key.end()), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(DesCrypt::Key(key.begin(), key.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("DesCrypt::Key: invalid key length "
+                                      "(8 bytes required)",
+                                      ex.GetMessage());
+                        });
     }
 }
 
