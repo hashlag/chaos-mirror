@@ -11,7 +11,8 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-set(ChaosTests_SOURCE Hash/Md4HasherTests.cpp
+set(ChaosTests_SOURCE SanCallbacks.cpp
+                      Hash/Md4HasherTests.cpp
                       Hash/Md5HasherTests.cpp
                       Hash/Sha1HasherTests.cpp
                       Mac/HmacTests.cpp
