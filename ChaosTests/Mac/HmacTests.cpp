@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "TestHelpers/AssertThrowEx.hpp"
 #include <cstring>
 #include <string>
 #include <cstdint>
@@ -108,7 +109,16 @@ TEST(HmacTests, UninitializedHmacTest)
     {
         Hmac<Md5Hasher> hmac;
 
-        ASSERT_THROW(hmac.Update(in.begin(), in.end()), Chaos::Service::ChaosException);
-        ASSERT_THROW(hmac.Finish(), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(hmac.Update(in.begin(), in.end()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Hmac: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(hmac.Finish(),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Hmac: not initialized", ex.GetMessage());
+                        });
     }
 }

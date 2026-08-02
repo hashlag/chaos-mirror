@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "TestHelpers/AssertThrowEx.hpp"
 #include <cstdint>
 #include <array>
 #include <iterator>
@@ -322,9 +323,17 @@ TEST(Arc4GenTests, TooSmallKeyTest)
         const char * key = "smal";
 
         Arc4Gen gen;
-        ASSERT_THROW(gen.Rekey(key, key + strlen(key)), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(gen.Rekey(key, key + strlen(key)),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
+                        });
 
-        ASSERT_THROW(Arc4Gen(key, key + strlen(key)), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(Arc4Gen(key, key + strlen(key)),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
+                        });
     }
 }
 
@@ -335,12 +344,35 @@ TEST(Arc4GenTests, UninitializedGenTest)
     {
         Arc4Gen gen;
 
-        ASSERT_THROW(gen.Generate(out.begin(), out.size()), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(gen.Generate(out.begin(), out.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
 
-        ASSERT_THROW(gen.Drop(0), Chaos::Service::ChaosException);
-        ASSERT_THROW(gen.Drop(1), Chaos::Service::ChaosException);
-        ASSERT_THROW(gen.Drop(20), Chaos::Service::ChaosException);
-        ASSERT_THROW(gen.Drop(256), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(gen.Drop(0),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(1),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(20),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(256),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
     }
 
     {
@@ -348,14 +380,41 @@ TEST(Arc4GenTests, UninitializedGenTest)
 
         Arc4Gen gen;
 
-        ASSERT_THROW(gen.Rekey(key, key + strlen(key)), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(gen.Rekey(key, key + strlen(key)),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
+                        });
 
-        ASSERT_THROW(gen.Generate(out.begin(), out.size()), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(gen.Generate(out.begin(), out.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
 
-        ASSERT_THROW(gen.Drop(0), Chaos::Service::ChaosException);
-        ASSERT_THROW(gen.Drop(1), Chaos::Service::ChaosException);
-        ASSERT_THROW(gen.Drop(20), Chaos::Service::ChaosException);
-        ASSERT_THROW(gen.Drop(256), Chaos::Service::ChaosException);
+        ASSERT_THROW_EX(gen.Drop(0),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(1),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(20),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(256),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
     }
 }
 
