@@ -1,14 +1,13 @@
 #ifndef CHAOS_PADDING_PADDERPKCS7_HPP
 #define CHAOS_PADDING_PADDERPKCS7_HPP
 
-#include <climits>
 #include <cstddef>
 #include <cstdint>
 #include <iterator>
 #include <limits>
-#include <type_traits>
 
 #include "Padding/Padder.hpp"
+#include "Service/Branchless.hpp"
 #include "Service/ChaosException.hpp"
 
 namespace Chaos::Padding
@@ -51,7 +50,7 @@ public:
         }
 
         const uint8_t padSize = *std::prev(end);
-        uint8_t isOkay = ~BlIsZero<uint8_t>(padSize);
+        uint8_t isOkay = ~Branchless::IsZero<uint8_t>(padSize);
 
         size_t suffixSize = 0;
         InputIt it = end;
@@ -60,89 +59,21 @@ public:
             --it;
             ++suffixSize;
 
-            isOkay &= (BlEq<uint8_t>(*it, padSize) |
-                       BlGt<uint8_t, size_t>(suffixSize, padSize));
+            isOkay &= (Branchless::Eq<uint8_t>(*it, padSize) |
+                       Branchless::Gt<uint8_t, size_t>(suffixSize, padSize));
         }
 
-        isOkay &= BlGe<uint8_t, size_t>(suffixSize, padSize);
+        isOkay &= Branchless::Ge<uint8_t, size_t>(suffixSize, padSize);
 
         return
         {
             .IsOkay_ = static_cast<bool>(isOkay),
-            .PadSize_ = BlSel<uint8_t>(isOkay, padSize, 0)
+            .PadSize_ = Branchless::Sel<uint8_t>(isOkay, padSize, 0)
         };
     }
 
 private:
-    template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt BlMsb(InUInt in) noexcept
-    {
-        static_assert(std::is_unsigned_v<OutUInt> &&
-                      std::is_unsigned_v<InUInt>);
-
-        constexpr uint8_t shift = (sizeof(InUInt) * CHAR_BIT) - 1;
-        return static_cast<OutUInt>(0) - (in >> shift);
-    }
-
-    template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt BlLt(InUInt lhs, InUInt rhs) noexcept
-    {
-        static_assert(std::is_unsigned_v<OutUInt> &&
-                      std::is_unsigned_v<InUInt>);
-        static_assert(sizeof(InUInt) <= sizeof(uint64_t));
-
-        const uint64_t lhsEx = lhs;
-        const uint64_t rhsEx = rhs;
-
-        return BlMsb<OutUInt>(lhsEx ^ ((lhsEx ^ rhsEx) | ((lhsEx - rhsEx) ^ lhsEx)));
-    }
-
-    template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt BlIsZero(InUInt in) noexcept
-    {
-        static_assert(std::is_unsigned_v<OutUInt> &&
-                      std::is_unsigned_v<InUInt>);
-        static_assert(sizeof(InUInt) <= sizeof(uint64_t));
-
-        const uint64_t inEx = in;
-
-        return BlMsb<OutUInt>(~inEx & (inEx - 1U));
-    }
-
-    template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt BlEq(InUInt lhs, InUInt rhs) noexcept
-    {
-        static_assert(std::is_unsigned_v<OutUInt> &&
-                      std::is_unsigned_v<InUInt>);
-
-        return BlIsZero<OutUInt, InUInt>(lhs ^ rhs);
-    }
-
-    template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt BlGe(InUInt lhs, InUInt rhs) noexcept
-    {
-        static_assert(std::is_unsigned_v<OutUInt> &&
-                      std::is_unsigned_v<InUInt>);
-
-        return ~BlLt<OutUInt>(lhs, rhs);
-    }
-
-    template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt BlGt(InUInt lhs, InUInt rhs) noexcept
-    {
-        static_assert(std::is_unsigned_v<OutUInt> &&
-                      std::is_unsigned_v<InUInt>);
-
-        return BlLt<OutUInt>(rhs, lhs);
-    }
-
-    template<typename UInt>
-    static constexpr UInt BlSel(UInt mask, UInt onTrue, UInt onFalse) noexcept
-    {
-        static_assert(std::is_unsigned_v<UInt>);
-
-        return (mask & onTrue) | (~mask & onFalse);
-    }
+    using Branchless = Service::Branchless;
 };
 
 } // namespace Chaos::Padding
