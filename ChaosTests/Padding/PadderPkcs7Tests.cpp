@@ -45,7 +45,7 @@ TEST(PadPkcs7Tests, PadTest)
         ASSERT_EQ(expected, fact);
     }
 
-    for (int i = 0; i < 256; ++i)
+    for (int i = 1; i < 256; ++i)
     {
         std::vector<uint8_t> fact(i, 0x00);
 
@@ -78,6 +78,16 @@ TEST(PadPkcs7Tests, PadInvalidRangeTest)
 
     {
         std::array<uint8_t, 50> out = {};
+
+        ASSERT_THROW_EX(PadderPkcs7::Pad(out.end(), out.begin()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("PadderPkcs7::Pad(): invalid range", ex.GetMessage());
+                        });
+    }
+
+    {
+        std::array<uint8_t, 0> out = {};
 
         ASSERT_THROW_EX(PadderPkcs7::Pad(out.end(), out.begin()),
                         Chaos::Service::ChaosException,
@@ -127,10 +137,10 @@ TEST(PadPkcs7Tests, PadOutIteratorUsageTest)
         std::array<uint8_t, 10> expected =
         {
             0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
-            0xbb, 0xbb, 0xbb, 0xbb, 0xbb
+            0x01, 0xbb, 0xbb, 0xbb, 0xbb
         };
 
-        PadderPkcs7::Pad(fact.begin() + 5, fact.begin() + 5);
+        PadderPkcs7::Pad(fact.begin() + 5, fact.begin() + 6);
         ASSERT_EQ(expected, fact);
     }
 }

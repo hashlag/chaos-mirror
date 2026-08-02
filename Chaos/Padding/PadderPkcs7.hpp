@@ -21,8 +21,7 @@ public:
     {
         auto dist = std::distance(begin, end);
 
-        // TODO: dist > 0
-        if (dist >= 0 && dist <= std::numeric_limits<uint8_t>::max())
+        if (dist > 0 && dist <= std::numeric_limits<uint8_t>::max())
         {
             for (OutputIt it = begin; it != end; ++it)
             {
