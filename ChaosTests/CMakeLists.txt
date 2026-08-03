@@ -16,10 +16,10 @@ set(ChaosTests_SOURCE SanCallbacks.cpp
                       Hash/Md5HasherTests.cpp
                       Hash/Sha1HasherTests.cpp
                       Mac/HmacTests.cpp
-                      Cipher/Arc4GenTests.cpp
-                      Cipher/Arc4CryptTests.cpp
-                      Cipher/DesCryptTests.cpp
-                      Cipher/EcbModeTests.cpp
+                      Cipher/Arc4/Arc4GenTests.cpp
+                      Cipher/Arc4/Arc4CryptTests.cpp
+                      Cipher/Block/Des/DesCryptTests.cpp
+                      Cipher/Block/Mode/EcbModeTests.cpp
                       Padding/PadderPkcs7Tests.cpp
                       Padding/PadderIso7816Tests.cpp
                       Service/SeArrayTests.cpp
