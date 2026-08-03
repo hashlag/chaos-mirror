@@ -140,14 +140,14 @@ struct Sha1Hash : public Hash<Sha1Hash>
     {
         char buf[41];
 
-        std::sprintf(buf,
-                     "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
-                     "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
-                     RawDigest_[ 0], RawDigest_[ 1], RawDigest_[ 2], RawDigest_[ 3],
-                     RawDigest_[ 4], RawDigest_[ 5], RawDigest_[ 6], RawDigest_[ 7],
-                     RawDigest_[ 8], RawDigest_[ 9], RawDigest_[10], RawDigest_[11],
-                     RawDigest_[12], RawDigest_[13], RawDigest_[14], RawDigest_[15],
-                     RawDigest_[16], RawDigest_[17], RawDigest_[18], RawDigest_[19]);
+        std::snprintf(buf, sizeof(buf),
+                      "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x"
+                      "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+                      RawDigest_[ 0], RawDigest_[ 1], RawDigest_[ 2], RawDigest_[ 3],
+                      RawDigest_[ 4], RawDigest_[ 5], RawDigest_[ 6], RawDigest_[ 7],
+                      RawDigest_[ 8], RawDigest_[ 9], RawDigest_[10], RawDigest_[11],
+                      RawDigest_[12], RawDigest_[13], RawDigest_[14], RawDigest_[15],
+                      RawDigest_[16], RawDigest_[17], RawDigest_[18], RawDigest_[19]);
 
         return std::string(buf, buf + 40);
     }

@@ -147,13 +147,13 @@ struct Md4Hash : public Hash<Md4Hash>
     {
         char buf[33];
 
-        std::sprintf(buf,
-                     "%02x%02x%02x%02x%02x%02x%02x%02x"
-                     "%02x%02x%02x%02x%02x%02x%02x%02x",
-                     RawDigest_[ 0], RawDigest_[ 1], RawDigest_[ 2], RawDigest_[ 3],
-                     RawDigest_[ 4], RawDigest_[ 5], RawDigest_[ 6], RawDigest_[ 7],
-                     RawDigest_[ 8], RawDigest_[ 9], RawDigest_[10], RawDigest_[11],
-                     RawDigest_[12], RawDigest_[13], RawDigest_[14], RawDigest_[15]);
+        std::snprintf(buf, sizeof(buf),
+                      "%02x%02x%02x%02x%02x%02x%02x%02x"
+                      "%02x%02x%02x%02x%02x%02x%02x%02x",
+                      RawDigest_[ 0], RawDigest_[ 1], RawDigest_[ 2], RawDigest_[ 3],
+                      RawDigest_[ 4], RawDigest_[ 5], RawDigest_[ 6], RawDigest_[ 7],
+                      RawDigest_[ 8], RawDigest_[ 9], RawDigest_[10], RawDigest_[11],
+                      RawDigest_[12], RawDigest_[13], RawDigest_[14], RawDigest_[15]);
 
         return std::string(buf, buf + 32);
     }
