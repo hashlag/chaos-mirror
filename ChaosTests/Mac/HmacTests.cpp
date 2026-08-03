@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include "TestHelpers/AssertThrowEx.hpp"
 
+#include <array>
 #include <cstring>
 #include <string>
 #include <cstdint>

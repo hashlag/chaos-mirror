@@ -4,6 +4,8 @@
 #include <array>
 #include <cstdint>
 #include <vector>
+#include <iterator>
+#include <algorithm>
 
 #include "Padding/PadderPkcs7.hpp"
 #include "Padding/Padder.hpp"
