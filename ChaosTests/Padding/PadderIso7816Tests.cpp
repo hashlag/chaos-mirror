@@ -1,7 +1,9 @@
+#include <algorithm>
 #include <gtest/gtest.h>
 
 #include <array>
 #include <cstdint>
+#include <iterator>
 #include <vector>
 
 #include "Padding/PadderIso7816.hpp"
@@ -129,5 +131,215 @@ TEST(PadIso7816Tests, PadThroughBaseTest)
         PadThroughBase(padder, fact.begin(), fact.end());
 
         ASSERT_EQ(expected, fact);
+    }
+}
+
+TEST(PadIso7816Tests, UnpadTest)
+{
+    {
+        std::array<uint8_t, 1> data = { 0x80 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(1, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 4> data = { 0xaa, 0xbb, 0x80, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(2, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0xaa, 0xbb, 0xcc, 0x80, 0x00,
+                                         0x00, 0x00, 0x00, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(7, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5,
+                                         0xa6, 0xa7, 0xa8, 0x80 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(1, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0xa0, 0xa1, 0xa2, 0x80, 0x00, 0x00,
+                                         0x00, 0x00, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(7, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 10> data = { 0x80, 0x00, 0x00, 0x00, 0x00, 0x00,
+                                         0x00, 0x00, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(10, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 4> data = { 0x80, 0x80, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(3, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 200> data;
+        data.fill(0x41);
+        *std::prev(data.end()) = 0x80;
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(1, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 200> data;
+        data.fill(0x41);
+        *std::prev(data.end(), 100) = 0x80;
+        std::fill(data.end() - 99, data.end(), 0);
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(100, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 255> data;
+        data.fill(0);
+        *data.begin() = 0x80;
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(255, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 381> data;
+        data.fill(0x9a);
+        *std::prev(data.end(), 255) = 0x80;
+        std::fill(data.end() - 254, data.end(), 0);
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(255, result.PadSize_);
+    }
+}
+
+TEST(PadIso7816Tests, UnpadErrorTest)
+{
+    {
+        std::array<uint8_t, 0> data = { };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 1> data = { 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0xa1, 0xa2, 0x80, 0xff };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0xa1, 0x00, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0x80, 0x00, 0xa2, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 5> data = { 0xa0, 0x80, 0x03, 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 1> data = { 0xff };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+
+    {
+        std::array<uint8_t, 2> data = { 0x00, 0x00 };
+
+        auto result = PadderIso7816::ComputeUnpad(data.begin(), data.end());
+
+        ASSERT_FALSE(result.IsOkay_);
+        ASSERT_EQ(0, result.PadSize_);
+    }
+}
+
+template<typename Impl, typename OutputIt>
+auto ComputeUnpadThroughBase(const Padder<Impl> & padder, OutputIt begin, OutputIt end)
+{
+    return padder.ComputeUnpad(begin, end);
+}
+
+TEST(PadIso7816Tests, ComputeUnpadThroughBaseTest)
+{
+    {
+        std::array<uint8_t, 5> data = { 0x80, 0x00, 0x00, 0x00, 0x00 };
+
+        const PadderIso7816 padder;
+        auto result = ComputeUnpadThroughBase(padder, data.begin(), data.end());
+
+        ASSERT_TRUE(result.IsOkay_);
+        ASSERT_EQ(5, result.PadSize_);
     }
 }
