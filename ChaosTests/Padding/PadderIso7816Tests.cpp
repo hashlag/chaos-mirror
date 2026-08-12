@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "TestHelpers/AssertThrowEx.hpp"
 
 #include <array>
 #include <cstdint>
@@ -6,6 +7,7 @@
 
 #include "Padding/PadderIso7816.hpp"
 #include "Padding/Padder.hpp"
+#include "Service/ChaosException.hpp"
 
 using namespace Chaos::Padding;
 
@@ -43,7 +45,7 @@ TEST(PadIso7816Tests, PadTest)
         ASSERT_EQ(expected, fact);
     }
 
-    for (int i = 0; i < 256; ++i)
+    for (int i = 1; i < 256; ++i)
     {
         std::vector<uint8_t> fact(i, 0xff);
 
@@ -53,6 +55,19 @@ TEST(PadIso7816Tests, PadTest)
         {
             ASSERT_EQ(j == 0 ? 0x80 : 0x00, fact[j]);
         }
+    }
+}
+
+TEST(PadIso7816Tests, PadInvalidRangeTest)
+{
+    {
+        std::array<uint8_t, 3> out = {};
+
+        ASSERT_THROW_EX(PadderIso7816::Pad(out.begin(), out.begin()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("PadderIso7816::Pad(): invalid range", ex.GetMessage());
+                        });
     }
 }
 
@@ -88,22 +103,6 @@ TEST(PadIso7816Tests, PadOutIteratorUsageTest)
         };
 
         PadderIso7816::Pad(fact.begin() + 3, fact.end() - 3);
-        ASSERT_EQ(expected, fact);
-    }
-
-    {
-        std::array<uint8_t, 10> fact =
-        {
-            0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
-            0xbb, 0xbb, 0xbb, 0xbb, 0xbb
-        };
-        std::array<uint8_t, 10> expected =
-        {
-            0xbb, 0xbb, 0xbb, 0xbb, 0xbb,
-            0xbb, 0xbb, 0xbb, 0xbb, 0xbb
-        };
-
-        PadderIso7816::Pad(fact.begin() + 5, fact.begin() + 5);
         ASSERT_EQ(expected, fact);
     }
 }

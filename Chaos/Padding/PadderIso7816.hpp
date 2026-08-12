@@ -4,6 +4,7 @@
 #include <cstdint>
 
 #include "Padding/Padder.hpp"
+#include "Service/ChaosException.hpp"
 
 namespace Chaos::Padding
 {
@@ -24,6 +25,10 @@ public:
             {
                 *it = 0;
             }
+        }
+        else
+        {
+            throw Service::ChaosException("PadderIso7816::Pad(): invalid range");
         }
     }
 };
