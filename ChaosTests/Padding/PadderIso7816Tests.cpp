@@ -1,8 +1,8 @@
-#include <algorithm>
 #include <gtest/gtest.h>
 #include "TestHelpers/AssertThrowEx.hpp"
 
 #include <array>
+#include <algorithm>
 #include <cstdint>
 #include <iterator>
 #include <vector>
