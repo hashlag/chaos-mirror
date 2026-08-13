@@ -91,7 +91,7 @@ TEST(PadPkcs7Tests, PadInvalidRangeTest)
     {
         std::array<uint8_t, 0> out = {};
 
-        ASSERT_THROW_EX(PadderPkcs7::Pad(out.end(), out.begin()),
+        ASSERT_THROW_EX(PadderPkcs7::Pad(out.begin(), out.end()),
                         Chaos::Service::ChaosException,
                         {
                             ASSERT_EQ("PadderPkcs7::Pad(): invalid range", ex.GetMessage());
