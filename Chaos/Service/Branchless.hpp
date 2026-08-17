@@ -11,7 +11,7 @@ namespace Chaos::Service
 struct Branchless
 {
     template<typename OutUInt, typename InUInt>
-    static constexpr OutUInt Msb(InUInt in) noexcept
+    static constexpr OutUInt MsbMask(InUInt in) noexcept
     {
         static_assert(std::is_unsigned_v<OutUInt> &&
                       std::is_unsigned_v<InUInt>);
@@ -30,7 +30,7 @@ struct Branchless
         const uint64_t lhsEx = lhs;
         const uint64_t rhsEx = rhs;
 
-        return Msb<OutUInt>(lhsEx ^ ((lhsEx ^ rhsEx) | ((lhsEx - rhsEx) ^ lhsEx)));
+        return MsbMask<OutUInt>(lhsEx ^ ((lhsEx ^ rhsEx) | ((lhsEx - rhsEx) ^ lhsEx)));
     }
 
     template<typename OutUInt, typename InUInt>
@@ -42,7 +42,7 @@ struct Branchless
 
         const uint64_t inEx = in;
 
-        return Msb<OutUInt>(~inEx & (inEx - 1U));
+        return MsbMask<OutUInt>(~inEx & (inEx - 1U));
     }
 
     template<typename OutUInt, typename InUInt>
