@@ -10,6 +10,9 @@ namespace Chaos::Service
 
 struct Branchless
 {
+    static constexpr uint8_t FalseMask = 0x00;
+    static constexpr uint8_t TrueMask = 0xFF;
+
     template<typename OutUInt, typename InUInt>
     static constexpr OutUInt MsbMask(InUInt in) noexcept
     {
