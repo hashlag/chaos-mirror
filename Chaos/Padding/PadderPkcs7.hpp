@@ -66,7 +66,7 @@ public:
 
         return
         {
-            .IsOkay_ = static_cast<bool>(isOkay),
+            .IsOkay_ = Branchless::ToBool(isOkay),
             .PadSize_ = Branchless::Sel<uint8_t>(isOkay, padSize, 0)
         };
     }

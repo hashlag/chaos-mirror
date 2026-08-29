@@ -10,6 +10,9 @@ namespace Chaos::Service
 
 struct Branchless
 {
+    static constexpr uint8_t FalseMask = 0x00;
+    static constexpr uint8_t TrueMask = 0xFF;
+
     template<typename OutUInt, typename InUInt>
     static constexpr OutUInt MsbMask(InUInt in) noexcept
     {
@@ -78,6 +81,14 @@ struct Branchless
         static_assert(std::is_unsigned_v<UInt>);
 
         return (mask & onTrue) | (~mask & onFalse);
+    }
+
+    template<typename UInt>
+    static constexpr bool ToBool(UInt mask) noexcept
+    {
+        static_assert(std::is_unsigned_v<UInt>);
+
+        return Sel<UInt>(mask, 1, 0);
     }
 };
 

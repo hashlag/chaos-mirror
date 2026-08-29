@@ -52,8 +52,8 @@ public:
         uint8_t padSizeIncrement = 1;
         uint8_t padSize = 0;
 
-        uint8_t encountered0x80 = 0x00;
-        uint8_t onlyZerosPast0x80 = 0xFF;
+        uint8_t encountered0x80 = Branchless::FalseMask;
+        uint8_t onlyZerosPast0x80 = Branchless::TrueMask;
 
         InputIt it = end;
         while (it != begin && padSize < std::numeric_limits<uint8_t>::max())
@@ -73,7 +73,7 @@ public:
 
         return
         {
-            .IsOkay_ = static_cast<bool>(isOkay),
+            .IsOkay_ = Branchless::ToBool(isOkay),
             .PadSize_ = Branchless::Sel<uint8_t>(isOkay, padSize, 0)
         };
     }
