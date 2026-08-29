@@ -82,6 +82,14 @@ struct Branchless
 
         return (mask & onTrue) | (~mask & onFalse);
     }
+
+    template<typename UInt>
+    static constexpr bool ToBool(UInt mask) noexcept
+    {
+        static_assert(std::is_unsigned_v<UInt>);
+
+        return Sel<UInt>(mask, 1, 0);
+    }
 };
 
 } // namespace Chaos::Service
