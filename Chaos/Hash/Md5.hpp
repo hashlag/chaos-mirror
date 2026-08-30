@@ -160,7 +160,7 @@ private:
 namespace Chaos::Hash::Md5
 {
 
-struct Md5Hash : public Hash<Md5Hash>
+struct Md5Hash
 {
     std::array<uint8_t, 16> GetRawDigest() const
     {
@@ -184,6 +184,8 @@ struct Md5Hash : public Hash<Md5Hash>
 
     std::array<uint8_t, 16> RawDigest_;
 };
+
+static_assert(Hash<Md5Hash>);
 
 class Md5Hasher : public Hasher<Md5Hasher>
 {
