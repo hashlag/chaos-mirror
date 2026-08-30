@@ -187,7 +187,7 @@ struct Md5Hash
 
 static_assert(Hash<Md5Hash>);
 
-class Md5Hasher : public Hasher<Md5Hasher>
+class Md5Hasher
 {
 public:
     using HashType = Md5Hash;
@@ -327,6 +327,8 @@ private:
         return written;
     }
 };
+
+static_assert(Hasher<Md5Hasher>);
 
 } // namespace Chaos::Hash::Md5
 

@@ -163,7 +163,7 @@ struct Md4Hash
 
 static_assert(Hash<Md4Hash>);
 
-class Md4Hasher : public Hasher<Md4Hasher>
+class Md4Hasher
 {
 public:
     using HashType = Md4Hash;
@@ -303,6 +303,8 @@ private:
         return written;
     }
 };
+
+static_assert(Hasher<Md4Hasher>);
 
 } // namespace Chaos::Hash::Md4
 

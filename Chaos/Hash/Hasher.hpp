@@ -1,42 +1,19 @@
 #ifndef CHAOS_HASH_HASHER_HPP
 #define CHAOS_HASH_HASHER_HPP
 
+#include <cstdint>
+
+#include "Hash.hpp"
+
 namespace Chaos::Hash
 {
 
 template<typename T>
-class Hasher
+concept Hasher = requires(T hasher, uint8_t * begin, uint8_t * end)
 {
-public:
-    void Reset()
-    {
-        Impl().Reset();
-    }
-
-    template<typename InputIt>
-    void Update(InputIt begin, InputIt end)
-    {
-        Impl().Update(begin, end);
-    }
-
-    auto Finish()
-    {
-        return Impl().Finish();
-    }
-
-protected:
-    Hasher() = default;
-
-private:
-    const T & Impl() const
-    {
-        return static_cast<const T &>(*this);
-    }
-
-    T & Impl()
-    {
-        return static_cast<T &>(*this);
-    }
+    hasher.Reset();
+    hasher.Update(begin, end);
+    { hasher.Finish() } -> Hash;
 };
 
 } // namespace Chaos::Hash

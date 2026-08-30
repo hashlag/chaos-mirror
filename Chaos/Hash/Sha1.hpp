@@ -157,7 +157,7 @@ struct Sha1Hash
 
 static_assert(Hash<Sha1Hash>);
 
-class Sha1Hasher : public Hasher<Sha1Hasher>
+class Sha1Hasher
 {
 public:
     using HashType = Sha1Hash;
@@ -297,6 +297,8 @@ private:
         return written;
     }
 };
+
+static_assert(Hasher<Sha1Hasher>);
 
 } // namespace Chaos::Hash::Sha1
 
