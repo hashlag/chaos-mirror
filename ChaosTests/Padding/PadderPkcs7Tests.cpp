@@ -137,8 +137,8 @@ TEST(PadPkcs7Tests, PadOutIteratorUsageTest)
     }
 }
 
-template<typename Impl, typename OutputIt>
-void PadThroughBase(const Padder<Impl> & padder, OutputIt begin, OutputIt end)
+template<Padder PadderImpl, typename OutputIt>
+void PadGeneric(const PadderImpl & padder, OutputIt begin, OutputIt end)
 {
     padder.Pad(begin, end);
 }
@@ -153,7 +153,7 @@ TEST(PadPkcs7Tests, PadThroughBaseTest)
         };
 
         const PadderPkcs7 padder;
-        PadThroughBase(padder, fact.begin(), fact.end());
+        PadGeneric(padder, fact.begin(), fact.end());
 
         ASSERT_EQ(expected, fact);
     }
@@ -347,8 +347,8 @@ TEST(PadPkcs7Tests, UnpadErrorTest)
     }
 }
 
-template<typename Impl, typename OutputIt>
-auto ComputeUnpadThroughBase(const Padder<Impl> & padder, OutputIt begin, OutputIt end)
+template<Padder PadderImpl, typename OutputIt>
+auto ComputeUnpadGeneric(const PadderImpl & padder, OutputIt begin, OutputIt end)
 {
     return padder.ComputeUnpad(begin, end);
 }
@@ -359,7 +359,7 @@ TEST(PadPkcs7Tests, ComputeUnpadThroughBaseTest)
         std::array<uint8_t, 5> data = { 0x05, 0x05, 0x05, 0x05, 0x05 };
 
         const PadderPkcs7 padder;
-        auto result = ComputeUnpadThroughBase(padder, data.begin(), data.end());
+        auto result = ComputeUnpadGeneric(padder, data.begin(), data.end());
 
         ASSERT_TRUE(result.IsOkay_);
         ASSERT_EQ(5, result.PadSize_);

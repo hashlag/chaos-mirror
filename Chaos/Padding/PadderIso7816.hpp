@@ -12,7 +12,7 @@
 namespace Chaos::Padding
 {
 
-class PadderIso7816 : public Padder<PadderIso7816>
+class PadderIso7816
 {
 public:
     template<typename OutputIt>
@@ -81,6 +81,8 @@ public:
 private:
     using Branchless = Service::Branchless;
 };
+
+static_assert(Padder<PadderIso7816>);
 
 } // namespace Chaos::Padding
 
