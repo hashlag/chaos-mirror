@@ -281,7 +281,7 @@ public:
 
     static_assert(Chaos::Cipher::Block::Encryptor<Encryptor>);
 
-    class Decryptor : public Chaos::Cipher::Block::Decryptor<Decryptor>
+    class Decryptor
     {
     public:
         using Block = DesCrypt::Block;
@@ -326,6 +326,8 @@ public:
     private:
         Inner_::KeySchedule Schedule_;
     };
+
+    static_assert(Chaos::Cipher::Block::Decryptor<Decryptor>);
 
 private:
     using BlockHalf = uint32_t;
