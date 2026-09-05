@@ -486,9 +486,9 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
     }
 }
 
-template<typename Impl, typename InputIt>
-static std::vector<uint8_t> EncryptThroughBase(const Encryptor<Impl> & enc,
-                                               InputIt begin, InputIt end)
+template<Encryptor EncryptorImpl, typename InputIt>
+static std::vector<uint8_t> EncryptGeneric(const EncryptorImpl & enc,
+                                           InputIt begin, InputIt end)
 {
     std::vector<uint8_t> result;
     result.resize(enc.GetBlockSize(), 0);
@@ -497,7 +497,7 @@ static std::vector<uint8_t> EncryptThroughBase(const Encryptor<Impl> & enc,
     return result;
 }
 
-TEST(DesCryptTests, EncryptThroughBaseTest)
+TEST(DesCryptTests, EncryptGenericTest)
 {
     std::array<uint8_t, DesCrypt::KeySize> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
 
@@ -507,16 +507,16 @@ TEST(DesCryptTests, EncryptThroughBaseTest)
     DesCrypt::Key desKey(key.begin(), key.end());
     DesCrypt::Encryptor enc(desKey);
 
-    ASSERT_EQ(expected, EncryptThroughBase(enc, data.begin(), data.end()));
+    ASSERT_EQ(expected, EncryptGeneric(enc, data.begin(), data.end()));
 }
 
-template<typename Impl>
-static uint64_t EncryptUInt64BlockThroughBase(const Encryptor<Impl> & enc, uint64_t block)
+template<Encryptor EncryptorImpl>
+static uint64_t EncryptUInt64BlockGeneric(const EncryptorImpl & enc, uint64_t block)
 {
     return enc.EncryptBlock(block);
 }
 
-TEST(DesCryptTests, EncryptUInt64BlockThroughBaseTest)
+TEST(DesCryptTests, EncryptUInt64BlockGenericTest)
 {
     std::array<uint8_t, DesCrypt::KeySize> key = { 0x13, 0x34, 0x57, 0x79, 0x9b, 0xbc, 0xdf, 0xf1 };
 
@@ -526,7 +526,7 @@ TEST(DesCryptTests, EncryptUInt64BlockThroughBaseTest)
     DesCrypt::Key desKey(key.begin(), key.end());
     DesCrypt::Encryptor enc(desKey);
 
-    ASSERT_EQ(expected, EncryptUInt64BlockThroughBase(enc, data));
+    ASSERT_EQ(expected, EncryptUInt64BlockGeneric(enc, data));
 }
 
 template<typename Impl, typename InputIt>

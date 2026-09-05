@@ -233,7 +233,7 @@ public:
         Inner_::RawKey Key_;
     };
 
-    class Encryptor : public Chaos::Cipher::Block::Encryptor<Encryptor>
+    class Encryptor
     {
     public:
         using Block = DesCrypt::Block;
@@ -278,6 +278,8 @@ public:
     private:
         Inner_::KeySchedule Schedule_;
     };
+
+    static_assert(Chaos::Cipher::Block::Encryptor<Encryptor>);
 
     class Decryptor : public Chaos::Cipher::Block::Decryptor<Decryptor>
     {

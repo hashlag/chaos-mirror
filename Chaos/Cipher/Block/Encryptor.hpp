@@ -1,44 +1,27 @@
 #ifndef CHAOS_CIPHER_BLOCK_ENCRYPTOR_HPP
 #define CHAOS_CIPHER_BLOCK_ENCRYPTOR_HPP
 
+#include <concepts>
+#include <cstdint>
+#include <type_traits>
+
 namespace Chaos::Cipher::Block
 {
 
 template<typename T>
-class Encryptor
+concept Encryptor = requires(T encryptor,
+                             typename T::Block block,
+                             uint8_t * outBegin, uint8_t * outEnd,
+                             uint8_t * inBegin, uint8_t * inEnd)
 {
-public:
-    template<typename OutputIt, typename InputIt>
-    void EncryptBlock(OutputIt outBegin, OutputIt outEnd,
-                      InputIt inBegin, InputIt inEnd) const
-    {
-        Impl().EncryptBlock(outBegin, outEnd, inBegin, inEnd);
-    }
-
-    template<typename Block>
-    auto EncryptBlock(Block block) const
-    {
-        return Impl().EncryptBlock(block);
-    }
-
-    auto GetBlockSize() const
-    {
-        return Impl().GetBlockSize();
-    }
-
-protected:
-    Encryptor() = default;
-
-private:
-    const T & Impl() const
-    {
-        return static_cast<const T &>(*this);
-    }
-
-    T & Impl()
-    {
-        return static_cast<T &>(*this);
-    }
+    typename T::Block;
+    typename T::Key;
+    requires std::constructible_from<T, typename T::Key>;
+    requires std::unsigned_integral<std::remove_cvref_t<decltype(T::BlockSize)>>;
+    requires std::unsigned_integral<std::remove_cvref_t<decltype(T::KeySize)>>;
+    encryptor.EncryptBlock(outBegin, outEnd, inBegin, inEnd);
+    { encryptor.EncryptBlock(block) } -> std::same_as<typename T::Block>;
+    { encryptor.GetBlockSize() } -> std::unsigned_integral;
 };
 
 } // namespace Chaos::Cipher::Block
