@@ -236,6 +236,7 @@ public:
     class Encryptor : public Chaos::Cipher::Block::Encryptor<Encryptor>
     {
     public:
+        using Block = DesCrypt::Block;
         using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
@@ -281,6 +282,7 @@ public:
     class Decryptor : public Chaos::Cipher::Block::Decryptor<Decryptor>
     {
     public:
+        using Block = DesCrypt::Block;
         using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
