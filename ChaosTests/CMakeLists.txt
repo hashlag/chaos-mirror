@@ -4,8 +4,8 @@ cmake_policy(SET CMP0135 NEW)
 
 FetchContent_Declare(
         googletest
-        URL https://git.hashlag.net/hashlag/chaos-deps/raw/branch/main/google_googletest/googletest-1.17.0.tar.gz
-        URL_HASH SHA256=65fab701d9829d38cb77c14acdc431d2108bfdbf8979e40eb8ae567edf10b27c
+        URL https://git.hashlag.net/hashlag/chaos-deps/raw/branch/main/google_googletest/googletest-1.18.0.tar.gz
+        URL_HASH SHA256=6e3191c1455468b3fc35a417fb565c1c5071aee1b7e7f85e30cf48a98d37d8b5
 )
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
