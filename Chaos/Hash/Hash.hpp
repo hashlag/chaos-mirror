@@ -8,10 +8,10 @@ namespace Chaos::Hash
 {
 
 template<typename T>
-concept Hash = requires(T hash)
+concept Hash = requires(const T constHash)
 {
-    hash.GetRawDigest();
-    { hash.ToHexString() } -> std::same_as<std::string>;
+    constHash.GetRawDigest();
+    { constHash.ToHexString() } -> std::same_as<std::string>;
 };
 
 } // namespace Chaos::Hash
