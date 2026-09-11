@@ -11,6 +11,7 @@ namespace Chaos::Hash
 template<typename T>
 concept Hasher = requires(T hasher, uint8_t * begin, uint8_t * end)
 {
+    typename T::HashType;
     hasher.Reset();
     hasher.Update(begin, end);
     { hasher.Finish() } -> Hash;
