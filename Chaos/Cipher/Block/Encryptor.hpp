@@ -9,7 +9,7 @@ namespace Chaos::Cipher::Block
 {
 
 template<typename T>
-concept Encryptor = requires(T encryptor,
+concept Encryptor = requires(const T constEncryptor,
                              typename T::Block block,
                              uint8_t * outBegin, uint8_t * outEnd,
                              uint8_t * inBegin, uint8_t * inEnd)
@@ -19,9 +19,9 @@ concept Encryptor = requires(T encryptor,
     requires std::constructible_from<T, typename T::Key>;
     requires std::unsigned_integral<std::remove_cvref_t<decltype(T::BlockSize)>>;
     requires std::unsigned_integral<std::remove_cvref_t<decltype(T::KeySize)>>;
-    encryptor.EncryptBlock(outBegin, outEnd, inBegin, inEnd);
-    { encryptor.EncryptBlock(block) } -> std::same_as<typename T::Block>;
-    { encryptor.GetBlockSize() } -> std::unsigned_integral;
+    constEncryptor.EncryptBlock(outBegin, outEnd, inBegin, inEnd);
+    { constEncryptor.EncryptBlock(block) } -> std::same_as<typename T::Block>;
+    { constEncryptor.GetBlockSize() } -> std::unsigned_integral;
 };
 
 } // namespace Chaos::Cipher::Block
