@@ -13,6 +13,7 @@
 #include "Cipher/Block/Key.hpp"
 #include "Cipher/Block/Encryptor.hpp"
 #include "Cipher/Block/Decryptor.hpp"
+#include "Cipher/Block/Cipher.hpp"
 
 namespace Chaos::Cipher::Block::Des::Inner_
 {
@@ -523,6 +524,8 @@ private:
         return Fp(Inner_::Bitwise::Merge<32>(r32, l32));
     }
 };
+
+static_assert(Cipher::Block::Cipher<DesCrypt>);
 
 } // namespace Chaos::Cipher::Block::Des
 
