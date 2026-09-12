@@ -17,8 +17,13 @@ concept Decryptor = requires(const T constDecryptor,
     typename T::Block;
     typename T::Key;
     requires std::constructible_from<T, typename T::Key>;
+
     requires std::unsigned_integral<std::remove_cvref_t<decltype(T::BlockSize)>>;
+    typename std::integral_constant<decltype(T::BlockSize), T::BlockSize>;
+
     requires std::unsigned_integral<std::remove_cvref_t<decltype(T::KeySize)>>;
+    typename std::integral_constant<decltype(T::KeySize), T::KeySize>;
+
     constDecryptor.DecryptBlock(outBegin, outEnd, inBegin, inEnd);
     { constDecryptor.DecryptBlock(block) } -> std::same_as<typename T::Block>;
     { constDecryptor.GetBlockSize() } -> std::unsigned_integral;
