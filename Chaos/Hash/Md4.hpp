@@ -168,7 +168,7 @@ class Md4Hasher
 public:
     using HashType = Md4Hash;
 
-    static constexpr size_t BLOCK_SIZE_BYTES = 64;
+    static constexpr size_t BlockSizeBytes = 64;
 
     Md4Hasher()
     {

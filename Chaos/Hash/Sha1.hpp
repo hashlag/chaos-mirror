@@ -162,7 +162,7 @@ class Sha1Hasher
 public:
     using HashType = Sha1Hash;
 
-    static constexpr size_t BLOCK_SIZE_BYTES = 64;
+    static constexpr size_t BlockSizeBytes = 64;
 
     Sha1Hasher()
     {
