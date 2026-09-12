@@ -3,7 +3,6 @@
 
 #include <array>
 #include <cstdint>
-#include <type_traits>
 
 #include "Hash/Hasher.hpp"
 #include "Service/ChaosException.hpp"
@@ -11,8 +10,7 @@
 namespace Chaos::Mac::Hmac
 {
 
-template<typename HasherImpl,
-         typename = std::enable_if_t<std::is_base_of_v<Hash::Hasher<HasherImpl>, HasherImpl>>>
+template<Hash::Hasher HasherImpl>
 class Hmac
 {
 public:

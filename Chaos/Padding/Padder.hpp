@@ -1,38 +1,16 @@
 #ifndef CHAOS_PADDING_PADDER_HPP
 #define CHAOS_PADDING_PADDER_HPP
 
+#include <cstdint>
+
 namespace Chaos::Padding
 {
 
 template<typename T>
-class Padder
+concept Padder = requires(uint8_t * begin, uint8_t * end)
 {
-public:
-    template<typename OutputIt>
-    void Pad(OutputIt begin, OutputIt end) const
-    {
-        Impl().Pad(begin, end);
-    }
-
-    template<typename InputIt>
-    auto ComputeUnpad(InputIt begin, InputIt end) const noexcept
-    {
-        return Impl().ComputeUnpad(begin, end);
-    }
-
-protected:
-    Padder() = default;
-
-private:
-    const T & Impl() const
-    {
-        return static_cast<const T &>(*this);
-    }
-
-    T & Impl()
-    {
-        return static_cast<T &>(*this);
-    }
+    T::Pad(begin, end);
+    { T::ComputeUnpad(begin, end) } noexcept;
 };
 
 } // namespace Chaos::Padding

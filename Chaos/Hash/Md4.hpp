@@ -136,7 +136,7 @@ private:
 namespace Chaos::Hash::Md4
 {
 
-struct Md4Hash : public Hash<Md4Hash>
+struct Md4Hash
 {
     std::array<uint8_t, 16> GetRawDigest() const
     {
@@ -161,7 +161,9 @@ struct Md4Hash : public Hash<Md4Hash>
     std::array<uint8_t, 16> RawDigest_;
 };
 
-class Md4Hasher : public Hasher<Md4Hasher>
+static_assert(Hash<Md4Hash>);
+
+class Md4Hasher
 {
 public:
     using HashType = Md4Hash;
@@ -301,6 +303,8 @@ private:
         return written;
     }
 };
+
+static_assert(Hasher<Md4Hasher>);
 
 } // namespace Chaos::Hash::Md4
 

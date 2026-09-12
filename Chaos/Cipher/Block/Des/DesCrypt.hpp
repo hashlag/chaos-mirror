@@ -233,9 +233,10 @@ public:
         Inner_::RawKey Key_;
     };
 
-    class Encryptor : public Chaos::Cipher::Block::Encryptor<Encryptor>
+    class Encryptor
     {
     public:
+        using Block = DesCrypt::Block;
         using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
@@ -278,9 +279,12 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    class Decryptor : public Chaos::Cipher::Block::Decryptor<Decryptor>
+    static_assert(Chaos::Cipher::Block::Encryptor<Encryptor>);
+
+    class Decryptor
     {
     public:
+        using Block = DesCrypt::Block;
         using Key = DesCrypt::Key;
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
@@ -322,6 +326,8 @@ public:
     private:
         Inner_::KeySchedule Schedule_;
     };
+
+    static_assert(Chaos::Cipher::Block::Decryptor<Decryptor>);
 
 private:
     using BlockHalf = uint32_t;

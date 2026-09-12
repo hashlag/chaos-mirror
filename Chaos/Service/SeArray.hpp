@@ -2,14 +2,13 @@
 #define CHAOS_SERVICE_SEARRAY_HPP
 
 #include <array>
-#include <type_traits>
+#include <concepts>
 #include <cstddef>
 
 namespace Chaos::Service
 {
 
-template<typename T, size_t S,
-         typename = std::enable_if_t<std::is_integral_v<T>>>
+template<std::integral T, size_t S>
 class SeArray
 {
 public:

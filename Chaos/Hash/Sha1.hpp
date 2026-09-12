@@ -129,7 +129,7 @@ private:
 namespace Chaos::Hash::Sha1
 {
 
-struct Sha1Hash : public Hash<Sha1Hash>
+struct Sha1Hash
 {
     std::array<uint8_t, 20> GetRawDigest() const
     {
@@ -155,7 +155,9 @@ struct Sha1Hash : public Hash<Sha1Hash>
     std::array<uint8_t, 20> RawDigest_;
 };
 
-class Sha1Hasher : public Hasher<Sha1Hasher>
+static_assert(Hash<Sha1Hash>);
+
+class Sha1Hasher
 {
 public:
     using HashType = Sha1Hash;
@@ -295,6 +297,8 @@ private:
         return written;
     }
 };
+
+static_assert(Hasher<Sha1Hasher>);
 
 } // namespace Chaos::Hash::Sha1
 

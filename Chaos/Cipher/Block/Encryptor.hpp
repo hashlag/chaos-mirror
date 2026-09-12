@@ -1,44 +1,32 @@
 #ifndef CHAOS_CIPHER_BLOCK_ENCRYPTOR_HPP
 #define CHAOS_CIPHER_BLOCK_ENCRYPTOR_HPP
 
+#include <concepts>
+#include <cstdint>
+#include <type_traits>
+
 namespace Chaos::Cipher::Block
 {
 
 template<typename T>
-class Encryptor
+concept Encryptor = requires(const T constEncryptor,
+                             typename T::Block block,
+                             uint8_t * outBegin, uint8_t * outEnd,
+                             uint8_t * inBegin, uint8_t * inEnd)
 {
-public:
-    template<typename OutputIt, typename InputIt>
-    void EncryptBlock(OutputIt outBegin, OutputIt outEnd,
-                      InputIt inBegin, InputIt inEnd) const
-    {
-        Impl().EncryptBlock(outBegin, outEnd, inBegin, inEnd);
-    }
+    typename T::Block;
+    typename T::Key;
+    requires std::constructible_from<T, typename T::Key>;
 
-    template<typename Block>
-    auto EncryptBlock(Block block) const
-    {
-        return Impl().EncryptBlock(block);
-    }
+    requires std::unsigned_integral<std::remove_cvref_t<decltype(T::BlockSize)>>;
+    typename std::integral_constant<decltype(T::BlockSize), T::BlockSize>;
 
-    auto GetBlockSize() const
-    {
-        return Impl().GetBlockSize();
-    }
+    requires std::unsigned_integral<std::remove_cvref_t<decltype(T::KeySize)>>;
+    typename std::integral_constant<decltype(T::KeySize), T::KeySize>;
 
-protected:
-    Encryptor() = default;
-
-private:
-    const T & Impl() const
-    {
-        return static_cast<const T &>(*this);
-    }
-
-    T & Impl()
-    {
-        return static_cast<T &>(*this);
-    }
+    constEncryptor.EncryptBlock(outBegin, outEnd, inBegin, inEnd);
+    { constEncryptor.EncryptBlock(block) } -> std::same_as<typename T::Block>;
+    { constEncryptor.GetBlockSize() } -> std::unsigned_integral;
 };
 
 } // namespace Chaos::Cipher::Block
