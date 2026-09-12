@@ -53,7 +53,7 @@ public:
     }
 
 private:
-    using KeyType = std::array<uint8_t, HasherImpl::BlockSizeBytes>;
+    using KeyType = std::array<uint8_t, HasherImpl::BlockSize>;
 
     static constexpr uint8_t OPAD_BYTE = 0x5c;
     static constexpr uint8_t IPAD_BYTE = 0x36;
@@ -94,7 +94,7 @@ private:
             keyHasher.Update(keyIt, keyEnd);
 
             auto digest = keyHasher.Finish().GetRawDigest();
-            static_assert(digest.size() <= HasherImpl::BlockSizeBytes);
+            static_assert(digest.size() <= HasherImpl::BlockSize);
 
             key.fill(0);
             idx = 0;

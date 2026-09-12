@@ -15,8 +15,8 @@ concept Hasher = requires(T hasher, uint8_t * begin, uint8_t * end)
 {
     typename T::HashType;
 
-    requires std::unsigned_integral<std::remove_cvref_t<decltype(T::BlockSizeBytes)>>;
-    typename std::integral_constant<decltype(T::BlockSizeBytes), T::BlockSizeBytes>;
+    requires std::unsigned_integral<std::remove_cvref_t<decltype(T::BlockSize)>>;
+    typename std::integral_constant<decltype(T::BlockSize), T::BlockSize>;
 
     hasher.Reset();
     hasher.Update(begin, end);
