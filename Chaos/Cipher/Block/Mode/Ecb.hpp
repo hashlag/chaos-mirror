@@ -4,6 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "Cipher/Block/Cipher.hpp"
 #include "Padding/Padder.hpp"
 #include "Service/ChaosException.hpp"
 #include "Service/SeArray.hpp"
@@ -11,7 +12,7 @@
 namespace Chaos::Cipher::Block::Mode
 {
 
-template<typename CipherT, Padding::Padder PadderT>
+template<Cipher::Block::Cipher CipherT, Padding::Padder PadderT>
 class EcbMode
 {
 public:
