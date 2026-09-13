@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_ARC4_ARC4GEN_HPP
-#define CHAOS_CIPHER_ARC4_ARC4GEN_HPP
+#ifndef CHAOS_CIPHER_STREAM_ARC4_ARC4GEN_HPP
+#define CHAOS_CIPHER_STREAM_ARC4_ARC4GEN_HPP
 
 #include <array>
 #include <cstdint>
@@ -8,7 +8,7 @@
 
 #include "Service/ChaosException.hpp"
 
-namespace Chaos::Cipher::Arc4
+namespace Chaos::Cipher::Stream::Arc4
 {
 
 class Arc4Gen
@@ -107,6 +107,6 @@ private:
     }
 };
 
-} // namespace Chaos::Cipher::Arc4
+} // namespace Chaos::Cipher::Stream::Arc4
 
-#endif // CHAOS_CIPHER_ARC4_ARC4GEN_HPP
+#endif // CHAOS_CIPHER_STREAM_ARC4_ARC4GEN_HPP

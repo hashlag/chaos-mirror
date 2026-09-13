@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
-#define CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
+#ifndef CHAOS_CIPHER_STREAM_ARC4_ARC4CRYPT_HPP
+#define CHAOS_CIPHER_STREAM_ARC4_ARC4CRYPT_HPP
 
 #include <cstdint>
 #include <algorithm>
@@ -8,7 +8,7 @@
 #include "Service/SeArray.hpp"
 #include "Service/ChaosException.hpp"
 
-namespace Chaos::Cipher::Arc4
+namespace Chaos::Cipher::Stream::Arc4
 {
 
 class Arc4Crypt
@@ -83,6 +83,6 @@ private:
     }
 };
 
-} // namespace Chaos::Cipher::Arc4
+} // namespace Chaos::Cipher::Stream::Arc4
 
-#endif // CHAOS_CIPHER_ARC4_ARC4CRYPT_HPP
+#endif // CHAOS_CIPHER_STREAM_ARC4_ARC4CRYPT_HPP

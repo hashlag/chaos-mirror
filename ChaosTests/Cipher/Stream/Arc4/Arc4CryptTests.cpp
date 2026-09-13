@@ -6,10 +6,10 @@
 #include <cstdint>
 #include <cstring>
 
-#include "Cipher/Arc4/Arc4Crypt.hpp"
+#include "Cipher/Stream/Arc4/Arc4Crypt.hpp"
 #include "Service/ChaosException.hpp"
 
-using namespace Chaos::Cipher::Arc4;
+using namespace Chaos::Cipher::Stream::Arc4;
 
 static std::vector<uint8_t> StrToU8Vec(const char * str)
 {

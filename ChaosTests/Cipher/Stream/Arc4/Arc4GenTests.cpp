@@ -6,10 +6,10 @@
 #include <iterator>
 #include <cstring>
 
-#include "Cipher/Arc4/Arc4Gen.hpp"
+#include "Cipher/Stream/Arc4/Arc4Gen.hpp"
 #include "Service/ChaosException.hpp"
 
-using namespace Chaos::Cipher::Arc4;
+using namespace Chaos::Cipher::Stream::Arc4;
 
 TEST(Arc4GenTests, RFCTest)
 {
