@@ -13,7 +13,7 @@
 #include "Cipher/Block/Key.hpp"
 #include "Cipher/Block/Encryptor.hpp"
 #include "Cipher/Block/Decryptor.hpp"
-#include "Cipher/Block/Cipher.hpp"
+#include "Cipher/Block/BlockCipher.hpp"
 
 namespace Chaos::Cipher::Block::Des::Inner_
 {
@@ -525,7 +525,7 @@ private:
     }
 };
 
-static_assert(Cipher::Block::Cipher<DesCrypt>);
+static_assert(Cipher::Block::BlockCipher<DesCrypt>);
 
 } // namespace Chaos::Cipher::Block::Des
 

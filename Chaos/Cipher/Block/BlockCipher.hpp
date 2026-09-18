@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_BLOCK_CIPHER_HPP
-#define CHAOS_CIPHER_BLOCK_CIPHER_HPP
+#ifndef CHAOS_CIPHER_BLOCK_BLOCKCIPHER_HPP
+#define CHAOS_CIPHER_BLOCK_BLOCKCIPHER_HPP
 
 #include <concepts>
 #include <type_traits>
@@ -12,7 +12,7 @@ namespace Chaos::Cipher::Block
 {
 
 template<typename T>
-concept Cipher = requires
+concept BlockCipher = requires
 {
     typename T::Block;
     typename T::Key;
@@ -32,4 +32,4 @@ concept Cipher = requires
 
 } // namespace Chaos::Cipher::Block
 
-#endif // CHAOS_CIPHER_BLOCK_CIPHER_HPP
+#endif // CHAOS_CIPHER_BLOCK_BLOCKCIPHER_HPP
