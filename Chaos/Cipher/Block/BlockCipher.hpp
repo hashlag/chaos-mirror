@@ -5,7 +5,7 @@
 #include <type_traits>
 
 #include "BlockKey.hpp"
-#include "Encryptor.hpp"
+#include "BlockEncryptor.hpp"
 #include "BlockDecryptor.hpp"
 
 namespace Chaos::Cipher::Block
@@ -26,7 +26,7 @@ concept BlockCipher = requires
     typename std::integral_constant<decltype(T::KeySize), T::KeySize>;
 
     requires BlockKey<typename T::Key>;
-    requires Encryptor<typename T::Encryptor>;
+    requires BlockEncryptor<typename T::Encryptor>;
     requires BlockDecryptor<typename T::Decryptor>;
 };
 

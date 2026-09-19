@@ -6,7 +6,7 @@
 #include <vector>
 
 #include "Cipher/Block/Des/DesCrypt.hpp"
-#include "Cipher/Block/Encryptor.hpp"
+#include "Cipher/Block/BlockEncryptor.hpp"
 #include "Cipher/Block/BlockDecryptor.hpp"
 #include "Service/ChaosException.hpp"
 
@@ -486,7 +486,7 @@ TEST(DesCryptTests, OutIteratorUsageDecryptTest)
     }
 }
 
-template<Encryptor EncryptorImpl, typename InputIt>
+template<BlockEncryptor EncryptorImpl, typename InputIt>
 static std::vector<uint8_t> EncryptGeneric(const EncryptorImpl & enc,
                                            InputIt begin, InputIt end)
 {
@@ -510,7 +510,7 @@ TEST(DesCryptTests, EncryptGenericTest)
     ASSERT_EQ(expected, EncryptGeneric(enc, data.begin(), data.end()));
 }
 
-template<Encryptor EncryptorImpl>
+template<BlockEncryptor EncryptorImpl>
 static uint64_t EncryptUInt64BlockGeneric(const EncryptorImpl & enc, uint64_t block)
 {
     return enc.EncryptBlock(block);

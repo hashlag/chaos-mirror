@@ -11,7 +11,7 @@
 #include "Service/SeArray.hpp"
 
 #include "Cipher/Block/BlockKey.hpp"
-#include "Cipher/Block/Encryptor.hpp"
+#include "Cipher/Block/BlockEncryptor.hpp"
 #include "Cipher/Block/BlockDecryptor.hpp"
 #include "Cipher/Block/BlockCipher.hpp"
 
@@ -283,7 +283,7 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    static_assert(Chaos::Cipher::Block::Encryptor<Encryptor>);
+    static_assert(Chaos::Cipher::Block::BlockEncryptor<Encryptor>);
 
     class Decryptor
     {
