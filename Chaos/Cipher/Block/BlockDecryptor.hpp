@@ -1,5 +1,5 @@
-#ifndef CHAOS_CIPHER_BLOCK_DECRYPTOR_HPP
-#define CHAOS_CIPHER_BLOCK_DECRYPTOR_HPP
+#ifndef CHAOS_CIPHER_BLOCK_BLOCKDECRYPTOR_HPP
+#define CHAOS_CIPHER_BLOCK_BLOCKDECRYPTOR_HPP
 
 #include <concepts>
 #include <cstdint>
@@ -9,10 +9,10 @@ namespace Chaos::Cipher::Block
 {
 
 template<typename T>
-concept Decryptor = requires(const T constDecryptor,
-                             typename T::Block block,
-                             uint8_t * outBegin, uint8_t * outEnd,
-                             uint8_t * inBegin, uint8_t * inEnd)
+concept BlockDecryptor = requires(const T constDecryptor,
+                                  typename T::Block block,
+                                  uint8_t * outBegin, uint8_t * outEnd,
+                                  uint8_t * inBegin, uint8_t * inEnd)
 {
     typename T::Block;
     typename T::Key;
@@ -31,4 +31,4 @@ concept Decryptor = requires(const T constDecryptor,
 
 } // namespace Chaos::Cipher::Block
 
-#endif // CHAOS_CIPHER_BLOCK_DECRYPTOR_HPP
+#endif // CHAOS_CIPHER_BLOCK_BLOCKDECRYPTOR_HPP

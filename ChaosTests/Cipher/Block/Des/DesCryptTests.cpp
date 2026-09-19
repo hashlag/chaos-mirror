@@ -7,7 +7,7 @@
 
 #include "Cipher/Block/Des/DesCrypt.hpp"
 #include "Cipher/Block/Encryptor.hpp"
-#include "Cipher/Block/Decryptor.hpp"
+#include "Cipher/Block/BlockDecryptor.hpp"
 #include "Service/ChaosException.hpp"
 
 using namespace Chaos::Cipher::Block::Des;
@@ -529,7 +529,7 @@ TEST(DesCryptTests, EncryptUInt64BlockGenericTest)
     ASSERT_EQ(expected, EncryptUInt64BlockGeneric(enc, data));
 }
 
-template<Decryptor DecryptorImpl, typename InputIt>
+template<BlockDecryptor DecryptorImpl, typename InputIt>
 static std::vector<uint8_t> DecryptGeneric(const DecryptorImpl & dec,
                                            InputIt begin, InputIt end)
 {
@@ -553,7 +553,7 @@ TEST(DesCryptTests, DecryptGenericTest)
     ASSERT_EQ(expected, DecryptGeneric(dec, data.begin(), data.end()));
 }
 
-template<Decryptor DecryptorImpl>
+template<BlockDecryptor DecryptorImpl>
 static uint64_t DecryptUInt64BlockGeneric(const DecryptorImpl & dec, uint64_t block)
 {
     return dec.DecryptBlock(block);

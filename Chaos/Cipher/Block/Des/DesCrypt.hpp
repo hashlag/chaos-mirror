@@ -12,7 +12,7 @@
 
 #include "Cipher/Block/BlockKey.hpp"
 #include "Cipher/Block/Encryptor.hpp"
-#include "Cipher/Block/Decryptor.hpp"
+#include "Cipher/Block/BlockDecryptor.hpp"
 #include "Cipher/Block/BlockCipher.hpp"
 
 namespace Chaos::Cipher::Block::Des::Inner_
@@ -331,7 +331,7 @@ public:
         Inner_::KeySchedule Schedule_;
     };
 
-    static_assert(Chaos::Cipher::Block::Decryptor<Decryptor>);
+    static_assert(Chaos::Cipher::Block::BlockDecryptor<Decryptor>);
 
 private:
     using BlockHalf = uint32_t;

@@ -6,7 +6,7 @@
 
 #include "BlockKey.hpp"
 #include "Encryptor.hpp"
-#include "Decryptor.hpp"
+#include "BlockDecryptor.hpp"
 
 namespace Chaos::Cipher::Block
 {
@@ -27,7 +27,7 @@ concept BlockCipher = requires
 
     requires BlockKey<typename T::Key>;
     requires Encryptor<typename T::Encryptor>;
-    requires Decryptor<typename T::Decryptor>;
+    requires BlockDecryptor<typename T::Decryptor>;
 };
 
 } // namespace Chaos::Cipher::Block
