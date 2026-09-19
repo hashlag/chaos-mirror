@@ -4,7 +4,7 @@
 #include <concepts>
 #include <type_traits>
 
-#include "Key.hpp"
+#include "BlockKey.hpp"
 #include "Encryptor.hpp"
 #include "Decryptor.hpp"
 
@@ -25,7 +25,7 @@ concept BlockCipher = requires
     requires std::unsigned_integral<std::remove_cvref_t<decltype(T::KeySize)>>;
     typename std::integral_constant<decltype(T::KeySize), T::KeySize>;
 
-    requires Key<typename T::Key>;
+    requires BlockKey<typename T::Key>;
     requires Encryptor<typename T::Encryptor>;
     requires Decryptor<typename T::Decryptor>;
 };

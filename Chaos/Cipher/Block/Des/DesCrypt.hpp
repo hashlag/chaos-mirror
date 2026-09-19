@@ -10,7 +10,7 @@
 #include "Service/ChaosException.hpp"
 #include "Service/SeArray.hpp"
 
-#include "Cipher/Block/Key.hpp"
+#include "Cipher/Block/BlockKey.hpp"
 #include "Cipher/Block/Encryptor.hpp"
 #include "Cipher/Block/Decryptor.hpp"
 #include "Cipher/Block/BlockCipher.hpp"
@@ -235,7 +235,7 @@ public:
         Inner_::RawKey Key_;
     };
 
-    static_assert(Chaos::Cipher::Block::Key<Key>);
+    static_assert(Chaos::Cipher::Block::BlockKey<Key>);
 
     class Encryptor
     {
