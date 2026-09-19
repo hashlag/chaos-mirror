@@ -419,6 +419,55 @@ TEST(Arc4GenTests, UninitializedGenTest)
     }
 }
 
+TEST(Arc4GenTests, RekeyFailSafetyTest)
+{
+    uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
+    Arc4Gen gen(key, key + std::size(key));
+
+    {
+        std::array<uint8_t, 2> out = {};
+        std::array<uint8_t, 2> expected = { 0xb2, 0x39 };
+
+        gen.Generate(out.begin(), out.size());
+
+        ASSERT_EQ(expected, out);
+    }
+
+    {
+        std::array<uint8_t, 2> out = {};
+
+        uint8_t smallKey[] = { 0x01, 0x02, 0x03 };
+        ASSERT_THROW_EX(gen.Rekey(smallKey, smallKey + std::size(smallKey)),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Generate(out.begin(), out.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(gen.Drop(1),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: not initialized", ex.GetMessage());
+                        });
+    }
+
+    {
+        gen.Rekey(key, key + std::size(key));
+
+        std::array<uint8_t, 5> out = {};
+        std::array<uint8_t, 5> expected = { 0xb2, 0x39, 0x63, 0x05, 0xf0 };
+
+        gen.Generate(out.begin(), out.size());
+
+        ASSERT_EQ(expected, out);
+    }
+}
+
 TEST(Arc4GenTests, GenerateOutIteratorUsageTest)
 {
     {
