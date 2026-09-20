@@ -1,12 +1,12 @@
 #ifndef CHAOS_CIPHER_STREAM_ARC4_ARC4GEN_HPP
 #define CHAOS_CIPHER_STREAM_ARC4_ARC4GEN_HPP
 
-#include <array>
 #include <cstdint>
 #include <vector>
 #include <utility>
 
 #include "Service/ChaosException.hpp"
+#include "Service/SeArray.hpp"
 
 namespace Chaos::Cipher::Stream::Arc4
 {
@@ -54,7 +54,7 @@ public:
     }
 
 private:
-    std::array<uint8_t, 256> Lookup_;
+    Service::SeArray<uint8_t, 256> Lookup_;
     uint8_t I_;
     uint8_t J_;
 
@@ -76,7 +76,7 @@ private:
         I_ = 0;
         J_ = 0;
 
-        for (uint64_t idx = 0; idx < Lookup_.size(); ++idx)
+        for (uint64_t idx = 0; idx < Lookup_.Size(); ++idx)
         {
             Lookup_[idx] = static_cast<uint8_t>(idx);
         }
@@ -91,7 +91,7 @@ private:
         uint8_t a = 0;
         uint8_t b = 0;
 
-        for (uint64_t idx = 0; idx < Lookup_.size(); ++idx)
+        for (uint64_t idx = 0; idx < Lookup_.Size(); ++idx)
         {
             a = static_cast<uint8_t>(idx);
             b = b + Lookup_[a] + key[a % key.size()];
