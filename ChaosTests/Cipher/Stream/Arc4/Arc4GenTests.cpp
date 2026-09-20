@@ -329,6 +329,7 @@ TEST(Arc4GenTests, TooSmallKeyTest)
                         {
                             ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
                         });
+        ASSERT_FALSE(gen.IsInitialized());
 
         ASSERT_THROW_EX(Arc4Gen(key, key + strlen(key)),
                         Chaos::Service::ChaosException,
@@ -344,6 +345,7 @@ TEST(Arc4GenTests, UninitializedGenTest)
 
     {
         Arc4Gen gen;
+        ASSERT_FALSE(gen.IsInitialized());
 
         ASSERT_THROW_EX(gen.Generate(out.begin(), out.size()),
                         Chaos::Service::ChaosException,
@@ -380,12 +382,14 @@ TEST(Arc4GenTests, UninitializedGenTest)
         const char * key = "smal";
 
         Arc4Gen gen;
+        ASSERT_FALSE(gen.IsInitialized());
 
         ASSERT_THROW_EX(gen.Rekey(key, key + strlen(key)),
                         Chaos::Service::ChaosException,
                         {
                             ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
                         });
+        ASSERT_FALSE(gen.IsInitialized());
 
         ASSERT_THROW_EX(gen.Generate(out.begin(), out.size()),
                         Chaos::Service::ChaosException,
@@ -423,6 +427,7 @@ TEST(Arc4GenTests, RekeyFailSafetyTest)
 {
     uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05 };
     Arc4Gen gen(key, key + std::size(key));
+    ASSERT_TRUE(gen.IsInitialized());
 
     {
         std::array<uint8_t, 2> out = {};
@@ -436,12 +441,15 @@ TEST(Arc4GenTests, RekeyFailSafetyTest)
     {
         std::array<uint8_t, 2> out = {};
 
+        ASSERT_TRUE(gen.IsInitialized());
+
         uint8_t smallKey[] = { 0x01, 0x02, 0x03 };
         ASSERT_THROW_EX(gen.Rekey(smallKey, smallKey + std::size(smallKey)),
                         Chaos::Service::ChaosException,
                         {
                             ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
                         });
+        ASSERT_FALSE(gen.IsInitialized());
 
         ASSERT_THROW_EX(gen.Generate(out.begin(), out.size()),
                         Chaos::Service::ChaosException,
@@ -457,7 +465,9 @@ TEST(Arc4GenTests, RekeyFailSafetyTest)
     }
 
     {
+        ASSERT_FALSE(gen.IsInitialized());
         gen.Rekey(key, key + std::size(key));
+        ASSERT_TRUE(gen.IsInitialized());
 
         std::array<uint8_t, 5> out = {};
         std::array<uint8_t, 5> expected = { 0xb2, 0x39, 0x63, 0x05, 0xf0 };

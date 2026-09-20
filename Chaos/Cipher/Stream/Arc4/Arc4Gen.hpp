@@ -48,6 +48,11 @@ public:
         Step(bytesCount);
     }
 
+    bool IsInitialized() const noexcept
+    {
+        return IsInitialized_;
+    }
+
 private:
     std::array<uint8_t, 256> Lookup_;
     uint8_t I_;
