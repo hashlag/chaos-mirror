@@ -59,6 +59,7 @@ private:
     template<typename InputIt>
     void RekeyImpl(InputIt keyBegin, InputIt keyEnd)
     {
+        IsInitialized_ = false;
         Gen_.Rekey(keyBegin, keyEnd);
         IsInitialized_ = true;
     }

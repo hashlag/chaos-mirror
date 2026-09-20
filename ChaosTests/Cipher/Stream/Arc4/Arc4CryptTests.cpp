@@ -117,6 +117,61 @@ TEST(Arc4CryptTests, RekeyTest)
     }
 }
 
+TEST(Arc4CryptTests, RekeyFailSafetyTest)
+{
+    const std::vector<uint8_t> key = StrToU8Vec("Secret");
+    const std::vector<uint8_t> data = StrToU8Vec("Attack at dawn");
+
+    Arc4Crypt arc4(key.begin(), key.end());
+
+    {
+        std::vector<uint8_t> ciphertext;
+        ciphertext.resize(data.size());
+
+        arc4.Encrypt(ciphertext.begin(), data.begin(), data.size());
+
+        ASSERT_EQ(std::vector<uint8_t>({ 0x45, 0xA0, 0x1F, 0x64, 0x5F, 0xC3, 0x5B,
+                                         0x38, 0x35, 0x52, 0x54, 0x4B, 0x9B, 0xF5 }),
+                  ciphertext);
+    }
+
+    {
+        std::array<uint8_t, 10> in = {};
+        std::array<uint8_t, 10> out = {};
+
+        uint8_t smallKey[] = { 0x01, 0x02, 0x03 };
+        ASSERT_THROW_EX(arc4.Rekey(smallKey, smallKey + std::size(smallKey)),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Gen: key is too small", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(arc4.Encrypt(out.begin(), in.begin(), in.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Crypt: not initialized", ex.GetMessage());
+                        });
+
+        ASSERT_THROW_EX(arc4.Decrypt(out.begin(), in.begin(), in.size()),
+                        Chaos::Service::ChaosException,
+                        {
+                            ASSERT_EQ("Arc4Crypt: not initialized", ex.GetMessage());
+                        });
+    }
+
+    {
+        std::vector<uint8_t> ciphertext;
+        ciphertext.resize(data.size());
+
+        arc4.Rekey(key.begin(), key.end());
+        arc4.Encrypt(ciphertext.begin(), data.begin(), data.size());
+
+        ASSERT_EQ(std::vector<uint8_t>({ 0x45, 0xA0, 0x1F, 0x64, 0x5F, 0xC3, 0x5B,
+                                         0x38, 0x35, 0x52, 0x54, 0x4B, 0x9B, 0xF5 }),
+                  ciphertext);
+    }
+}
+
 TEST(Arc4CryptTests, EncryptOutIteratorUsageTest)
 {
     const std::vector<uint8_t> data = StrToU8Vec("The quick brown fox jumps over the lazy dog.");
