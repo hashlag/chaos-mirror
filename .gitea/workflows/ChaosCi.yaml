@@ -36,7 +36,7 @@ jobs:
         cmake --build build-debug-asanubsan/ -t ChaosTests
 
     - name: Run tests under valgrind
-      run: valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all ./build-debug/ChaosTests/ChaosTests
+      run: valgrind --leak-check=full --track-origins=yes --show-leak-kinds=all --error-exitcode=1 ./build-debug/ChaosTests/ChaosTests
 
     - name: Run tests under ASan and UBSan
       run: ASAN_OPTIONS=verbosity=1 UBSAN_OPTIONS=verbosity=1 ./build-debug-asanubsan/ChaosTests/ChaosTests
