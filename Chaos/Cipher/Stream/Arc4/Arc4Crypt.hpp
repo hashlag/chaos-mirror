@@ -15,7 +15,6 @@ class Arc4Crypt
 {
 public:
     Arc4Crypt()
-        : IsInitialized_(false)
     { }
 
     template<typename InputIt>
@@ -46,11 +45,10 @@ public:
 
 private:
     Arc4Gen Gen_;
-    bool IsInitialized_;
 
     void EnsureInitialized() const
     {
-        if (!IsInitialized_)
+        if (!Gen_.IsInitialized())
         {
             throw Service::ChaosException("Arc4Crypt: not initialized");
         }
@@ -59,9 +57,7 @@ private:
     template<typename InputIt>
     void RekeyImpl(InputIt keyBegin, InputIt keyEnd)
     {
-        IsInitialized_ = false;
         Gen_.Rekey(keyBegin, keyEnd);
-        IsInitialized_ = true;
     }
 
     template<typename OutputIt, typename InputIt>
