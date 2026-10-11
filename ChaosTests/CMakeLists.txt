@@ -20,6 +20,7 @@ set(ChaosTests_SOURCE SanCallbacks.cpp
                       Cipher/Stream/Arc4/Arc4CryptTests.cpp
                       Cipher/Block/Des/DesCryptTests.cpp
                       Cipher/Block/Mode/EcbModeTests.cpp
+                      Cipher/Block/BlockAdapterTests.cpp
                       Padding/PadderPkcs7Tests.cpp
                       Padding/PadderIso7816Tests.cpp
                       Service/SeArrayTests.cpp
