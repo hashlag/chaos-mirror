@@ -16,6 +16,9 @@ template<Cipher::Block::BlockCipher CipherT, Padding::Padder PadderT>
 class EcbMode
 {
 public:
+    using Cipher = CipherT;
+    using Padder = PadderT;
+
     class Encryptor
     {
     public:
