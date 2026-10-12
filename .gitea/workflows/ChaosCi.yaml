@@ -81,8 +81,8 @@ jobs:
         run: |
           cppcheck --version
           cppcheck --project=build-debug/compile_commands.json \
-                   --file-filter='*/ChaosTests/*' \
-                   --file-filter='*/ChaosBenches/*' \
+                   --file-filter='*ChaosTests/*' \
+                   --file-filter='*ChaosBenches/*' \
                    --enable=warning,performance,portability \
                    --suppress='*:*/_deps/*' \
                    --suppress=missingIncludeSystem \
