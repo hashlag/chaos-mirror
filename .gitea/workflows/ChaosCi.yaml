@@ -86,6 +86,7 @@ jobs:
                    --enable=warning,performance,portability \
                    --suppress='*:*/_deps/*' \
                    --suppress=missingIncludeSystem \
+                   --suppressions-list=.cppcheck \
                    --inline-suppr \
                    --error-exitcode=1
 
