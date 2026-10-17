@@ -4,6 +4,7 @@
 #include <array>
 #include <concepts>
 #include <cstddef>
+#include <utility>
 
 namespace Chaos::Service
 {
@@ -18,7 +19,12 @@ public:
     }
 
     SeArray(const SeArray & other) = delete;
-    SeArray(SeArray && other) = default;
+
+    SeArray(SeArray && other)
+    {
+        Storage_ = std::move(other.Storage_);
+        other.EraseImpl();
+    }
 
     SeArray & operator=(const SeArray & other) = default;
     SeArray & operator=(SeArray && other) = default;
