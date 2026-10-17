@@ -20,7 +20,7 @@ public:
 
     SeArray(const SeArray & other) = delete;
 
-    SeArray(SeArray && other)
+    SeArray(SeArray && other) noexcept
     {
         Storage_ = std::move(other.Storage_);
         other.EraseImpl();
