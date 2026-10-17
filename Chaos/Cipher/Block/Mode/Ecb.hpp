@@ -30,6 +30,12 @@ public:
     class Encryptor
     {
     public:
+        Encryptor(const Encryptor & other) = delete;
+        Encryptor(Encryptor && other) = delete;
+
+        Encryptor & operator=(const Encryptor & other) = delete;
+        Encryptor & operator=(Encryptor && other) = delete;
+
         Encryptor(const typename CipherT::Key & key)
             : Encryptor_(key)
             , BlockBytesPacked_(0)
