@@ -28,7 +28,7 @@ public:
 
     SeArray & operator=(const SeArray & other) = default;
 
-    SeArray & operator=(SeArray && other)
+    SeArray & operator=(SeArray && other) noexcept
     {
         if (this == &other)
         {
