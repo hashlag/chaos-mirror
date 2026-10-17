@@ -17,6 +17,12 @@ class PadderIso7816
 public:
     PadderIso7816() = delete;
 
+    PadderIso7816(const PadderIso7816 & other) = delete;
+    PadderIso7816(PadderIso7816 && other) = delete;
+
+    PadderIso7816 & operator=(const PadderIso7816 & other) = delete;
+    PadderIso7816 & operator=(PadderIso7816 && other) = delete;
+
     template<typename OutputIt>
     static void Pad(OutputIt begin, OutputIt end)
     {
