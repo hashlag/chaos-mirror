@@ -18,6 +18,12 @@ public:
         : IsInitialized_(false)
     { }
 
+    Hmac(const Hmac & other) = delete;
+    Hmac(Hmac && other) = delete;
+
+    Hmac & operator=(const Hmac & other) = delete;
+    Hmac & operator=(Hmac && other) = delete;
+
     template<typename InputIt>
     Hmac(InputIt keyBegin, InputIt keyEnd)
     {
