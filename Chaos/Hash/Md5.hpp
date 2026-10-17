@@ -199,6 +199,12 @@ public:
         ResetImpl();
     }
 
+    Md5Hasher(const Md5Hasher & other) = delete;
+    Md5Hasher(Md5Hasher && other) = delete;
+
+    Md5Hasher & operator=(const Md5Hasher & other) = delete;
+    Md5Hasher & operator=(Md5Hasher && other) = delete;
+
     void Reset()
     {
         ResetImpl();
