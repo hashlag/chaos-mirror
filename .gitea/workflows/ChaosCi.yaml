@@ -58,6 +58,38 @@ jobs:
         include-hidden-files: true
         retention-days: 10
 
+  static-analysis:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+
+      - name: Install
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential cmake cppcheck
+
+      - name: Generate compile commands
+        run: |
+          mkdir build-debug
+          cmake -S . -B build-debug/ -D CMAKE_BUILD_TYPE=Debug -D CMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Run cppcheck
+        run: |
+          cppcheck --version
+          cppcheck --project=build-debug/compile_commands.json \
+                   --file-filter='*ChaosTests/*' \
+                   --file-filter='*ChaosBenches/*' \
+                   --enable=warning,performance,portability \
+                   --suppress='*:*/_deps/*' \
+                   --suppress=missingIncludeSystem \
+                   --suppressions-list=.cppcheck \
+                   --inline-suppr \
+                   --error-exitcode=1
+
   benchmark:
     runs-on: ubuntu-latest
 
