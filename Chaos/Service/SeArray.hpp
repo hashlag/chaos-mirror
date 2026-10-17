@@ -27,7 +27,20 @@ public:
     }
 
     SeArray & operator=(const SeArray & other) = default;
-    SeArray & operator=(SeArray && other) = default;
+
+    SeArray & operator=(SeArray && other)
+    {
+        if (this == &other)
+        {
+            return *this;
+        }
+
+        EraseImpl();
+        Storage_ = std::move(other.Storage_);
+        other.EraseImpl();
+
+        return *this;
+    }
 
     ~SeArray()
     {
