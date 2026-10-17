@@ -114,6 +114,12 @@ public:
         Decrypt
     };
 
+    KeySchedule(const KeySchedule & other) = delete;
+    KeySchedule(KeySchedule && other) = delete;
+
+    KeySchedule & operator=(const KeySchedule & other) = delete;
+    KeySchedule & operator=(KeySchedule && other) = delete;
+
     KeySchedule(Direction direction, const RawKey & rawKey)
     {
         Key56 key56 = Pc1(Bitwise::PackUInt64(rawKey.Begin(), rawKey.End()));
