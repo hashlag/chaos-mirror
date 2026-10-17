@@ -21,6 +21,12 @@ public:
 
     EcbMode() = delete;
 
+    EcbMode(const EcbMode & other) = delete;
+    EcbMode(EcbMode && other) = delete;
+
+    EcbMode & operator=(const EcbMode & other) = delete;
+    EcbMode & operator=(EcbMode && other) = delete;
+
     class Encryptor
     {
     public:
