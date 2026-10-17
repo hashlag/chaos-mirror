@@ -18,6 +18,12 @@ class PadderPkcs7
 public:
     PadderPkcs7() = delete;
 
+    PadderPkcs7(const PadderPkcs7 & other) = delete;
+    PadderPkcs7(PadderPkcs7 && other) = delete;
+
+    PadderPkcs7 & operator=(const PadderPkcs7 & other) = delete;
+    PadderPkcs7 & operator=(PadderPkcs7 && other) = delete;
+
     template<typename OutputIt>
     static void Pad(OutputIt begin, OutputIt end)
     {
