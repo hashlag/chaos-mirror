@@ -175,6 +175,12 @@ public:
         ResetImpl();
     }
 
+    Md4Hasher(const Md4Hasher & other) = delete;
+    Md4Hasher(Md4Hasher && other) = delete;
+
+    Md4Hasher & operator=(const Md4Hasher & other) = delete;
+    Md4Hasher & operator=(Md4Hasher && other) = delete;
+
     void Reset()
     {
         ResetImpl();
