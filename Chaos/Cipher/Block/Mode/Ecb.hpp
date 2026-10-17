@@ -129,6 +129,12 @@ public:
     class Decryptor
     {
     public:
+        Decryptor(const Decryptor & other) = delete;
+        Decryptor(Decryptor && other) = delete;
+
+        Decryptor & operator=(const Decryptor & other) = delete;
+        Decryptor & operator=(Decryptor && other) = delete;
+
         Decryptor(const typename CipherT::Key & key)
             : Decryptor_(key)
             , BlockBytesPacked_(0)
