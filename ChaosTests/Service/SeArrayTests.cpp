@@ -305,6 +305,9 @@ TEST(SeArrayTests, MoveAssignTest)
 
         ASSERT_EQ(0xaa, arr1[0]);
         ASSERT_EQ(0xbb, arr1[1]);
+
+        ASSERT_EQ(0, arr2[0]);
+        ASSERT_EQ(0, arr2[1]);
     }
 
     {
@@ -324,6 +327,12 @@ TEST(SeArrayTests, MoveAssignTest)
         ASSERT_EQ(0, arr1[2]);
         ASSERT_EQ(0, arr1[3]);
         ASSERT_EQ(0, arr1[4]);
+
+        ASSERT_EQ(0, arr2[0]);
+        ASSERT_EQ(0, arr2[1]);
+        ASSERT_EQ(0, arr2[2]);
+        ASSERT_EQ(0, arr2[3]);
+        ASSERT_EQ(0, arr2[4]);
     }
 }
 
