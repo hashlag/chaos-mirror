@@ -110,9 +110,9 @@ TEST(PadIso7816Tests, PadOutIteratorUsageTest)
 }
 
 template<Padder PadderImpl, typename OutputIt>
-void PadGeneric(const PadderImpl & padder, OutputIt begin, OutputIt end)
+void PadGeneric(OutputIt begin, OutputIt end)
 {
-    padder.Pad(begin, end);
+    PadderImpl::Pad(begin, end);
 }
 
 TEST(PadIso7816Tests, PadThroughBaseTest)
@@ -126,8 +126,7 @@ TEST(PadIso7816Tests, PadThroughBaseTest)
             0x80, 0x00, 0x00, 0x00, 0x00
         };
 
-        const PadderIso7816 padder;
-        PadGeneric(padder, fact.begin(), fact.end());
+        PadGeneric<PadderIso7816>(fact.begin(), fact.end());
 
         ASSERT_EQ(expected, fact);
     }
@@ -325,9 +324,9 @@ TEST(PadIso7816Tests, UnpadErrorTest)
 }
 
 template<Padder PadderImpl, typename OutputIt>
-auto ComputeUnpadGeneric(const PadderImpl & padder, OutputIt begin, OutputIt end)
+auto ComputeUnpadGeneric(OutputIt begin, OutputIt end)
 {
-    return padder.ComputeUnpad(begin, end);
+    return PadderImpl::ComputeUnpad(begin, end);
 }
 
 TEST(PadIso7816Tests, ComputeUnpadThroughBaseTest)
@@ -335,8 +334,7 @@ TEST(PadIso7816Tests, ComputeUnpadThroughBaseTest)
     {
         std::array<uint8_t, 5> data = { 0x80, 0x00, 0x00, 0x00, 0x00 };
 
-        const PadderIso7816 padder;
-        auto result = ComputeUnpadGeneric(padder, data.begin(), data.end());
+        auto result = ComputeUnpadGeneric<PadderIso7816>(data.begin(), data.end());
 
         ASSERT_TRUE(result.IsOkay_);
         ASSERT_EQ(5, result.PadSize_);
