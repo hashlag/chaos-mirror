@@ -1,10 +1,10 @@
 #ifndef CHAOS_MAC_HMAC_HPP
 #define CHAOS_MAC_HMAC_HPP
 
-#include <array>
 #include <cstdint>
 
 #include "Hash/Hasher.hpp"
+#include "Service/SeArray.hpp"
 #include "Service/ChaosException.hpp"
 
 namespace Chaos::Mac::Hmac
@@ -46,14 +46,14 @@ public:
         Hasher_.Reset();
 
         KeyType opaddedKey = PadKey<OPAD_BYTE>(Key_);
-        Hasher_.Update(opaddedKey.begin(), opaddedKey.end());
+        Hasher_.Update(opaddedKey.Begin(), opaddedKey.End());
         Hasher_.Update(innerDigest.begin(), innerDigest.end());
 
         return Hasher_.Finish();
     }
 
 private:
-    using KeyType = std::array<uint8_t, HasherImpl::BlockSize>;
+    using KeyType = Service::SeArray<uint8_t, HasherImpl::BlockSize>;
 
     static constexpr uint8_t OPAD_BYTE = 0x5c;
     static constexpr uint8_t IPAD_BYTE = 0x36;
@@ -75,12 +75,12 @@ private:
     static KeyType GenerateKey(InputIt keyBegin, InputIt keyEnd)
     {
         KeyType key;
-        key.fill(0);
+        key.Fill(0);
 
         InputIt keyIt = keyBegin;
         uint64_t idx = 0;
 
-        for (; keyIt != keyEnd && idx < key.size();
+        for (; keyIt != keyEnd && idx < key.Size();
                ++keyIt, ++idx)
         {
             key[idx] = *keyIt;
@@ -90,17 +90,17 @@ private:
         {
             HasherImpl keyHasher;
 
-            keyHasher.Update(key.begin(), key.end());
+            keyHasher.Update(key.Begin(), key.End());
             keyHasher.Update(keyIt, keyEnd);
 
             auto digest = keyHasher.Finish().GetRawDigest();
             static_assert(digest.size() <= HasherImpl::BlockSize);
 
-            key.fill(0);
+            key.Fill(0);
             idx = 0;
 
             for (auto it = digest.begin();
-                 it != digest.end() && idx < key.size();
+                 it != digest.end() && idx < key.Size();
                  ++it, ++idx)
             {
                 key[idx] = *it;
@@ -118,8 +118,8 @@ private:
         KeyType paddedKey;
         uint64_t idx = 0;
 
-        for (auto it = key.cbegin();
-             it != key.cend() && idx < paddedKey.size();
+        for (auto it = key.Begin();
+             it != key.End() && idx < paddedKey.Size();
              ++it, ++idx)
         {
             paddedKey[idx] = (*it) ^ PAD_BYTE;
@@ -135,7 +135,7 @@ private:
         Hasher_.Reset();
 
         KeyType ipaddedKey = PadKey<IPAD_BYTE>(Key_);
-        Hasher_.Update(ipaddedKey.begin(), ipaddedKey.end());
+        Hasher_.Update(ipaddedKey.Begin(), ipaddedKey.End());
 
         IsInitialized_ = true;
     }
