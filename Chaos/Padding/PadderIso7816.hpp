@@ -15,6 +15,8 @@ namespace Chaos::Padding
 class PadderIso7816
 {
 public:
+    PadderIso7816() = delete;
+
     template<typename OutputIt>
     static void Pad(OutputIt begin, OutputIt end)
     {
