@@ -1,3 +1,6 @@
 returnByReference:Chaos/Hash/Md4.hpp:141
 returnByReference:Chaos/Hash/Md5.hpp:165
 returnByReference:Chaos/Hash/Sha1.hpp:134
+accessMoved:ChaosTests/Service/SeArrayTests.cpp:309
+accessMoved:ChaosTests/Service/SeArrayTests.cpp:331
+accessMoved:ChaosTests/Service/SeArrayTests.cpp:367
