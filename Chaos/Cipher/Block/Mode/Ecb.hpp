@@ -19,6 +19,8 @@ public:
     using Cipher = CipherT;
     using Padder = PadderT;
 
+    EcbMode() = delete;
+
     class Encryptor
     {
     public:
