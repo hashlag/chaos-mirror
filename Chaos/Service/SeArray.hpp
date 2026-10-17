@@ -18,7 +18,7 @@ public:
     }
 
     SeArray(const SeArray & other) = delete;
-    SeArray(SeArray && other) = delete;
+    SeArray(SeArray && other) = default;
 
     SeArray & operator=(const SeArray & other) = default;
     SeArray & operator=(SeArray && other) = default;
