@@ -226,6 +226,12 @@ public:
     {
         friend class DesCrypt;
     public:
+        Key(const Key & other) = delete;
+        Key(Key && other) = delete;
+
+        Key & operator=(const Key & other) = delete;
+        Key & operator=(Key && other) = delete;
+
         template<typename InputIt>
         Key(InputIt keyBegin, InputIt keyEnd)
         {
