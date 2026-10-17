@@ -311,6 +311,12 @@ public:
         static constexpr size_t BlockSize = DesCrypt::BlockSize;
         static constexpr size_t KeySize = DesCrypt::KeySize;
 
+        Decryptor(const Decryptor & other) = delete;
+        Decryptor(Decryptor && other) = delete;
+
+        Decryptor & operator=(const Decryptor & other) = delete;
+        Decryptor & operator=(Decryptor && other) = delete;
+
         Decryptor(const Key & key)
             : Schedule_(Inner_::KeySchedule::Direction::Decrypt, key.Key_)
         { }
