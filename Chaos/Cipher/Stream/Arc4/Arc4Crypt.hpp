@@ -17,6 +17,12 @@ public:
     Arc4Crypt()
     { }
 
+    Arc4Crypt(const Arc4Crypt & other) = delete;
+    Arc4Crypt(Arc4Crypt && other) = delete;
+
+    Arc4Crypt & operator=(const Arc4Crypt & other) = delete;
+    Arc4Crypt & operator=(Arc4Crypt && other) = delete;
+
     template<typename InputIt>
     Arc4Crypt(InputIt keyBegin, InputIt keyEnd)
     {
