@@ -326,3 +326,16 @@ TEST(SeArrayTests, MoveAssignTest)
         ASSERT_EQ(0, arr1[4]);
     }
 }
+
+TEST(SeArrayTests, MoveConstructTest)
+{
+    {
+        SeArray<int32_t, 2> arr1;
+        arr1[0] = 0x11;
+        arr1[1] = 0x22;
+
+        SeArray<int32_t, 2> arr2(std::move(arr1));
+        ASSERT_EQ(0x11, arr2[0]);
+        ASSERT_EQ(0x22, arr2[1]);
+    }
+}
