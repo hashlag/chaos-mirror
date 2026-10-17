@@ -18,6 +18,12 @@ public:
         : IsInitialized_(false)
     { }
 
+    Arc4Gen(const Arc4Gen & other) = delete;
+    Arc4Gen(Arc4Gen && other) = delete;
+
+    Arc4Gen & operator=(const Arc4Gen & other) = delete;
+    Arc4Gen & operator=(Arc4Gen && other) = delete;
+
     template<typename InputIt>
     Arc4Gen(InputIt keyBegin, InputIt keyEnd)
     {
