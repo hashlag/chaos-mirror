@@ -169,6 +169,12 @@ public:
         ResetImpl();
     }
 
+    Sha1Hasher(const Sha1Hasher & other) = delete;
+    Sha1Hasher(Sha1Hasher && other) = delete;
+
+    Sha1Hasher & operator=(const Sha1Hasher & other) = delete;
+    Sha1Hasher & operator=(Sha1Hasher && other) = delete;
+
     void Reset()
     {
         ResetImpl();
