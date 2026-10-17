@@ -16,6 +16,8 @@ class Arc4Gen
 public:
     Arc4Gen()
         : IsInitialized_(false)
+        , I_(0)
+        , J_(0)
     { }
 
     Arc4Gen(const Arc4Gen & other) = delete;
