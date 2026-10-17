@@ -16,6 +16,8 @@ namespace Chaos::Padding
 class PadderPkcs7
 {
 public:
+    PadderPkcs7() = delete;
+
     template<typename OutputIt>
     static void Pad(OutputIt begin, OutputIt end)
     {
