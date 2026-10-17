@@ -216,6 +216,12 @@ public:
 
     DesCrypt() = delete;
 
+    DesCrypt(const DesCrypt & other) = delete;
+    DesCrypt(DesCrypt && other) = delete;
+
+    DesCrypt & operator=(const DesCrypt & other) = delete;
+    DesCrypt & operator=(DesCrypt && other) = delete;
+
     class Key
     {
         friend class DesCrypt;
